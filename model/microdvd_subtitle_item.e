@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {MICRODVD_SUBTITLE_ITEM}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Class that represents the items that conform a subtitle in MicroDVD format."
+	author: "DOSE 2015, Rio Cuarto Team"
+	date: "September 2015"
+	revision: "0.1"
 
 class
 	MICRODVD_SUBTITLE_ITEM

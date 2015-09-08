@@ -1,10 +1,10 @@
 note
 	description: "[
-		Eiffel tests that can be executed by testing tool.
+		Eiffel tests for class MICRODVD_SUBTITLE_ITEM.
 	]"
-	author: "EiffelStudio test wizard"
-	date: "$Date$"
-	revision: "$Revision$"
+	author: "DOSE 2015, Rio Cuarto Team"
+	date: "September 2015"
+	revision: "0.1"
 	testing: "type/manual"
 
 class
