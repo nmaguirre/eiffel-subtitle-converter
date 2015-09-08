@@ -6,13 +6,17 @@
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="testing" location="$ISE_LIBRARY\library\testing\testing.ecf"/>
 		<library name="vision2" location="$ISE_LIBRARY\library\vision2\vision2.ecf"/>
-		<cluster name="root_cluster" location=".\" recursive="true">
+		<cluster name="root_cluster" location=".\" recursive="false">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
 				<exclude>/CVS$</exclude>
 				<exclude>/.svn$</exclude>
 			</file_rule>
+			<cluster name="model" location=".\model\">
+				<tests name="tests" location=".\model\tests\"/>
+			</cluster>
 		</cluster>
 	</target>
 </system>
