@@ -20,8 +20,8 @@ feature -- Initialisation
 			stop_frame:=new_stop_frame
 			create text.make_empty
 		ensure
-			start_frame=new_start_frame
-			stop_frame=new_stop_frame
+			start_frame=new_start_frame and
+			stop_frame=new_stop_frame and
 			text.is_empty=true
 		end
 

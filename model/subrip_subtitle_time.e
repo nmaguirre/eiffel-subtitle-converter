@@ -15,7 +15,11 @@ feature -- Initialisation
 	make
 			-- Creates time with default values hh:mm:ss:mmmm
 		do
-
+		ensure
+			hours=0 and
+			minutes=0 and
+			seconds=0 and
+			milliseconds=0
 		end
 
 	make_with_values (new_hours: INTEGER; new_minutes: INTEGER; new_seconds: INTEGER; new_mil: INTEGER)
