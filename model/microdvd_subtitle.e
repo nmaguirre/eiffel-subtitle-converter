@@ -63,6 +63,8 @@ feature -- Status setting
 
 	flush
 			-- Removes all items from the subtitle
+		require
+			valid_item = item.count /= 0
 		do
 			items.wipe_out
 
