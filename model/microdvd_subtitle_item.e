@@ -16,28 +16,41 @@ feature -- Initialisation
 			-- Constructs a microdvd sub. item with empty text, and provided
 			-- start and stop frames
 		do
+			start_frame:=new_start_frame
+			stop_frame:=new_stop_frame
+			create text.make_empty
 		end
 
 	make_with_text (new_start_frame: INTEGER; new_stop_frame: INTEGER; new_text: STRING)
 			-- Constructs a microdvd sub. item with provided text, start and stop frames
 		do
+			start_frame := new_start_frame
+			stop_frame := new_stop_frame
+			text := new_text
 		end
 
 feature -- Status setting
 
 	adjust_start_frame (new_start_frame: INTEGER)
 			-- Changes the start frame to the provided value
+		require
+			valid_new_start_frame: new_start_frame >= 0
 		do
+			start_frame:=new_start_frame
 		end
 
 	adjust_stop_frame (new_stop_frame: INTEGER)
 			-- Changes the stop frame to the provided value
 		do
+
+		ensure
+			stop_frame_set: stop_frame = new_stop_frame
 		end
 
 	set_text (new_text: STRING)
 			-- Changes the text of the item to the provided string
 		do
+			text := new_text
 		end
 
 feature -- Status report
