@@ -29,7 +29,7 @@ feature -- Status setting
 	set_hour (new_hour: INTEGER)
 			-- sets hours to provided value
 		do
-
+			hours:= new_hour
 		end
 
 	set_minute (new_minute: INTEGER)
@@ -47,6 +47,8 @@ feature -- Status setting
 	set_milliseconds (new_milliseconds: INTEGER)
 			-- sets milliseconds to provided value
 		do
+
+			milliseconds := new_milliseconds
 
 		end
 

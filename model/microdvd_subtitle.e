@@ -15,7 +15,12 @@ feature -- Initialisation
 	make
 			-- Default constructor
 		do
+			create repOk.make
+			create items.make
+			create frames_per_second
 
+			repOk := TRUE
+			frames_per_Second := 25
 		end
 
 feature -- Status setting
@@ -36,13 +41,17 @@ feature -- Status setting
 	flush
 			-- Removes all items from the subtitle
 		do
+			items.wipe_out
 
+		ensure
+			items.count = 0
 		end
 
 	remove_items (start_frame: INTEGER; stop_frame: INTEGER)
 			-- Removes all subtitle items between start_frame and stop_frame
+			require start_frame >=0 and stop_frame >=0
 		do
-			
+
 		end
 
 feature -- Status report
