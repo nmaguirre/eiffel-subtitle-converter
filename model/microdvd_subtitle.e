@@ -15,7 +15,12 @@ feature -- Initialisation
 	make
 			-- Default constructor
 		do
+			create repOk.make
+			create items.make
+			create frames_per_second
 
+			repOk := TRUE
+			frames_per_Second := 25
 		end
 
 feature -- Status setting
@@ -42,7 +47,7 @@ feature -- Status setting
 	remove_items (start_frame: INTEGER; stop_frame: INTEGER)
 			-- Removes all subtitle items between start_frame and stop_frame
 		do
-			
+
 		end
 
 feature -- Status report
