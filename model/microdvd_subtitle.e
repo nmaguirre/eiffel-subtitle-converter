@@ -75,6 +75,7 @@ feature -- Status setting
 			require start_frame >=0 and stop_frame >=0
 		do
 
+			ensure items.count <= old items.count
 		end
 
 feature -- Status report
