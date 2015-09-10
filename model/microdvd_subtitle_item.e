@@ -34,16 +34,21 @@ feature -- Status setting
 	adjust_start_frame (new_start_frame: INTEGER)
 			-- Changes the start frame to the provided value
 		do
+			start_frame:=new_start_frame
 		end
 
 	adjust_stop_frame (new_stop_frame: INTEGER)
 			-- Changes the stop frame to the provided value
 		do
+
+		ensure
+			stop_frame_set: stop_frame = new_stop_frame
 		end
 
 	set_text (new_text: STRING)
 			-- Changes the text of the item to the provided string
 		do
+			text := new_text
 		end
 
 feature -- Status report
