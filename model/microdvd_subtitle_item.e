@@ -39,6 +39,9 @@ feature -- Status setting
 	adjust_stop_frame (new_stop_frame: INTEGER)
 			-- Changes the stop frame to the provided value
 		do
+
+		ensure
+			stop_frame_set: stop_frame = new_stop_frame
 		end
 
 	set_text (new_text: STRING)
