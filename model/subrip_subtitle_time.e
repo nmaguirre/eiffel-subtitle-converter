@@ -21,7 +21,10 @@ feature -- Initialisation
 	make_with_values (new_hours: INTEGER; new_minutes: INTEGER; new_seconds: INTEGER; new_mil: INTEGER)
 			-- Creates time with provided values for hours, minutes, etc.
 		do
-
+			hours:=new_hours
+			minutes:=new_minutes
+			seconds:=new_seconds
+			milliseconds:=new_mil
 		end
 
 feature -- Status setting
