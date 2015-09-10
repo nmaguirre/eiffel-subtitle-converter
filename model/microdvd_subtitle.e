@@ -43,6 +43,7 @@ feature -- Status setting
 
 	remove_items (start_frame: INTEGER; stop_frame: INTEGER)
 			-- Removes all subtitle items between start_frame and stop_frame
+			require start_frame >=0 and stop_frame >=0
 		do
 
 		end
