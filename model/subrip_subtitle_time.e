@@ -35,8 +35,9 @@ feature -- Status setting
 
 	set_hour (new_hour: INTEGER)
 			-- sets hours to provided value
+
+		require (new_hour < 24) and (new_hour => 0)
 		do
-			require (new_hour < 24) and (new_hour => 0)
 			hours:= new_hour
 		end
 
