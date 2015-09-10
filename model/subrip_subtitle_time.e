@@ -29,7 +29,7 @@ feature -- Status setting
 	set_hour (new_hour: INTEGER)
 			-- sets hours to provided value
 		do
-
+			hours:= new_hour
 		end
 
 	set_minute (new_minute: INTEGER)
@@ -59,7 +59,7 @@ feature -- Status setting
 	rewind (offset_milliseconds: INTEGER)
 			-- Moves the time backward the numbe of provided milliseconds
 		do
-			
+
 		end
 
 feature -- Status report

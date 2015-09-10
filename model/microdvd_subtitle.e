@@ -15,7 +15,12 @@ feature -- Initialisation
 	make
 			-- Default constructor
 		do
+			create repOk.make
+			create items.make
+			create frames_per_second
 
+			repOk := TRUE
+			frames_per_Second := 25
 		end
 
 feature -- Status setting
