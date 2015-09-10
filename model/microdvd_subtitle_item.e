@@ -31,6 +31,7 @@ feature -- Status setting
 	adjust_start_frame (new_start_frame: INTEGER)
 			-- Changes the start frame to the provided value
 		do
+			start_frame:=new_start_frame
 		end
 
 	adjust_stop_frame (new_stop_frame: INTEGER)
