@@ -36,10 +36,11 @@ feature -- Status setting
 	flush
 			-- Removes all items from the subtitle
 		do
+			items.wipe_out
 
-		end
 		ensure
 			items.count = 0
+		end
 
 	remove_items (start_frame: INTEGER; stop_frame: INTEGER)
 			-- Removes all subtitle items between start_frame and stop_frame
