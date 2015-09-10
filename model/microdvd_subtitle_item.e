@@ -30,6 +30,8 @@ feature -- Status setting
 
 	adjust_start_frame (new_start_frame: INTEGER)
 			-- Changes the start frame to the provided value
+		require
+			valid_new_start_frame: new_start_frame >= 0
 		do
 			start_frame:=new_start_frame
 		end
