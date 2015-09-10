@@ -48,6 +48,8 @@ feature -- Status setting
 			-- sets milliseconds to provided value
 		do
 
+			milliseconds := new_milliseconds
+
 		end
 
 	move_forward (offset_milliseconds: INTEGER)
@@ -59,7 +61,7 @@ feature -- Status setting
 	rewind (offset_milliseconds: INTEGER)
 			-- Moves the time backward the numbe of provided milliseconds
 		do
-			
+
 		end
 
 feature -- Status report
