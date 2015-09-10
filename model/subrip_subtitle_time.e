@@ -15,13 +15,20 @@ feature -- Initialisation
 	make
 			-- Creates time with default values hh:mm:ss:mmmm
 		do
-
+		ensure
+			hours=0 and
+			minutes=0 and
+			seconds=0 and
+			milliseconds=0
 		end
 
 	make_with_values (new_hours: INTEGER; new_minutes: INTEGER; new_seconds: INTEGER; new_mil: INTEGER)
 			-- Creates time with provided values for hours, minutes, etc.
 		do
-
+			hours := new_hours
+			minutes := new_minutes
+			seconds := new_Seconds
+			milliseconds := new_mil
 		end
 
 feature -- Status setting
@@ -29,24 +36,27 @@ feature -- Status setting
 	set_hour (new_hour: INTEGER)
 			-- sets hours to provided value
 		do
-
+			require (new_hour < 24) and (new_hour => 0)
+			hours:= new_hour
 		end
 
 	set_minute (new_minute: INTEGER)
 			-- sets minutes to provided value
 		do
-
+			minutes:= new_minute
 		end
 
 	set_seconds (new_seconds: INTEGER)
 			-- sets seconds to provided value
 		do
-
+			seconds:= new_seconds
 		end
 
 	set_milliseconds (new_milliseconds: INTEGER)
 			-- sets milliseconds to provided value
 		do
+
+			milliseconds := new_milliseconds
 
 		end
 
@@ -59,7 +69,7 @@ feature -- Status setting
 	rewind (offset_milliseconds: INTEGER)
 			-- Moves the time backward the numbe of provided milliseconds
 		do
-			
+
 		end
 
 feature -- Status report
