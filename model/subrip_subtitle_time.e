@@ -51,6 +51,8 @@ feature -- Status setting
 			-- sets milliseconds to provided value
 		do
 
+			milliseconds := new_milliseconds
+
 		end
 
 	move_forward (offset_milliseconds: INTEGER)
