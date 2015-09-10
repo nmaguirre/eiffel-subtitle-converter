@@ -27,6 +27,8 @@ feature -- Status setting
 
 	change_fps (new_fps: REAL)
 			-- Changes the frames per second of the subtitle.
+		require
+			valid_new_fps: new_fps >= 0.0
 		do
 
 		end
