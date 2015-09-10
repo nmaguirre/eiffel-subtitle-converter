@@ -38,11 +38,13 @@ feature -- Status setting
 		do
 
 		end
+		ensure
+			items.count = 0
 
 	remove_items (start_frame: INTEGER; stop_frame: INTEGER)
 			-- Removes all subtitle items between start_frame and stop_frame
 		do
-			
+
 		end
 
 feature -- Status report
