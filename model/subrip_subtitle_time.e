@@ -49,7 +49,7 @@ feature -- Status setting
 
 	set_seconds (new_seconds: INTEGER)
 			-- sets seconds to provided value
-		require (new_hour < 24) and (new_hour => 0)
+		require (new_seconds < 60) and (new_seconds => 0)
 		do
 			seconds:= new_seconds
 		end
