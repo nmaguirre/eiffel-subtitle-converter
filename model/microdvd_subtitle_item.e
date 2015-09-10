@@ -15,6 +15,8 @@ feature -- Initialisation
 	make (new_start_frame: INTEGER; new_stop_frame: INTEGER)
 			-- Constructs a microdvd sub. item with empty text, and provided
 			-- start and stop frames
+		require
+			new_start_frame >= 0 and new_stop_frame > new_start_frame
 		do
 			start_frame:=new_start_frame
 			stop_frame:=new_stop_frame
