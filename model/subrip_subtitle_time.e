@@ -41,7 +41,7 @@ feature -- Status setting
 	set_seconds (new_seconds: INTEGER)
 			-- sets seconds to provided value
 		do
-
+			seconds:= new_seconds
 		end
 
 	set_milliseconds (new_milliseconds: INTEGER)
