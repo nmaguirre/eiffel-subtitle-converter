@@ -24,6 +24,9 @@ feature -- Initialisation
 	make_with_text (new_start_frame: INTEGER; new_stop_frame: INTEGER; new_text: STRING)
 			-- Constructs a microdvd sub. item with provided text, start and stop frames
 		do
+			start_frame := new_start_frame
+			stop_frame := new_stop_frame
+			text := new_text
 		end
 
 feature -- Status setting
