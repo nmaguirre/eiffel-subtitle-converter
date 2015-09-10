@@ -69,6 +69,43 @@ feature -- Test routines
 			end
 		end
 
+	test_make_valid_frame_adjust_stop_frame
+			-- method adjust_stop_frame sets stop frames correctly
+
+		note
+			testting : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_stop_frame"
+		local
+			item: MICRODVD_SUBTITLE_ITEM
+		do
+			create item.make (0,10)
+			item.adjust_stop_frame (15)
+			assert ("stop frame set", item.stop_frame = 15)
+		end
+
+	test_make_invalid_frame_adjust_stop_frame
+			-- method adjust_stop_frame breaks on invalid frames
+
+		note
+			testting : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_stop_frame"
+		local
+			item: MICRODVD_SUBTITLE_ITEM
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create item.make (1,5)
+			if (not rescued) then
+				item.adjust_stop_frame (0)
+				passed := True
+			end
+			assert ("make broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+
 
 end
 
