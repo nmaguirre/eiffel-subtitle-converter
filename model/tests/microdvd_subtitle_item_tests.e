@@ -69,7 +69,7 @@ feature -- Test routines
 			end
 		end
 
-	test_make_valid_frame_adjust_stop_frame
+	test_adjust_stop_frame_valid_frame
 			-- method adjust_stop_frame sets stop frames correctly
 
 		note
@@ -82,7 +82,7 @@ feature -- Test routines
 			assert ("stop frame set", item.stop_frame = 15)
 		end
 
-	test_make_invalid_frame_adjust_stop_frame
+	test_adjust_stop_frame_invalid_frame
 			-- method adjust_stop_frame breaks on invalid frames
 
 		note

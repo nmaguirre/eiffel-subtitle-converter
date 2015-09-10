@@ -24,6 +24,11 @@ feature -- Initialisation
 
 	make_with_values (new_hours: INTEGER; new_minutes: INTEGER; new_seconds: INTEGER; new_mil: INTEGER)
 			-- Creates time with provided values for hours, minutes, etc.
+		require
+			valid_hours: (new_hours < 24) and (new_hours >= 0)
+			valid_minutes: (new_minutes < 60) and (new_minutes >= 0)
+			valid_seconds: (new_seconds < 60) and (new_seconds >= 0)
+			valid_milliseconds: (new_mil < 1000) and (new_mil >= 0)
 		do
 			hours := new_hours
 			minutes := new_minutes
