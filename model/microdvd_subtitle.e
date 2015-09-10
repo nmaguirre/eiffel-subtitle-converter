@@ -42,15 +42,17 @@ feature -- Status setting
 			-- Removes all items from the subtitle
 		do
 
-		end
+
 		ensure
 			items.count = 0
+		end
 
 	remove_items (start_frame: INTEGER; stop_frame: INTEGER)
 			-- Removes all subtitle items between start_frame and stop_frame
 			require start_frame >=0 and stop_frame >=0
 		do
 
+			ensure items.count <= old items.count
 		end
 
 feature -- Status report
