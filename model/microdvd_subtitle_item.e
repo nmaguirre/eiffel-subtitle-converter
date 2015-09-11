@@ -48,6 +48,8 @@ feature -- Status setting
 			valid_new_start_frame: new_start_frame >= 0
 		do
 			start_frame:=new_start_frame
+		ensure
+			start_frame = new_start_frame
 		end
 
 	adjust_stop_frame (new_stop_frame: INTEGER)
