@@ -71,7 +71,6 @@ feature -- Status setting
 			(new_milliseconds >= 0) and (new_milliseconds < 1000)
 		do
 			milliseconds := new_milliseconds
-
 		end
 
 	move_forward (new_milliseconds: INTEGER)
