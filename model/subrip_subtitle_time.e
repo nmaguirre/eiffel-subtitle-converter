@@ -75,7 +75,7 @@ feature -- Status setting
 	move_forward (new_milliseconds: INTEGER)
 			-- Moves the time forward the number of provided milliseconds
 		require
-			valid_milliseconds: new_milisecods > 0
+			valid_milliseconds: new_milliseconds > 0
 		local
 			remainder_hours,remainder_minutes:INTEGER
 		do
