@@ -66,8 +66,9 @@ feature -- Status setting
 
 	set_milliseconds (new_milliseconds: INTEGER)
 			-- sets milliseconds to provided value
+		require
+			(new_milliseconds >= 0) and (new_milliseconds < 1000)
 		do
-
 			milliseconds := new_milliseconds
 
 		end
