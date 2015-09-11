@@ -58,6 +58,8 @@ feature -- Status setting
 
 	adjust_stop_frame (new_stop_frame: INTEGER)
 			-- Changes the stop frame to the provided value
+		require
+			valid_new_stop_frame: new_stop_frame > start_frame
 		do
 
 		ensure
