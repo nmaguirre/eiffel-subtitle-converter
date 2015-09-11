@@ -72,10 +72,19 @@ feature -- Status setting
 
 		end
 
-	move_forward (offset_milliseconds: INTEGER)
+	move_forward (new_milliseconds: INTEGER)
 			-- Moves the time forward the number of provided milliseconds
+		local
+			remainder_hours,remainder_minutes:INTEGER
 		do
+			hours := hours + new_milliseconds//3600000
+			remainder_hours := new_milliseconds\\3600000;
 
+			minutes := minutes + remainder_hours//60000
+			remainder_minutes := remainder_hours\\60000;
+
+			seconds := seconds + remainder_minutes//1000
+			milliseconds := milliseconds + remainder_minutes\\1000
 		end
 
 	rewind (offset_milliseconds: INTEGER)
