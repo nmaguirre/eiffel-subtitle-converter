@@ -33,7 +33,7 @@ feature -- Status setting
 			frames_per_second := new_fps
 		end
 
-	add_subtitle_item (start_frame: INTEGER; stop_frame: INTEGER; text: STRING)
+		add_subtitle_item (start_frame: INTEGER; stop_frame: INTEGER; text: STRING)
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
 		local
@@ -49,10 +49,14 @@ feature -- Status setting
 			if (item.isEmpty) then
 				item.appen(new_frame)
 			else
-				from i:=1 until (i>item.count and (not codition)) loop
-				 if (new_frame.start_frame>item[i].stop_frame) then
-				 	condition:=true
-				 end
+				from
+					i:=1
+				until
+					(i>item.count and (not codition))
+				loop
+					if (new_frame.start_frame>item[i].stop_frame) then
+				 		condition:=true
+				 	end
 					i:=i+1
 				end
 				if (new_frame.stop_frame<item[i].start_frame) then
