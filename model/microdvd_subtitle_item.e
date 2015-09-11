@@ -38,6 +38,10 @@ feature -- Initialisation
 			start_frame := new_start_frame
 			stop_frame := new_stop_frame
 			text := new_text
+		ensure
+			start_frame = new_start_frame
+			stop_frame = new_stop_frame
+			text = new_text
 		end
 
 feature -- Status setting
