@@ -76,15 +76,15 @@ feature -- Status setting
 			milliseconds = new_milliseconds
 		end
 
-	move_forward (new_milliseconds: INTEGER)
+	move_forward (offset_milliseconds: INTEGER)
 			-- Moves the time forward the number of provided milliseconds
 		require
-			valid_milliseconds: new_milliseconds > 0
+			valid_milliseconds: offset_milliseconds > 0
 		local
 			remainder_hours,remainder_minutes:INTEGER
 		do
-			hours := hours + new_milliseconds//3600000
-			remainder_hours := new_milliseconds\\3600000;
+			hours := hours + offset_milliseconds//3600000
+			remainder_hours := offset_milliseconds\\3600000;
 
 			minutes := minutes + remainder_hours//60000
 			remainder_minutes := remainder_hours\\60000;
@@ -92,10 +92,10 @@ feature -- Status setting
 			seconds := seconds + remainder_minutes//1000
 			milliseconds := milliseconds + remainder_minutes\\1000
 		ensure
-			hours = hours + new_milliseconds//3600000
-			minutes = minutes + (new_milliseconds\\3600000)//60000
-			seconds = seconds + (new_milliseconds\\3600000)//1000
-			milliseconds = milliseconds + 	(new_milliseconds\\3600000)\\1000
+			hours = hours + offset_milliseconds//3600000
+			minutes = minutes + (offset_milliseconds\\3600000)//60000
+			seconds = seconds + (offset_milliseconds\\3600000)//1000
+			milliseconds = milliseconds + 	(offset_milliseconds\\3600000)\\1000
 		end
 
 	rewind (offset_milliseconds: INTEGER)
