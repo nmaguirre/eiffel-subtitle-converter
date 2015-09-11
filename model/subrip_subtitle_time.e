@@ -119,5 +119,8 @@ feature -- Status report
 			-- milliseconds of the time
 
 invariant
-
+	valid_hours: hours >= 0 and hours < 24
+	valid_minutes: minutes >= 0 and minutes < 60
+	valid_seconds: seconds >= 0 and seconds < 60
+	valid_milliseconds: milliseconds >= 0 and milliseconds < 1000
 end
