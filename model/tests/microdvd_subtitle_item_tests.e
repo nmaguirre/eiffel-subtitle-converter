@@ -97,7 +97,7 @@ feature -- Test routines
 				item.adjust_stop_frame (0)
 				passed := True
 			end
-			assert ("make broke", not passed)
+			assert ("adjust_stop_frame broke", not passed)
 		rescue
 			if (not rescued) then
 				rescued := True
