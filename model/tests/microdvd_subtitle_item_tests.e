@@ -139,6 +139,40 @@ feature -- Test routines
 				retry
 			end
 		end
+
+	test_adjust_start_frame_valid_frame
+			-- method adjust_start_frame sets start frames correctly
+		note
+			testting : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_start_frame"
+		local
+			item: MICRODVD_SUBTITLE_ITEM
+		do
+			create item.make (0,5)
+			item.adjust_start_frame (0)
+			assert ("start frame set", item.start_frame = 0)
+		end
+
+	test_adjust_start_frame_invalid_frame
+			-- method adjust_start_frame breaks on invalid frames
+		note
+			testting : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_start_frame"
+		local
+			item: MICRODVD_SUBTITLE_ITEM
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create item.make (1,5)
+			if (not rescued) then
+				item.adjust_start_frame (15)
+				passed := True
+			end
+			assert ("adjust_start_frame broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
 end
 
 
