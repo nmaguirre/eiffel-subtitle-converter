@@ -109,6 +109,29 @@ feature -- Test routines
 			end
 		end
 
+	test_set_minute_invalid_negative_value
+			-- method set_minute breaks on negative value
+		note
+			testting : "covers/{SUBRIP_SUBTITLE_TIME}.set_minute"
+		local
+			item: SUBRIP_SUBTITLE_TIME
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			if (not rescued) then
+				create item.make
+				item.set_minute(-10)
+				passed := True
+			end
+			assert ("set_minute broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+
 end -- class SUBRIP_SUBTITLE_ITEM_TESTS
 
 
