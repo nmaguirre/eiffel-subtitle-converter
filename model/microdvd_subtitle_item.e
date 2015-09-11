@@ -53,8 +53,12 @@ feature -- Status setting
 
 	set_text (new_text: STRING)
 			-- Changes the text of the item to the provided string
+		require
+			set_text_new_text:  new_text /= void
 		do
 			text := new_text
+		ensure
+			text = new_text
 		end
 
 feature -- Status report

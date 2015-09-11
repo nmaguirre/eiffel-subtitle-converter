@@ -105,8 +105,40 @@ feature -- Test routines
 			end
 		end
 
+	test_valid_set_text
+			-- Routine setting of the valid subtitle
+		note
+			testting : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_stop_frame"
+		local
+			item: MICRODVD_SUBTITLE_ITEM
+			sub: STRING
+		do
+			create item.make (0,1)
+			sub := "Test Subtitle"
+			item.set_text (sub)
+			assert ("Text subtitle set", item.text.is_equal (sub))
+		end
 
-
+	test_invalid_set_text
+			-- Routine setting of the invalid subtitle
+		local
+			item: MICRODVD_SUBTITLE_ITEM
+			passed: BOOLEAN
+			rescued: BOOLEAN
+			sub: STRING
+		do
+				create item.make (0,1)
+			if (not rescued) then
+				item.set_text (sub)
+				passed := True
+			end
+			assert ("set_text broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
 end
 
 
