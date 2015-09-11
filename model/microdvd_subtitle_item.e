@@ -31,6 +31,8 @@ feature -- Initialisation
 			new_start_frame /= Void and
 			new_stop_frame /= Void and
 			new_text /= Void and
+			new_start_frame >= 0 and
+			new_stop_frame >= 0 and
 			new_start_frame <= new_stop_frame
 		do
 			start_frame := new_start_frame
