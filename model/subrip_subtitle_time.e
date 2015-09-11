@@ -32,8 +32,13 @@ feature -- Initialisation
 		do
 			hours := new_hours
 			minutes := new_minutes
-			seconds := new_Seconds
+			seconds := new_seconds
 			milliseconds := new_mil
+		ensure
+			hours=new_hours and
+			minutes=new_minutes and
+			seconds=new_seconds and
+			milliseconds=new_mil
 		end
 
 feature -- Status setting
