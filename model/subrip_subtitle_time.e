@@ -100,6 +100,8 @@ feature -- Status setting
 
 	rewind (offset_milliseconds: INTEGER)
 			-- Moves the time backward the numbe of provided milliseconds
+		require
+			valid_milliseconds: offset_milliseconds > 0
 		do
 
 		end
