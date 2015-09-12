@@ -182,7 +182,7 @@ feature -- Test routines
 	test_adjust_start_frame_valid_frame
 			-- method adjust_start_frame sets start frames correctly
 		note
-			testting : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_start_frame"
+			testing : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_start_frame"
 		local
 			item: MICRODVD_SUBTITLE_ITEM
 		do
@@ -194,7 +194,7 @@ feature -- Test routines
 	test_adjust_start_frame_invalid_frame
 			-- method adjust_start_frame breaks on invalid frames
 		note
-			testting : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_start_frame"
+			testing : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_start_frame"
 		local
 			item: MICRODVD_SUBTITLE_ITEM
 			passed: BOOLEAN
