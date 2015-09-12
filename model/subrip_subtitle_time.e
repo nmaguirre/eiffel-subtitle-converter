@@ -104,6 +104,11 @@ feature -- Status setting
 			valid_milliseconds: offset_milliseconds > 0
 		do
 
+		ensure
+			valid_result: hours = (old hours) - offset_milliseconds//3600000 
+						  minutes = (old minutes) - (offset_milliseconds\\3600000)//60000
+			              seconds = (old seconds) - ((offset_milliseconds\\3600000)\\60000)//1000
+		 	              milliseconds = (old milliseconds) - ((offset_milliseconds\\3600000)\\60000)\\1000
 		end
 
 feature -- Status report
