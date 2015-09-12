@@ -69,6 +69,45 @@ feature -- Test routines
 			end
 		end
 
+	test_make_with_text_valid_frames_start_frame_set
+			-- constructor make (with text) sets start frame correctly
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE_ITEM}.make_with_text"
+		local
+			item: MICRODVD_SUBTITLE_ITEM
+			sub: STRING
+		do
+			sub:= ""
+			create item.make_with_text(0,1,sub)
+			assert ("start frame set", item.start_frame = 0)
+		end
+
+	test_make_with_text_valid_frames_stop_frame_set
+			-- constructor make (with text) sets stop frame correctly
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE_ITEM}.make_with_text"
+		local
+			item: MICRODVD_SUBTITLE_ITEM
+			sub: STRING
+		do
+			sub:= ""
+			create item.make_with_text(0,1,sub)
+			assert ("stop frame set", item.stop_frame = 1)
+		end
+
+	test_make_with_text_valid_frames_text
+			-- constructor make (with text)sets text correctly
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE_ITEM}.make_with_text"
+		local
+			item: MICRODVD_SUBTITLE_ITEM
+			sub: STRING
+		do
+			sub:= "Test Subtitle"
+			create item.make_with_text(0,1,sub)
+			assert ("Text subtitle set", item.text.is_equal (sub))
+		end
+
 	test_adjust_stop_frame_valid_frame
 			-- method adjust_stop_frame sets stop frames correctly
 
