@@ -19,7 +19,7 @@ feature -- Initialisation
 			create items.make
 			create frames_per_second
 
-			repOk := TRUE
+			-- repOk := TRUE
 			frames_per_Second := 25
 		end
 
@@ -95,6 +95,26 @@ feature -- Status checking
 			-- Checks if subtitle is internally consistent.
 			-- Subtitle items should be within increasingly larger
 			-- frames.
+		local
+			res: BOOLEAN
+			prev_stop_frame: INTEGER
+		do
+			res := true
+			from
+				items.start
+			until
+				items.off
+			loop
+				if not items.isfirst then
+					if prev_stop_frame > items.item.start_frame then
+						res := false
+					end
+				end
+				prev_stop_frame := items.item.stop_frame
+				items.forth
+			end
+			Result := res
+		end
 
 feature {NONE} -- Implementation
 
