@@ -15,7 +15,7 @@ feature -- Initialisation
 	make
 			-- Default constructor
 		do
-			create repOk.make
+			-- create repOk.make
 			create items.make
 			create frames_per_second
 
@@ -41,34 +41,34 @@ feature -- Status setting
 			new_frame:MICRODVD_SUBTITLE_ITEM
 			condition:BOOLEAN
 		do
-			create new_frame.make
-			condition:=false
-			new_frame.start_frame:=start_frame
-			new_frame.stop_frame:=stop_frame
-			new_frame.stop:=stop
-			if (item.isEmpty) then
-				item.appen(new_frame)
-			else
-				from
-					i:=1
-				until
-					(i>item.count and (not codition))
-				loop
-					if (new_frame.start_frame>item[i].stop_frame) then
-				 		condition:=true
-				 	end
-					i:=i+1
-				end
-				if (new_frame.stop_frame<item[i].start_frame) then
-					item.put_i_th(new_frame, i)
-				end
-			end
+			-- create new_frame.make
+			-- condition:=false
+			-- new_frame.start_frame:=start_frame
+			-- new_frame.stop_frame:=stop_frame
+			-- new_frame.stop:=stop
+			-- if (item.isEmpty) then
+			-- 	item.appen(new_frame)
+			-- else
+			--	from
+			--		i:=1
+			--		until
+			--		(i>item.count and (not codition))
+			--		loop
+			--		if (new_frame.start_frame>item[i].stop_frame) then
+			--	 		condition:=true
+			--	 	end
+			--			i:=i+1
+			--	end
+			--	if (new_frame.stop_frame<item[i].start_frame) then
+			--		item.put_i_th(new_frame, i)
+			--	end
+			-- end
 		end
 
 	flush
 			-- Removes all items from the subtitle
 		require
-			valid_item = item.count /= 0
+			-- valid_item = item.count /= 0
 		do
 			items.wipe_out
 
@@ -78,7 +78,7 @@ feature -- Status setting
 
 	remove_items (start_frame: INTEGER; stop_frame: INTEGER)
 			-- Removes all subtitle items between start_frame and stop_frame
-			require valid_items = item.count /= 0
+			-- require valid_items = item.count /= 0
 		do
 
 			ensure items.count <= old items.count
