@@ -105,9 +105,9 @@ feature -- Status setting
 		do
 
 		ensure
-			valid_result: hours = (old hours) - offset_milliseconds//3600000 
-						  minutes = (old minutes) - (offset_milliseconds\\3600000)//60000
-			              seconds = (old seconds) - ((offset_milliseconds\\3600000)\\60000)//1000
+			valid_result: hours = (old hours) - offset_milliseconds//3600000 and
+						  minutes = (old minutes) - (offset_milliseconds\\3600000)//60000 and
+			              seconds = (old seconds) - ((offset_milliseconds\\3600000)\\60000)//1000 and
 		 	              milliseconds = (old milliseconds) - ((offset_milliseconds\\3600000)\\60000)\\1000
 		end
 
