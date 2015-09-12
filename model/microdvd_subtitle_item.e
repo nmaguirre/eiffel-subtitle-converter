@@ -51,7 +51,7 @@ feature -- Status setting
 	adjust_start_frame (new_start_frame: INTEGER)
 			-- Changes the start frame to the provided value
 		require
-			valid_new_start_frame: new_start_frame >= 0
+			valid_new_start_frame: new_start_frame >= 0 and new_start_frame < stop_frame
 		do
 			start_frame:=new_start_frame
 		ensure
