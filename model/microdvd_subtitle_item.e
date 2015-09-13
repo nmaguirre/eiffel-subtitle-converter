@@ -53,7 +53,7 @@ feature -- Status setting
 		require
 			valid_new_start_frame: new_start_frame >= 0 and new_start_frame < stop_frame
 		do
-			start_frame:=new_start_frame
+			start_frame := new_start_frame
 		ensure
 			start_frame = new_start_frame
 		end
