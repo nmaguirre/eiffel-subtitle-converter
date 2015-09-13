@@ -327,6 +327,125 @@ feature -- Test routines
 			end
 		end
 
+	test_set_rewind_valid_milliseconds
+			-- method rewind sets miillisecods correctly
+		note
+			testting : "covers/{SUBRIP_SUBTITLE_TIME}.rewind"
+		local
+			subtitle_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subtitle_time.make_with_values (0, 0, 0, 900)
+			subtitle_time.rewind (800)
+			assert ("milliseconds set", subtitle_time.milliseconds = 100)
+			assert ("seconds set", subtitle_time.seconds=0)
+			assert ("minutes set", subtitle_time.minutes=0)
+			assert ("hours set", subtitle_time.hours=0)
+		end
+
+	test_set_rewind_valid_seconds
+			-- method rewind sets seconds correctly
+		note
+			testting : "covers/{SUBRIP_SUBTITLE_TIME}.rewind"
+		local
+			subtitle_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subtitle_time.make_with_values (0, 0, 2, 0)
+			subtitle_time.rewind (1000)
+			assert ("milliseconds set", subtitle_time.milliseconds = 0)
+			assert ("seconds set", subtitle_time.seconds=1)
+			assert ("minutes set", subtitle_time.minutes=0)
+			assert ("hours set", subtitle_time.hours=0)
+		end
+
+	test_set_rewind_valid_minutes
+			-- method rewind sets minutes correctly
+		note
+			testting : "covers/{SUBRIP_SUBTITLE_TIME}.rewind"
+		local
+			subtitle_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subtitle_time.make_with_values (0, 2, 0, 0)
+			subtitle_time.rewind (60000)
+			assert ("milliseconds set", subtitle_time.milliseconds = 0)
+			assert ("seconds set", subtitle_time.seconds=0)
+			assert ("minutes set", subtitle_time.minutes=1)
+			assert ("hours set", subtitle_time.hours=0)
+		end
+
+	test_set_rewind_valid_hours
+			-- method rewind sets hours correctly
+		note
+			testting : "covers/{SUBRIP_SUBTITLE_TIME}.rewind"
+		local
+			subtitle_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subtitle_time.make_with_values (2, 0, 0, 0)
+			subtitle_time.rewind (3600000)
+			assert ("milliseconds set", subtitle_time.milliseconds = 0)
+			assert ("seconds set", subtitle_time.seconds=0)
+			assert ("minutes set", subtitle_time.minutes=0)
+			assert ("hours set", subtitle_time.hours=1)
+		end
+
+	test_set_rewind_valid_time
+			-- method rewind set time correctly
+		note
+			testting : "covers/{SUBRIP_SUBTITLE_TIME}.rewind"
+		local
+			subtitle_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subtitle_time.make_with_values (10, 59, 59, 900)
+			subtitle_time.rewind (5425636)
+			assert ("milliseconds set", subtitle_time.milliseconds = 264 )
+			assert ("seconds set", subtitle_time.seconds=34)
+			assert ("minutes set", subtitle_time.minutes=29)
+			assert ("hours set", subtitle_time.hours=9)
+		end
+
+	test_set_rewind_invalid_negative_value
+			-- method rewind breaks on negative value
+		note
+			testting : "covers/{SUBRIP_SUBTITLE_TIME}.rewind"
+		local
+			item: SUBRIP_SUBTITLE_TIME
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			if (not rescued) then
+				create item.make_with_values (1, 1, 6, 1)
+				item.rewind (-5214)
+				passed := True
+			end
+			assert ("rewind broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+	test_set_rewind_invalid_value
+			-- method rewind breaks if some value is minor of cero
+		note
+			testting : "covers/{SUBRIP_SUBTITLE_TIME}.rewind"
+		local
+			item: SUBRIP_SUBTITLE_TIME
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			if (not rescued) then
+				create item.make
+				item.rewind (5621)
+				passed := True
+			end
+			assert ("rewind broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
 end -- class SUBRIP_SUBTITLE_ITEM_TESTS
 
 
