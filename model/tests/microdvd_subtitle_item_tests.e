@@ -147,7 +147,7 @@ feature -- Test routines
 	test_valid_set_text
 			-- Routine setting of the valid subtitle
 		note
-			testting : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_stop_frame"
+			testing : "covers/{MICRODVD_SUBTITLE_ITEM}.set_text"
 		local
 			item: MICRODVD_SUBTITLE_ITEM
 			sub: STRING
@@ -160,13 +160,16 @@ feature -- Test routines
 
 	test_invalid_set_text
 			-- Routine setting of the invalid subtitle
+			-- The test fail because set the text with Void is not allowed
+		note
+			testing : "covers/{MICRODVD_SUBTITLE_ITEM}.set_text"
 		local
 			item: MICRODVD_SUBTITLE_ITEM
 			passed: BOOLEAN
 			rescued: BOOLEAN
 			sub: STRING
 		do
-				create item.make (0,1)
+			create item.make (0,1)
 			if (not rescued) then
 				item.set_text (sub)
 				passed := True
