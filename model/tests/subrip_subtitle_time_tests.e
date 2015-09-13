@@ -30,6 +30,68 @@ feature -- Test routines
 			assert ("hours default", subtitle_time.hours=0)
 		end
 
+
+	test_set_hour_valid
+			-- set a hour correctly
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE_TIME}.set_hour"
+		local
+			item: SUBRIP_SUBTITLE_TIME
+		do
+			create item.make
+			item.set_hour(2)
+			assert ("set_hour correct", item.hours = 2)
+		end
+
+
+	test_set_hour_invalid
+			--  set a hour invalid
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE_TIME}.set_hour"
+		local
+			item: SUBRIP_SUBTITLE_TIME
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create item.make
+			if (not rescued) then
+				item.set_hour(24)
+				passed := True
+			end
+			assert ("set_hour Invalid", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+
+	test_set_hour_invalid_negative_value
+			-- method set_hour breaks on negative value
+		note
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.set_hour"
+
+		local
+			item: SUBRIP_SUBTITLE_TIME
+			passed: BOOLEAN
+			rescued: BOOLEAN
+
+		do
+			create item.make
+			if (not rescued) then
+				item.set_hour(-1)
+				passed := True
+			end
+			assert ("set_hour invalid negative value", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+
 	test_set_milliseconds_valid_value
 			-- method set_milliseconds sets miillisecods correctly
 
