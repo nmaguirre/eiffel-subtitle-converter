@@ -82,7 +82,17 @@ feature -- Status setting
 			-- Removes all subtitle items between start_frame and stop_frame
 			-- require valid_items = item.count /= 0
 		do
-
+			from
+				items.start
+			until
+				items.after or stop_frame <= items.item.stop_frame
+			loop
+				if (start_frame <= items.item.start_frame) and (items.item.stop_frame <= stop_frame) then
+					items.remove
+				else
+					items.forth
+				end
+			end
 			ensure items.count <= old items.count
 		end
 
