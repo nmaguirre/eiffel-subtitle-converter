@@ -21,6 +21,8 @@ feature -- Initialisation
 
 			-- repOk := TRUE
 			frames_per_Second := 25
+		ensure
+			items.count = 0
 		end
 
 feature -- Status setting
