@@ -35,13 +35,13 @@ feature -- Status setting
 			frames_per_second := new_fps
 		end
 
-		add_subtitle_item (start_frame: INTEGER; stop_frame: INTEGER; text: STRING)
+	add_subtitle_item (start_frame: INTEGER; stop_frame: INTEGER; text: STRING)
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
 		local
-			i:INTEGER
-			new_frame:MICRODVD_SUBTITLE_ITEM
-			condition:BOOLEAN
+			-- i:INTEGER
+			-- new_frame:MICRODVD_SUBTITLE_ITEM
+			-- condition:BOOLEAN
 		do
 			-- create new_frame.make
 			-- condition:=false
@@ -65,6 +65,10 @@ feature -- Status setting
 			--		item.put_i_th(new_frame, i)
 			--	end
 			-- end
+		ensure
+			items.item.start_frame = start_frame
+			items.item.stop_frame = stop_frame
+			items.item.text = text
 		end
 
 	flush
