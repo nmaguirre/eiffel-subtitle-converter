@@ -15,6 +15,21 @@ inherit
 
 feature -- Test routines
 
+
+	test_make_valid_time
+			-- constructor make sets correctly
+		note
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.make"
+		local
+			subtitle_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subtitle_time.make
+			assert ("milliseconds default", subtitle_time.milliseconds = 0)
+			assert ("seconds default", subtitle_time.seconds=0)
+			assert ("minutes default", subtitle_time.minutes=0)
+			assert ("hours default", subtitle_time.hours=0)
+		end
+
 	test_set_milliseconds_valid_value
 			-- method set_milliseconds sets miillisecods correctly
 
