@@ -75,7 +75,7 @@ feature -- Status setting
 		do
 			text := new_text
 		ensure
-			text = new_text
+			text_is_set: text = new_text
 		end
 
 feature -- Status report
