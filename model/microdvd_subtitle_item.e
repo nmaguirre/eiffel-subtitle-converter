@@ -30,12 +30,8 @@ feature -- Initialisation
 	make_with_text (new_start_frame: INTEGER; new_stop_frame: INTEGER; new_text: STRING)
 			-- Constructs a microdvd sub. item with provided text, start and stop frames
 		require
-			new_start_frame /= Void and
-			new_stop_frame /= Void and
-			new_text /= Void and
-			new_start_frame >= 0 and
-			new_stop_frame >= 0 and
-			new_start_frame <= new_stop_frame
+			valid_subtitle_frames: new_start_frame >= 0 and new_start_frame < new_stop_frame
+			valid_subtitle_text: new_text /= Void
 		do
 			start_frame := new_start_frame
 			stop_frame := new_stop_frame
