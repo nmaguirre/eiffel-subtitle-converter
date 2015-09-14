@@ -68,8 +68,6 @@ feature -- Status setting
 
 	flush
 			-- Removes all items from the subtitle
-		require
-			-- valid_item = item.count /= 0
 		do
 			items.wipe_out
 
@@ -133,4 +131,7 @@ feature {MICRODVD_SUBTITLE_TEST} -- Implementation
 
 	items: LINKED_LIST[MICRODVD_SUBTITLE_ITEM]
 			-- items that conform the subtitle, in order.
+
+invariant
+	valid_items: items /= Void
 end

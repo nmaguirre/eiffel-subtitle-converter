@@ -55,6 +55,50 @@ feature -- Test routines
 		end
 	end
 
+	test_make_valid_with_text
+		--constructor make_with_text sets correctly
+	note
+			testing : "covers/{SUBRIP_SUBTITLE_ITEM}.make_with_text"
+	local
+		start_time: SUBRIP_SUBTITLE_TIME
+		stop_time: SUBRIP_SUBTITLE_TIME
+		item: SUBRIP_SUBTITLE_ITEM
+		text: STRING
+	do
+		create start_time.make_with_values(1,0,0,0)
+		create stop_time.make_with_values (2,0,0,0)
+		text:="Subtitle"
+		create item.make_with_text (start_time,stop_time,text)
+		assert ("Make With Subtitle", item.text.is_equal(text))
+	end
+
+	test_make_invalid_with_text
+		--constructor make_with_text breaks on invalid frames
+	note
+		testing : "covers/{SUBRIP_SUBTITLE_ITEM}.make_with_text"
+	local
+		start_time: SUBRIP_SUBTITLE_TIME
+		stop_time: SUBRIP_SUBTITLE_TIME
+		item: SUBRIP_SUBTITLE_ITEM
+		rescued: BOOLEAN
+		pass: BOOLEAN
+		text: STRING
+	do
+		create start_time.make_with_values(1,0,0,0)
+		create stop_time.make_with_values (2,0,0,0)
+		if (not rescued) then
+			create item.make_with_text (start_time,stop_time,text)
+			pass := True
+		end
+		assert ("make broke", not pass)
+		rescue
+		if (not rescued) then
+			rescued := True
+			retry
+		end
+	end
+
+
 	test_adjust_start_time_valid
 			-- method adjust_start_time sets start time correctly
 		note
