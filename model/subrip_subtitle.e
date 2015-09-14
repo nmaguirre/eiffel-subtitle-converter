@@ -17,6 +17,8 @@ feature -- Initialisation
 		do
 			create items.make
 
+		ensure
+			empty_list:	items.is_empty
 		end
 
 feature -- Status setting
@@ -32,6 +34,8 @@ feature -- Status setting
 		end
 
 	flush
+		require
+			itmes /= void
 			-- Removes all items from the subtitle
 		do
 			items.wipe_out
@@ -42,6 +46,8 @@ feature -- Status setting
 	remove_items (start_time: SUBRIP_SUBTITLE_TIME; stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Removes all subtitle items between start_time and stop_time
 		do
+		ensure
+			valid_items_count: items.count <= old items.count
 		end
 
 feature -- Status checking
