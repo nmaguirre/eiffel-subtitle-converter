@@ -34,7 +34,7 @@ feature -- Status setting
 		do
 			frames_per_second := new_fps
 		ensure
-			valid_frames_per_second: frames_per_second = new_fps
+			fps_set: frames_per_second = new_fps
 		end
 
 	add_subtitle_item (start_frame: INTEGER; stop_frame: INTEGER; text: STRING)
