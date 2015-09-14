@@ -63,7 +63,7 @@ feature -- Status setting
 		do
 			text := new_text
 		ensure
-			text_is_set: text = new_text
+			text_is_set: text.is_equal (new_text)
 		end
 
 feature -- Status report
