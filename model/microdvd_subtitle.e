@@ -15,12 +15,8 @@ feature -- Initialisation
 	make
 			-- Default constructor
 		do
-			-- create repOk.make
 			create items.make
-			create frames_per_second
-
-			-- repOk := TRUE
-			frames_per_Second := 25
+			frames_per_Second := 23.97
 		ensure
 			valid_items_count: items.count = 0
 		end
