@@ -15,6 +15,89 @@ inherit
 
 feature -- Test routines
 
+	test_make_valid_no_text
+		--constructor make sets correctly
+	note
+			testing : "covers/{SUBRIP_SUBTITLE_ITEM}.make"
+	local
+		start_time: SUBRIP_SUBTITLE_TIME
+		stop_time: SUBRIP_SUBTITLE_TIME
+		item: SUBRIP_SUBTITLE_ITEM
+	do
+		create start_time.make_with_values(1,0,0,0)
+		create stop_time.make_with_values (2,0,0,0)
+		create item.make (start_time,stop_time)
+		assert ("no text", item.text.count = 0)
+	end
+
+	test_make_invalid_no_text
+		--constructor make breaks on invalid frames
+	note
+		testing : "covers/{SUBRIP_SUBTITLE_ITEM}.make"
+	local
+		start_time: SUBRIP_SUBTITLE_TIME
+		stop_time: SUBRIP_SUBTITLE_TIME
+		item: SUBRIP_SUBTITLE_ITEM
+		rescued: BOOLEAN
+		pass: BOOLEAN
+	do
+		create start_time.make_with_values(2,0,0,0)
+		create stop_time.make_with_values (1,0,0,0)
+		if (not rescued) then
+			create item.make (start_time,stop_time)
+			pass := True
+		end
+		assert ("make broke", not pass)
+		rescue
+		if (not rescued) then
+			rescued := True
+			retry
+		end
+	end
+
+	test_make_valid_with_text
+		--constructor make_with_text sets correctly
+	note
+			testing : "covers/{SUBRIP_SUBTITLE_ITEM}.make_with_text"
+	local
+		start_time: SUBRIP_SUBTITLE_TIME
+		stop_time: SUBRIP_SUBTITLE_TIME
+		item: SUBRIP_SUBTITLE_ITEM
+		text: STRING
+	do
+		create start_time.make_with_values(1,0,0,0)
+		create stop_time.make_with_values (2,0,0,0)
+		text:="Subtitle"
+		create item.make_with_text (start_time,stop_time,text)
+		assert ("Make With Subtitle", item.text.is_equal(text))
+	end
+
+	test_make_invalid_with_text
+		--constructor make_with_text breaks on invalid frames
+	note
+		testing : "covers/{SUBRIP_SUBTITLE_ITEM}.make_with_text"
+	local
+		start_time: SUBRIP_SUBTITLE_TIME
+		stop_time: SUBRIP_SUBTITLE_TIME
+		item: SUBRIP_SUBTITLE_ITEM
+		rescued: BOOLEAN
+		pass: BOOLEAN
+		text: STRING
+	do
+		create start_time.make_with_values(1,0,0,0)
+		create stop_time.make_with_values (2,0,0,0)
+		if (not rescued) then
+			create item.make_with_text (start_time,stop_time,text)
+			pass := True
+		end
+		assert ("make broke", not pass)
+		rescue
+		if (not rescued) then
+			rescued := True
+			retry
+		end
+	end
+
 
 	test_adjust_start_time_valid
 			-- method adjust_start_time sets start time correctly
@@ -105,6 +188,56 @@ feature -- Test routines
 		rescue
 			if (not exception) then
 				exception := True
+				retry
+			end
+		end
+
+
+	test_valid_set_text
+			-- Routine setting of the valid subtitle
+		note
+			testing : "covers/{SUBRIP_SUBTITLE_ITEM}.set_text"
+		local
+			item: SUBRIP_SUBTITLE_ITEM
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time : SUBRIP_SUBTITLE_TIME
+			sub: STRING
+		do
+
+			create start_time.make
+			create stop_time.make_with_values(0,10,0,0)
+			create item.make(start_time,stop_time)
+			sub := "Test valid Suprip Subtitle"
+			item.set_text (sub)
+			assert ("Text subrip subtitle set", item.text.is_equal(sub))
+		end
+
+
+	test_invalid_set_text
+			-- Routine setting of the invalid subrip subtitle
+			-- The test fail because set the text with Void is not allowed
+		note
+			testing : "covers/{SUBRIP_SUBTITLE_ITEM}.set_text"
+		local
+			item: SUBRIP_SUBTITLE_ITEM
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time : SUBRIP_SUBTITLE_TIME
+			passed: BOOLEAN
+			rescued: BOOLEAN
+			sub: STRING
+		do
+			create start_time.make
+			create stop_time.make_with_values(0,10,0,0)
+			create item.make(start_time,stop_time)
+
+			if (not rescued) then
+				item.set_text (sub)
+				passed := True
+			end
+			assert ("set_text broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
 				retry
 			end
 		end

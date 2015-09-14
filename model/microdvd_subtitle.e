@@ -16,12 +16,8 @@ feature -- Initialisation
 	make
 			-- Default constructor
 		do
-			-- create repOk.make
 			create items.make
-			create frames_per_second
-
-			-- repOk := TRUE
-			frames_per_Second := 25
+			frames_per_Second := 23.97
 		ensure
 			valid_items_count: items.count = 0
 		end
@@ -42,39 +38,37 @@ feature -- Status setting
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
 		local
-			i:INTEGER
-			new_frame:MICRODVD_SUBTITLE_ITEM
-			condition:BOOLEAN
+			i: INTEGER
+			new_frame: MICRODVD_SUBTITLE_ITEM
+			condition: BOOLEAN
 		do
 			create new_frame.make_with_text(start_frame, stop_frame, text)
-			condition:=false
+			condition := false
 			if (items.count = 0) then
 				items.put(new_frame)
 			else
 				from
-					i:=1
+					i := 1
 				until
-					(i>items.count and (not condition))
+					(i>items.count) or (not condition)
 				loop
-					if (new_frame.start_frame>items[i].stop_frame) then
-				 		condition:=true
+					if (new_frame.start_frame > items[i].stop_frame) then
+				 		condition := true
 				 	end
-						i:=i+1
+						i := i+1
 				end
 				if (new_frame.stop_frame<items[i].start_frame) then
 					items.put_i_th(new_frame, i)
 				end
 			 end
 		ensure
-			valid_start_frame: items.item.start_frame = start_frame
-			valid_stop_frame: items.item.stop_frame = stop_frame
-			valid_text: items.item.text = text
+			start_frame_set: items.item.start_frame.is_equal(start_frame)
+			stop_frame_set: items.item.stop_frame.is_equal(stop_frame)
+			text_set: items.item.text.is_equal(text)
 		end
 
 	flush
 			-- Removes all items from the subtitle
-		require
-			-- valid_item = item.count /= 0
 		do
 			items.wipe_out
 
@@ -90,7 +84,7 @@ feature -- Status setting
 			from
 				items.start
 			until
-				items.after or stop_frame >= items.item.stop_frame
+				items.after or stop_frame > items.item.stop_frame
 			loop
 				if (start_frame <= items.item.start_frame) and (items.item.stop_frame <= stop_frame) then
 					items.remove
@@ -112,35 +106,41 @@ feature -- Status checking
 	repOK: BOOLEAN
 			-- Checks if subtitle is internally consistent.
 			-- Subtitle items should be within increasingly larger
-			-- frames.
+			-- frames and distinc to Void.
 		local
 			res: BOOLEAN
 			prev_stop_frame: INTEGER
 		do
-			res := true
+			res := True
+			prev_stop_frame := -1
 			from
 				items.start
 			until
-				items.off
+				items.off or not res
 			loop
-				if not items.isfirst then
-					if prev_stop_frame > items.item.start_frame then
-						res := false
-					end
+				if  items.item /= Void and prev_stop_frame < items.item.start_frame then
+					prev_stop_frame := items.item.stop_frame
+					items.forth
+				else
+					res := False
 				end
-				prev_stop_frame := items.item.stop_frame
-				items.forth
 			end
 			Result := res
 		end
 
-feature {NONE} -- Implementation
+feature {MICRODVD_SUBTITLE_TEST} -- Implementation
 
 	items: LINKED_LIST[MICRODVD_SUBTITLE_ITEM]
 			-- items that conform the subtitle, in order.
 
+
 feature  --Minimum valid fps
+
 	min_valid_fps: INTEGER = 12
 			--Minimum valid fps. FPS less than 12 is insufficient for a stream of frames to be perceived as a continous image.
+
+
+invariant
+	valid_items: items /= Void
 
 end
