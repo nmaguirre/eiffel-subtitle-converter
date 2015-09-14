@@ -15,6 +15,8 @@ feature -- Initialisation
 	make
 			-- Default constructor
 		do
+			create items.make
+
 		end
 
 feature -- Status setting
