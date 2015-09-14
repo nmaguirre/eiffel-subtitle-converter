@@ -124,8 +124,8 @@ feature -- Test routines
 			sub_microdvd: MICRODVD_SUBTITLE
 		do
 			create sub_microdvd.make
-			sub_microdvd.change_fps (0.0)
-			assert("change frames_per_second", sub_microdvd.frames_per_second = 0.0)
+			sub_microdvd.change_fps (13)
+			assert("change frames_per_second", sub_microdvd.frames_per_second = 13)
 		end
 
 	test_valid_greater_than_zero_change_fps
@@ -151,7 +151,7 @@ feature -- Test routines
 		do
 			create sub_microdvd.make
 			if (not rescued) then
-				sub_microdvd.change_fps (-30)
+				sub_microdvd.change_fps (12)
 				passed := True
 			end
 			assert ("change_fps broke", not passed)
