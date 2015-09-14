@@ -65,9 +65,9 @@ feature -- Status setting
 				end
 			 end
 		ensure
-			items.item.start_frame = start_frame
-			items.item.stop_frame = stop_frame
-			items.item.text = text
+			valid_start_frame: items.item.start_frame = start_frame
+			valid_stop_frame: items.item.stop_frame = stop_frame
+			valid_text: items.item.text = text
 		end
 
 	flush
