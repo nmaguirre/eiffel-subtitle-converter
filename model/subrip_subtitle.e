@@ -45,7 +45,23 @@ feature -- Status setting
 
 	remove_items (start_time: SUBRIP_SUBTITLE_TIME; stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Removes all subtitle items between start_time and stop_time
+		local
+			cond1: BOOLEAN
+			cond2: BOOLEAN
 		do
+			from
+				items.start
+			until
+				items.after or items.item.stop_time < stop_time
+			loop
+				cond1:= start_frame < items.item.start_frame or start_frame.is_equal(items.item.start_frame)
+				cond2:= items.item.stop_time < stop_time or items.item.stop_time.is_equal(stop_time)
+				if cond1 and cond2 then
+					items.remove
+				else
+					items.forth
+				end
+			end
 		ensure
 			valid_items_count: items.count <= old items.count
 		end
