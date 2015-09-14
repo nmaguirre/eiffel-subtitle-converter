@@ -7,6 +7,12 @@ note
 class
 	SUBRIP_SUBTITLE_TIME
 
+inherit
+	COMPARABLE
+		redefine
+			is_equal
+		end
+
 create
 	make, make_with_values
 
@@ -119,6 +125,41 @@ feature -- Status setting
 			valid_seconds: seconds = (old seconds) - ((offset_milliseconds\\3600000)\\60000)//1000
 		 	valid_milliseconds: milliseconds = (old milliseconds) - ((offset_milliseconds\\3600000)\\60000)\\1000
 		end
+
+feature -- Comparison
+
+	is_less alias "<" (other: like Current): BOOLEAN
+		local
+			current_milliseconds : INTEGER
+			other_milliseconds : INTEGER
+			res : BOOLEAN
+		do
+			current_milliseconds := Current.hours * 3600000 + Current.minutes * 60000 + Current.seconds * 1000 + Current.milliseconds
+			other_milliseconds := other.hours * 3600000 + other.minutes * 60000 + other.seconds * 1000 + other.milliseconds
+			if (current_milliseconds < other_milliseconds) then
+				res := True
+			else
+				res := False
+			end
+			Result := res
+		end
+
+	is_equal (other: like Current): BOOLEAN
+		local
+			current_milliseconds : INTEGER
+			other_milliseconds : INTEGER
+			res : BOOLEAN
+		do
+			current_milliseconds := Current.hours * 3600000 + Current.minutes * 60000 + Current.seconds * 1000 + Current.milliseconds
+			other_milliseconds := other.hours * 3600000 + other.minutes * 60000 + other.seconds * 1000 + other.milliseconds
+			if (current_milliseconds = other_milliseconds) then
+				res := True
+			else
+				res := False
+			end
+			Result := res
+		end
+
 
 feature -- Status report
 
