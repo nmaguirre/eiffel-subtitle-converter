@@ -15,6 +15,47 @@ inherit
 
 feature -- Test routines
 
+	test_make_valid_no_text
+		--constructor make sets correctly
+	note
+			testing : "covers/{SUBRIP_SUBTITLE_ITEM}.make"
+	local
+		start_time: SUBRIP_SUBTITLE_TIME
+		stop_time: SUBRIP_SUBTITLE_TIME
+		item: SUBRIP_SUBTITLE_ITEM
+	do
+		create start_time.make_with_values(1,0,0,0)
+		create stop_time.make_with_values (2,0,0,0)
+		create item.make (start_time,stop_time)
+		assert ("no text", item.text.count = 0)
+	end
+
+
+	test_make_invalid_no_text
+		--constructor make breaks on invalid frames
+	note
+		testing : "covers/{SUBRIP_SUBTITLE_ITEM}.make"
+	local
+		start_time: SUBRIP_SUBTITLE_TIME
+		stop_time: SUBRIP_SUBTITLE_TIME
+		item: SUBRIP_SUBTITLE_ITEM
+		rescued: BOOLEAN
+		pass: BOOLEAN
+	do
+		create start_time.make_with_values(2,0,0,0)
+		create stop_time.make_with_values (1,0,0,0)
+		if (not rescued) then
+			create item.make (start_time,stop_time)
+			pass := True
+		end
+		assert ("make broke", not pass)
+		rescue
+		if (not rescued) then
+			rescued := True
+			retry
+		end
+	end
+
 
 	test_adjust_start_time_valid
 			-- method adjust_start_time sets start time correctly
