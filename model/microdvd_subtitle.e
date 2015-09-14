@@ -83,7 +83,8 @@ feature -- Status setting
 
 	remove_items (start_frame: INTEGER; stop_frame: INTEGER)
 			-- Removes all subtitle items between start_frame and stop_frame
-			-- require valid_items = item.count /= 0
+		require
+			start_frame: start_frame >= 0 and start_frame >= stop_frame
 		do
 			from
 				items.start
