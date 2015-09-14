@@ -96,7 +96,7 @@ feature -- Test routines
 			-- method set_milliseconds sets miillisecods correctly
 
 		note
-			testting : "covers/{SUBRIP_SUBTITLE_TIME}.se_milliseconds"
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.set_milliseconds"
 		local
 			subtitle_time: SUBRIP_SUBTITLE_TIME
 		do
@@ -109,7 +109,7 @@ feature -- Test routines
 			-- method set_milliseconds breaks on negative value
 
 		note
-			testting : "covers/{SUBRIP_SUBTITLE_TIME}.se_milliseconds"
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.set_milliseconds"
 		local
 			subtitle_time: SUBRIP_SUBTITLE_TIME
 			passed: BOOLEAN
@@ -132,7 +132,7 @@ feature -- Test routines
 			-- method set_milliseconds breaks on invalid value
 
 		note
-			testting : "covers/{SUBRIP_SUBTITLE_TIME}.se_milliseconds"
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.set_milliseconds"
 		local
 			subtitle_time: SUBRIP_SUBTITLE_TIME
 			passed: BOOLEAN
