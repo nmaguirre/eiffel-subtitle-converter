@@ -16,6 +16,9 @@ feature -- Initialisation
 			-- Constructs a subrip sub. item with empty text, and provided
 			-- start and stop times
 		do
+			start_frame:=new_start_frame
+			stop_frame:=new_stop_frame
+			create text.make_empty
 		end
 
 	make_with_text (new_start_time: SUBRIP_SUBTITLE_TIME; new_stop_time: SUBRIP_SUBTITLE_TIME; new_text: STRING)
