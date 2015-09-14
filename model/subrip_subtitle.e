@@ -42,6 +42,8 @@ feature -- Status setting
 	remove_items (start_time: SUBRIP_SUBTITLE_TIME; stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Removes all subtitle items between start_time and stop_time
 		do
+		ensure
+			valid_items_count: items.count <= old items.count
 		end
 
 feature -- Status checking
