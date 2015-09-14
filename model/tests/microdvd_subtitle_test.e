@@ -17,15 +17,19 @@ feature -- Test routines
 
 	test_repOk_valid_representation
 			-- create a valid sequence and evaluate it with repOk
+			-- modifies the items list manually
 		note
 			testing:  "covers/{MICRODVD_SUBTITLE}.repOK"
 		local
-			item: MICRODVD_SUBTITLE
+			subs: MICRODVD_SUBTITLE
+			itm:MICRODVD_SUBTITLE_ITEM
 		do
-			create item.make
-			item.add_subtitle_item(0,100,"text 1")
-			item.add_subtitle_item(101,200,"text 2")
-			assert ("Subtitle representation is ok", item.repOk)
+			create subs.make
+			create itm.make(0,100)
+			subs.items.extend (itm)
+			create itm.make(101,200)
+			subs.items.extend (itm)
+			assert ("Subtitle representation is ok", subs.repOk)
 		end
 
 	test_flush_valid
