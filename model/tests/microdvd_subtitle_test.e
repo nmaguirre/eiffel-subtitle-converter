@@ -32,6 +32,39 @@ feature -- Test routines
 			assert ("Subtitle representation is ok", subs.repOk)
 		end
 
+	test_repOk_invalid_representation
+			-- create a valid sequence and evaluate it with repOk
+			-- modifies the items list manually
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.repOK"
+		local
+			subs: MICRODVD_SUBTITLE
+			itm:MICRODVD_SUBTITLE_ITEM
+		do
+			create subs.make
+			create itm.make(101,200)
+			subs.items.extend (itm)
+			create itm.make(0,100)
+			subs.items.extend (itm)
+			assert ("Subtitle representation is ok", not subs.repOk)
+		end
+
+	test_repOk_invalid_representation_with_void_element
+			-- create a valid sequence and evaluate it with repOk
+			-- modifies the items list manually
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.repOK"
+		local
+			subs: MICRODVD_SUBTITLE
+			itm:MICRODVD_SUBTITLE_ITEM
+		do
+			create subs.make
+			subs.items.extend (itm) --  put a Void element in the list
+			create itm.make(0,100)
+			subs.items.extend (itm)
+			assert ("Subtitle representation is ok", not subs.repOk)
+		end
+
 	test_flush_valid
 			-- checks that removes all items from the subtitle
 		note
