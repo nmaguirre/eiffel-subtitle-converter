@@ -41,6 +41,8 @@ feature -- Status setting
 			-- Changes the text of the item to the provided string
 		do
 			text := new_text
+		ensure
+			text_is_set: text = new_text
 		end
 
 feature -- Status report
