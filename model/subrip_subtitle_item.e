@@ -33,9 +33,9 @@ feature -- Initialisation
 		do
 
 		ensure
-			valid_result: start_time.is_equal(new_start_time) and
-						  stop_time.is_equal(new_stop_time)   and
-		    			  text = new_text
+			valid_result:start_time.is_equal(new_start_time) and
+						 stop_time.is_equal(new_stop_time)   and
+		    			 text = new_text
 		end
 
 feature -- Status setting
