@@ -22,7 +22,7 @@ feature -- Initialisation
 		ensure
 			valid_result: start_frame = new_start_frame and
 						  stop_frame = new_stop_frame and
-						  text.is_empty=true
+						  text.is_empty
 		end
 
 	make_with_text (new_start_time: SUBRIP_SUBTITLE_TIME; new_stop_time: SUBRIP_SUBTITLE_TIME; new_text: STRING)
