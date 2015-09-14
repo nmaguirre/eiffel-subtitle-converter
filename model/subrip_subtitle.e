@@ -46,7 +46,29 @@ feature -- Status checking
 			-- Checks if subtitle is internally consistent.
 			-- Subtitle items should be within increasingly larger
 			-- time ranges.
+		local
+			res: BOOLEAN
+			prev_stop_time: SUBRIP_SUBTITLE_ITEM
 		do
+			res := True
+			from
+				items.start
+			until
+				items.off
+			loop
+				if items.item = Void then
+					res := False
+				else
+					if not items.isfirst then
+						if prev_stop_time > items.item.start_time then
+							res := False
+						end
+					end
+				end
+				prev_stop_time := items.item.stop_time
+				items.forth
+			end
+			Result := res
 		end
 
 feature {NONE} -- Implementation
