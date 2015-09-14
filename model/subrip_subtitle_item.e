@@ -58,6 +58,8 @@ feature -- Status setting
 
 	set_text (new_text: STRING)
 			-- Changes the text of the item to the provided string
+		require
+			new_text_not_void:new_text /= Void
 		do
 			text := new_text
 		ensure
