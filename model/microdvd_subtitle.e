@@ -111,17 +111,18 @@ feature -- Status checking
 			prev_stop_frame: INTEGER
 		do
 			res := True
-			prev_stop_frame := 0
+			prev_stop_frame := -1
 			from
 				items.start
 			until
 				items.off or not res
 			loop
-				if  items.item = Void or prev_stop_frame > items.item.start_frame then
+				if  items.item /= Void and prev_stop_frame < items.item.start_frame then
+					prev_stop_frame := items.item.stop_frame
+					items.forth
+				else
 					res := False
 				end
-				prev_stop_frame := items.item.stop_frame
-				items.forth
 			end
 			Result := res
 		end
