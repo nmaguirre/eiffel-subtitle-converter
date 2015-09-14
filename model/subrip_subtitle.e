@@ -32,6 +32,8 @@ feature -- Status setting
 		end
 
 	flush
+		require
+			itmes /= void
 			-- Removes all items from the subtitle
 		do
 			items.wipe_out
