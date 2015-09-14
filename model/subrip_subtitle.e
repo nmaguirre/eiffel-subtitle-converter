@@ -28,9 +28,9 @@ feature -- Status setting
 			-- must be added in the correct place in the list of subtitle items
 		do
 		ensure
-			start_time = start_time
-			stop_tim = stop_time
-			text = text
+			items.item.start_time = start_time
+			items.item.stop_time = stop_time
+			items.item.text = text
 		end
 
 	flush
@@ -44,6 +44,8 @@ feature -- Status setting
 	remove_items (start_time: SUBRIP_SUBTITLE_TIME; stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Removes all subtitle items between start_time and stop_time
 		do
+		ensure
+			valid_items_count: items.count <= old items.count
 		end
 
 feature -- Status checking
