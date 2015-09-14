@@ -192,5 +192,55 @@ feature -- Test routines
 			end
 		end
 
+
+	test_valid_set_text
+			-- Routine setting of the valid subtitle
+		note
+			testing : "covers/{SUBRIP_SUBTITLE_ITEM}.set_text"
+		local
+			item: SUBRIP_SUBTITLE_ITEM
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time : SUBRIP_SUBTITLE_TIME
+			sub: STRING
+		do
+
+			create start_time.make
+			create stop_time.make_with_values(0,10,0,0)
+			create item.make(start_time,stop_time)
+			sub := "Test valid Suprip Subtitle"
+			item.set_text (sub)
+			assert ("Text subrip subtitle set", item.text.is_equal(sub))
+		end
+
+
+	test_invalid_set_text
+			-- Routine setting of the invalid subrip subtitle
+			-- The test fail because set the text with Void is not allowed
+		note
+			testing : "covers/{SUBRIP_SUBTITLE_ITEM}.set_text"
+		local
+			item: SUBRIP_SUBTITLE_ITEM
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time : SUBRIP_SUBTITLE_TIME
+			passed: BOOLEAN
+			rescued: BOOLEAN
+			sub: STRING
+		do
+			create start_time.make
+			create stop_time.make_with_values(0,10,0,0)
+			create item.make(start_time,stop_time)
+
+			if (not rescued) then
+				item.set_text (sub)
+				passed := True
+			end
+			assert ("set_text broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
 end-- class SUBRIP_SUBTITLE_ITEM_TESTS
 
