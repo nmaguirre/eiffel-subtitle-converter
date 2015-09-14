@@ -154,6 +154,29 @@ feature -- Test routines
 			end
 		end
 
+	test_make_with_text_invalid_text
+			--  constructor make_with_text breaks on invalid text
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE_ITEM}.make_with_text"
+		local
+			item: MICRODVD_SUBTITLE_ITEM
+			passed: BOOLEAN
+			rescued: BOOLEAN
+			text_void:STRING
+		do
+			if (not rescued) then
+				text_void := Void
+				create item.make_with_text (0,1,text_void)
+				passed := True
+			end
+			assert ("make_with_text broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
 
 	test_adjust_stop_frame_valid_frame
 			-- method adjust_stop_frame sets stop frames correctly
