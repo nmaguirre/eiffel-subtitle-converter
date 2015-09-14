@@ -129,7 +129,7 @@ feature -- Status checking
 			Result := res
 		end
 
-feature {NONE} -- Implementation
+feature {MICRODVD_SUBTITLE_TEST} -- Implementation
 
 	items: LINKED_LIST[MICRODVD_SUBTITLE_ITEM]
 			-- items that conform the subtitle, in order.
