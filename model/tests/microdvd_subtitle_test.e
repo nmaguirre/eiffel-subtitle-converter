@@ -66,12 +66,17 @@ feature -- Test routines
 			passed: BOOLEAN
 			rescued: BOOLEAN
 		do
+			create item.make
 			if (not rescued) then
-				create item.make
-				item.remove_items (0,100)
+				item.remove_items(-10,100)
 				passed := True
 			end
 			assert ("remove_items broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
 		end
 
 	test_valid_zero_change_fps

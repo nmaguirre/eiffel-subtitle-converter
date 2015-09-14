@@ -28,6 +28,7 @@ feature -- Status setting
 	flush
 			-- Removes all items from the subtitle
 		do
+			items.wipe_out
 		end
 
 	remove_items (start_time: SUBRIP_SUBTITLE_TIME; stop_time: SUBRIP_SUBTITLE_TIME)
@@ -48,5 +49,5 @@ feature {NONE} -- Implementation
 
 	items: LINKED_LIST[SUBRIP_SUBTITLE_ITEM]
 			-- items that conform the subtitle, in order.
-			
+
 end
