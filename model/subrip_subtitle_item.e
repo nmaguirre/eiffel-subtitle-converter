@@ -32,6 +32,7 @@ feature -- Initialisation
 			-- Constructs a subrip sub. item with provided text, start and stop times
 		do
 
+
 		ensure
 			start_time = new_start_time and
 			stop_time  = new_stop_time  and
