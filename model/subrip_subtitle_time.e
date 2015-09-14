@@ -43,6 +43,12 @@ feature -- Initialisation
 
 feature -- Status setting
 
+	time_milliseconds ():INTEGER
+		do
+			Result:= hours*3600000 + minutes*60000 + seconds*1000 + milliseconds
+		end
+
+
 	set_hour (new_hour: INTEGER)
 			-- sets hours to provided value
 
