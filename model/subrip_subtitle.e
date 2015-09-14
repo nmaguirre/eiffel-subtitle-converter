@@ -17,6 +17,8 @@ feature -- Initialisation
 		do
 			create items.make
 
+		ensure
+			empty_list:	items.is_empty
 		end
 
 feature -- Status setting
