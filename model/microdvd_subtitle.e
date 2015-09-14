@@ -134,7 +134,7 @@ feature {MICRODVD_SUBTITLE_TEST} -- Implementation
 			-- items that conform the subtitle, in order.
 
 
-feature  --Minimum valid fps
+feature  --Constant
 
 	min_valid_fps: INTEGER = 12
 			--Minimum valid fps. FPS less than 12 is insufficient for a stream of frames to be perceived as a continous image.
