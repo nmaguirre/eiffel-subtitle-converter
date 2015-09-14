@@ -12,6 +12,7 @@ create
 
 feature -- Initialisation
 
+
 	make
 			-- Default constructor
 		do
@@ -26,7 +27,7 @@ feature -- Status setting
 	change_fps (new_fps: REAL)
 			-- Changes the frames per second of the subtitle.
 		require
-			valid_new_fps: new_fps > 12
+			valid_new_fps: new_fps > min_valid_fps
 		do
 			frames_per_second := new_fps
 		ensure
@@ -44,7 +45,7 @@ feature -- Status setting
 			create new_frame.make_with_text(start_frame, stop_frame, text)
 			condition := false
 			if (items.count = 0) then
-				items.put(new_frame)
+				items.extend(new_frame)
 			else
 				from
 					i := 1
@@ -61,9 +62,9 @@ feature -- Status setting
 				end
 			 end
 		ensure
-			valid_start_frame: items.item.start_frame = start_frame
-			valid_stop_frame: items.item.stop_frame = stop_frame
-			valid_text: items.item.text = text
+			start_frame_set: items.item.start_frame.is_equal(start_frame)
+			stop_frame_set: items.item.stop_frame.is_equal(stop_frame)
+			text_set: items.item.text.is_equal(text)
 		end
 
 	flush
@@ -132,6 +133,14 @@ feature {MICRODVD_SUBTITLE_TEST} -- Implementation
 	items: LINKED_LIST[MICRODVD_SUBTITLE_ITEM]
 			-- items that conform the subtitle, in order.
 
+
+feature  --Constant
+
+	min_valid_fps: INTEGER = 12
+			--Minimum valid fps. FPS less than 12 is insufficient for a stream of frames to be perceived as a continous image.
+
+
 invariant
 	valid_items: items /= Void
+
 end

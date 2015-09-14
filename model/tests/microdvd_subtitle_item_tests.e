@@ -182,7 +182,7 @@ feature -- Test routines
 			-- method adjust_stop_frame sets stop frames correctly
 
 		note
-			testting : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_stop_frame"
+			testing : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_stop_frame"
 		local
 			item: MICRODVD_SUBTITLE_ITEM
 		do
@@ -195,7 +195,7 @@ feature -- Test routines
 			-- method adjust_stop_frame breaks on invalid frames
 
 		note
-			testting : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_stop_frame"
+			testing : "covers/{MICRODVD_SUBTITLE_ITEM}.adjust_stop_frame"
 		local
 			item: MICRODVD_SUBTITLE_ITEM
 			passed: BOOLEAN
