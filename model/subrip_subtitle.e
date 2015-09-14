@@ -17,6 +17,8 @@ feature -- Initialisation
 		do
 			create items.make
 
+		ensure
+			empty_list:	items.is_empty
 		end
 
 feature -- Status setting
@@ -25,9 +27,15 @@ feature -- Status setting
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
 		do
+		ensure
+			items.item.start_time = start_time
+			items.item.stop_time = stop_time
+			items.item.text = text
 		end
 
 	flush
+		require
+			valid_items: items /= void
 			-- Removes all items from the subtitle
 		do
 			items.wipe_out
@@ -38,6 +46,8 @@ feature -- Status setting
 	remove_items (start_time: SUBRIP_SUBTITLE_TIME; stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Removes all subtitle items between start_time and stop_time
 		do
+		ensure
+			valid_items_count: items.count <= old items.count
 		end
 
 feature -- Status checking
