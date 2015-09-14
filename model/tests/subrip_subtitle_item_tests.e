@@ -30,7 +30,6 @@ feature -- Test routines
 		assert ("no text", item.text.count = 0)
 	end
 
-
 	test_make_invalid_no_text
 		--constructor make breaks on invalid frames
 	note
