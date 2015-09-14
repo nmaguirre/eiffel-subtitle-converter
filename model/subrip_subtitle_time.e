@@ -56,6 +56,8 @@ feature -- Status setting
 		require (new_minute < 60) and (new_minute >= 0)
 		do
 			minutes:= new_minute
+		ensure
+			minutes = new_minute
 		end
 
 	set_seconds (new_seconds: INTEGER)
