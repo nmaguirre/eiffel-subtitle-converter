@@ -25,6 +25,10 @@ feature -- Status setting
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
 		do
+		ensure
+			start_time = start_time
+			stop_tim = stop_time
+			text = text
 		end
 
 	flush
