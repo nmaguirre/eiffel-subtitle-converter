@@ -23,8 +23,8 @@ feature -- Initialisation
 			stop_time:=new_stop_time
 			create text.make_empty
 		ensure
-			valid_result: start_time = new_start_time and
-						  stop_time = new_stop_time and
+			valid_result: start_time.is_equal(new_start_time) and
+						  stop_time.is_equal(new_stop_time) and
 						  text.is_empty
 		end
 
