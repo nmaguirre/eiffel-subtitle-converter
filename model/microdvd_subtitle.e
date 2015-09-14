@@ -22,7 +22,7 @@ feature -- Initialisation
 			-- repOk := TRUE
 			frames_per_Second := 25
 		ensure
-			items.count = 0
+			valid_items_count: items.count = 0
 		end
 
 feature -- Status setting
@@ -34,7 +34,7 @@ feature -- Status setting
 		do
 			frames_per_second := new_fps
 		ensure
-			frames_per_second = new_fps
+			valid_frames_per_second: frames_per_second = new_fps
 		end
 
 	add_subtitle_item (start_frame: INTEGER; stop_frame: INTEGER; text: STRING)
@@ -78,7 +78,7 @@ feature -- Status setting
 			items.wipe_out
 
 		ensure
-			items.count = 0
+			valid_items_count: items.count = 0
 		end
 
 	remove_items (start_frame: INTEGER; stop_frame: INTEGER)
@@ -96,7 +96,8 @@ feature -- Status setting
 					items.forth
 				end
 			end
-			ensure items.count <= old items.count
+		ensure
+			valid_items_count: items.count <= old items.count
 		end
 
 feature -- Status report
