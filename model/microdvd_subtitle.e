@@ -15,12 +15,8 @@ feature -- Initialisation
 	make
 			-- Default constructor
 		do
-			-- create repOk.make
 			create items.make
-			create frames_per_second
-
-			-- repOk := TRUE
-			frames_per_Second := 25
+			frames_per_Second := 23.97
 		ensure
 			valid_items_count: items.count = 0
 		end
@@ -89,7 +85,7 @@ feature -- Status setting
 			from
 				items.start
 			until
-				items.after or stop_frame >= items.item.stop_frame
+				items.after or stop_frame > items.item.stop_frame
 			loop
 				if (start_frame <= items.item.start_frame) and (items.item.stop_frame <= stop_frame) then
 					items.remove
