@@ -16,12 +16,12 @@ feature -- Initialisation
 			-- Constructs a subrip sub. item with empty text, and provided
 			-- start and stop times
 		do
-			start_frame:=new_start_frame
-			stop_frame:=new_stop_frame
+			start_time:=new_start_time
+			stop_time:=new_stop_time
 			create text.make_empty
 		ensure
-			valid_result: start_frame = new_start_frame and
-						  stop_frame = new_stop_frame and
+			valid_result: start_time = new_start_time and
+						  stop_time = new_stop_time and
 						  text.is_empty
 		end
 
