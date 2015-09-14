@@ -55,7 +55,6 @@ feature -- Test routines
 		end
 	end
 
-
 	test_adjust_start_time_valid
 			-- method adjust_start_time sets start time correctly
 		note
