@@ -113,15 +113,14 @@ feature -- Status checking
 			prev_stop_frame: INTEGER
 		do
 			res := True
+			prev_stop_frame := 0
 			from
 				items.start
 			until
-				items.off or res = False
+				items.off or not res
 			loop
-				if not items.isfirst then
-					if  items.item = Void or prev_stop_frame > items.item.start_frame then
-						res := False
-					end
+				if  items.item = Void or prev_stop_frame > items.item.start_frame then
+					res := False
 				end
 				prev_stop_frame := items.item.stop_frame
 				items.forth
