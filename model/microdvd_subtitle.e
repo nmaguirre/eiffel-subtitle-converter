@@ -126,6 +126,9 @@ feature -- Status checking
 				end
 			end
 			Result := res
+		ensure
+			repOk_check: Result.item = True or
+			Result.item = False
 		end
 
 feature {MICRODVD_SUBTITLE_TEST} -- Implementation
