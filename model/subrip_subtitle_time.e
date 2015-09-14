@@ -73,6 +73,8 @@ feature -- Status setting
 		require (new_seconds < 60) and (new_seconds >= 0)
 		do
 			seconds:= new_seconds
+		ensure
+			seconds= new_seconds
 		end
 
 	set_milliseconds (new_milliseconds: INTEGER)
