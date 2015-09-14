@@ -45,7 +45,7 @@ feature -- Status setting
 			create new_frame.make_with_text(start_frame, stop_frame, text)
 			condition := false
 			if (items.count = 0) then
-				items.put(new_frame)
+				items.extend(new_frame)
 			else
 				from
 					i := 1

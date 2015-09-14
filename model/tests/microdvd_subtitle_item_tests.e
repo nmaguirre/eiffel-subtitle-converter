@@ -259,9 +259,9 @@ feature -- Test routines
 		local
 			item: MICRODVD_SUBTITLE_ITEM
 		do
-			create item.make (0,5)
-			item.adjust_start_frame (0)
-			assert ("start frame set", item.start_frame = 0)
+			create item.make (0,15)
+			item.adjust_start_frame (10)
+			assert ("start frame set", item.start_frame = 10)
 		end
 
 	test_adjust_start_frame_invalid_frame
