@@ -23,14 +23,19 @@ feature -- Initialisation
 			stop_time:=new_stop_time
 			create text.make_empty
 		ensure
-			valid_result: start_time = new_start_time and
-						  stop_time = new_stop_time and
+			valid_result: start_time.is_equal(new_start_time) and
+						  stop_time.is_equal(new_stop_time) and
 						  text.is_empty
 		end
 
 	make_with_text (new_start_time: SUBRIP_SUBTITLE_TIME; new_stop_time: SUBRIP_SUBTITLE_TIME; new_text: STRING)
 			-- Constructs a subrip sub. item with provided text, start and stop times
 		do
+
+		ensure
+			valid_result:start_time.is_equal(new_start_time) and
+						 stop_time.is_equal(new_stop_time)   and
+		    			 text = new_text
 		end
 
 feature -- Status setting

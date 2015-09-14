@@ -114,10 +114,10 @@ feature -- Status setting
 			seconds := seconds - remainder_minutes//1000
 			milliseconds := milliseconds - remainder_minutes\\1000
 		ensure
-			valid_result: hours = (old hours) - offset_milliseconds//3600000 and
-						  minutes = (old minutes) - (offset_milliseconds\\3600000)//60000 and
-			              seconds = (old seconds) - ((offset_milliseconds\\3600000)\\60000)//1000 and
-		 	              milliseconds = (old milliseconds) - ((offset_milliseconds\\3600000)\\60000)\\1000
+			valid_hours: hours = (old hours) - offset_milliseconds//3600000
+			valid_minutes: minutes = (old minutes) - (offset_milliseconds\\3600000)//60000
+			valid_seconds: seconds = (old seconds) - ((offset_milliseconds\\3600000)\\60000)//1000
+		 	valid_milliseconds: milliseconds = (old milliseconds) - ((offset_milliseconds\\3600000)\\60000)\\1000
 		end
 
 feature -- Status report
