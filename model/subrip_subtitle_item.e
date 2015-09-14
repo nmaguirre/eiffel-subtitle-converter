@@ -15,6 +15,9 @@ feature -- Initialisation
 	make (new_start_time: SUBRIP_SUBTITLE_TIME; new_stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Constructs a subrip sub. item with empty text, and provided
 			-- start and stop times
+		require
+			valid_time: (new_stop_time.hours*3600000 + new_stop_time.minutes*60000 + new_stop_time.seconds*1000 + new_stop_time.milliseconds) >
+						(new_start_time.hours*3600000 + new_start_time.minutes*60000 + new_start_time.seconds*1000 + new_start_time.milliseconds)
 		do
 			start_time:=new_start_time
 			stop_time:=new_stop_time
