@@ -16,16 +16,53 @@ inherit
 feature -- Test routines
 
 	test_repOk_valid_representation
-			-- create a valid sequence and evaluate it with repOk
+			-- create a valid sequence and evaluate it with repOk.
+			-- Modifies the items list manually
 		note
 			testing:  "covers/{MICRODVD_SUBTITLE}.repOK"
 		local
-			item: MICRODVD_SUBTITLE
+			subs: MICRODVD_SUBTITLE
+			itm:MICRODVD_SUBTITLE_ITEM
 		do
-			create item.make
-			item.add_subtitle_item(0,100,"text 1")
-			item.add_subtitle_item(101,200,"text 2")
-			assert ("Subtitle representation is ok", item.repOk)
+			create subs.make
+			create itm.make(0,100)
+			subs.items.extend (itm)
+			create itm.make(101,200)
+			subs.items.extend (itm)
+			assert ("Subtitle representation is ok", subs.repOk)
+		end
+
+	test_repOk_invalid_representation
+			-- create a invalid sequence and evaluate it with repOk.
+			-- Modifies the items list manually
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.repOK"
+		local
+			subs: MICRODVD_SUBTITLE
+			itm:MICRODVD_SUBTITLE_ITEM
+		do
+			create subs.make
+			create itm.make(101,200)
+			subs.items.extend (itm)
+			create itm.make(0,100)
+			subs.items.extend (itm)
+			assert ("Subtitle representation is ok", not subs.repOk)
+		end
+
+	test_repOk_invalid_representation_with_void_element
+			-- create a invalid sequence with a Void elment in the head and evaluate it with repOk.
+			-- Modifies the items list manually
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.repOK"
+		local
+			subs: MICRODVD_SUBTITLE
+			itm:MICRODVD_SUBTITLE_ITEM
+		do
+			create subs.make
+			subs.items.extend (itm) --  put a Void element in the list
+			create itm.make(0,100)
+			subs.items.extend (itm)
+			assert ("Subtitle representation is ok", not subs.repOk)
 		end
 
 	test_flush_valid
@@ -123,8 +160,8 @@ feature -- Test routines
 			sub_microdvd: MICRODVD_SUBTITLE
 		do
 			create sub_microdvd.make
-			sub_microdvd.change_fps (0.0)
-			assert("change frames_per_second", sub_microdvd.frames_per_second = 0.0)
+			sub_microdvd.change_fps (13)
+			assert("change frames_per_second", sub_microdvd.frames_per_second = 13)
 		end
 
 	test_valid_greater_than_zero_change_fps
@@ -150,7 +187,7 @@ feature -- Test routines
 		do
 			create sub_microdvd.make
 			if (not rescued) then
-				sub_microdvd.change_fps (-30)
+				sub_microdvd.change_fps (12)
 				passed := True
 			end
 			assert ("change_fps broke", not passed)

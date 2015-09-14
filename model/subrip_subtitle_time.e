@@ -73,6 +73,8 @@ feature -- Status setting
 		require (new_seconds < 60) and (new_seconds >= 0)
 		do
 			seconds:= new_seconds
+		ensure
+			seconds= new_seconds
 		end
 
 	set_milliseconds (new_milliseconds: INTEGER)
@@ -111,7 +113,7 @@ feature -- Status setting
 	rewind (offset_milliseconds: INTEGER)
 			-- Moves the time backward the numbe of provided milliseconds
 		require
-			valid_milliseconds: offset_milliseconds > 0
+			valid_milliseconds: offset_milliseconds > 0 and time_milliseconds-offset_milliseconds>=0
 		local
 			remainder_hours,remainder_minutes: INTEGER
 		do

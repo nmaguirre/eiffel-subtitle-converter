@@ -16,8 +16,7 @@ feature -- Initialisation
 			-- Constructs a subrip sub. item with empty text, and provided
 			-- start and stop times
 		require
-			valid_time: (new_stop_time.hours*3600000 + new_stop_time.minutes*60000 + new_stop_time.seconds*1000 + new_stop_time.milliseconds) >
-						(new_start_time.hours*3600000 + new_start_time.minutes*60000 + new_start_time.seconds*1000 + new_start_time.milliseconds)
+			valid_time: new_stop_time.time_milliseconds > new_start_time.time_milliseconds
 		do
 			start_time:=new_start_time
 			stop_time:=new_stop_time
@@ -31,7 +30,9 @@ feature -- Initialisation
 	make_with_text (new_start_time: SUBRIP_SUBTITLE_TIME; new_stop_time: SUBRIP_SUBTITLE_TIME; new_text: STRING)
 			-- Constructs a subrip sub. item with provided text, start and stop times
 		do
-
+			start_time := new_start_time
+			stop_time := new_stop_time
+			text := new_text
 		ensure
 			valid_result:start_time.is_equal(new_start_time) and
 						 stop_time.is_equal(new_stop_time)   and
@@ -45,7 +46,7 @@ feature -- Status setting
 		do
 			start_time := new_start_time
 		ensure
-			start_time_set: start_time = new_start_time
+			start_time_set: start_time.is_equal(new_start_time)
 		end
 
 	adjust_stop_time (new_stop_time: SUBRIP_SUBTITLE_TIME)
@@ -53,7 +54,7 @@ feature -- Status setting
 		do
 			stop_time := new_stop_time
 		ensure
-			stop_time_set: stop_time = new_stop_time
+			stop_time_set: stop_time.is_equal(new_stop_time)
 		end
 
 	set_text (new_text: STRING)
