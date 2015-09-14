@@ -16,8 +16,7 @@ feature -- Initialisation
 			-- Constructs a subrip sub. item with empty text, and provided
 			-- start and stop times
 		require
-			valid_time: (new_stop_time.hours*3600000 + new_stop_time.minutes*60000 + new_stop_time.seconds*1000 + new_stop_time.milliseconds) >
-						(new_start_time.hours*3600000 + new_start_time.minutes*60000 + new_start_time.seconds*1000 + new_start_time.milliseconds)
+			valid_time: new_stop_time.time_milliseconds > new_start_time.time_milliseconds
 		do
 			start_time:=new_start_time
 			stop_time:=new_stop_time
