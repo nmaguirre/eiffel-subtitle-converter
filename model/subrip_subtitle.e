@@ -29,6 +29,8 @@ feature -- Status setting
 			-- Removes all items from the subtitle
 		do
 			items.wipe_out
+		ensure
+			valid_items_count: items.count = 0
 		end
 
 	remove_items (start_time: SUBRIP_SUBTITLE_TIME; stop_time: SUBRIP_SUBTITLE_TIME)
