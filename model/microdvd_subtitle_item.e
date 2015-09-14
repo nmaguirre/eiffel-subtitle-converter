@@ -51,11 +51,11 @@ feature -- Status setting
 	adjust_start_frame (new_start_frame: INTEGER)
 			-- Changes the start frame to the provided value
 		require
-			valid_new_start_frame: new_start_frame >= 0
+			valid_new_start_frame: new_start_frame >= 0 and new_start_frame < stop_frame
 		do
-			start_frame:=new_start_frame
+			start_frame := new_start_frame
 		ensure
-			start_frame = new_start_frame
+			valid_start_frame: start_frame = new_start_frame
 		end
 
 	adjust_stop_frame (new_stop_frame: INTEGER)
@@ -71,11 +71,11 @@ feature -- Status setting
 	set_text (new_text: STRING)
 			-- Changes the text of the item to the provided string
 		require
-			set_text_new_text:  new_text /= void
+			new_text_not_void: new_text /= Void
 		do
 			text := new_text
 		ensure
-			text = new_text
+			text_is_set: text = new_text
 		end
 
 feature -- Status report

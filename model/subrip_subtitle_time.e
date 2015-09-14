@@ -100,8 +100,24 @@ feature -- Status setting
 
 	rewind (offset_milliseconds: INTEGER)
 			-- Moves the time backward the numbe of provided milliseconds
+		require
+			valid_milliseconds: offset_milliseconds > 0
+		local
+			remainder_hours,remainder_minutes: INTEGER
 		do
+			hours := hours - offset_milliseconds//3600000
+			remainder_hours := offset_milliseconds\\3600000
 
+			minutes := minutes - remainder_hours//60000
+			remainder_minutes := remainder_hours\\60000
+
+			seconds := seconds - remainder_minutes//1000
+			milliseconds := milliseconds - remainder_minutes\\1000
+		ensure
+			valid_result: hours = (old hours) - offset_milliseconds//3600000 and
+						  minutes = (old minutes) - (offset_milliseconds\\3600000)//60000 and
+			              seconds = (old seconds) - ((offset_milliseconds\\3600000)\\60000)//1000 and
+		 	              milliseconds = (old milliseconds) - ((offset_milliseconds\\3600000)\\60000)\\1000
 		end
 
 feature -- Status report

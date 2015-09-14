@@ -15,12 +15,14 @@ feature -- Initialisation
 	make
 			-- Default constructor
 		do
-			create repOk.make
+			-- create repOk.make
 			create items.make
 			create frames_per_second
 
-			repOk := TRUE
+			-- repOk := TRUE
 			frames_per_Second := 25
+		ensure
+			valid_items_count: items.count = 0
 		end
 
 feature -- Status setting
@@ -31,9 +33,11 @@ feature -- Status setting
 			valid_new_fps: new_fps >= 0.0
 		do
 			frames_per_second := new_fps
+		ensure
+			valid_frames_per_second: frames_per_second = new_fps
 		end
 
-		add_subtitle_item (start_frame: INTEGER; stop_frame: INTEGER; text: STRING)
+	add_subtitle_item (start_frame: INTEGER; stop_frame: INTEGER; text: STRING)
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
 		local
@@ -41,47 +45,59 @@ feature -- Status setting
 			new_frame:MICRODVD_SUBTITLE_ITEM
 			condition:BOOLEAN
 		do
-			create new_frame.make
+			create new_frame.make_with_text(start_frame, stop_frame, text)
 			condition:=false
-			new_frame.start_frame:=start_frame
-			new_frame.stop_frame:=stop_frame
-			new_frame.stop:=stop
-			if (item.isEmpty) then
-				item.appen(new_frame)
+			if (items.count = 0) then
+				items.put(new_frame)
 			else
 				from
 					i:=1
 				until
-					(i>item.count and (not codition))
+					(i>items.count and (not condition))
 				loop
-					if (new_frame.start_frame>item[i].stop_frame) then
+					if (new_frame.start_frame>items[i].stop_frame) then
 				 		condition:=true
 				 	end
-					i:=i+1
+						i:=i+1
 				end
-				if (new_frame.stop_frame<item[i].start_frame) then
-					item.put_i_th(new_frame, i)
+				if (new_frame.stop_frame<items[i].start_frame) then
+					items.put_i_th(new_frame, i)
 				end
-			end
+			 end
+		ensure
+			valid_start_frame: items.item.start_frame = start_frame
+			valid_stop_frame: items.item.stop_frame = stop_frame
+			valid_text: items.item.text = text
 		end
 
 	flush
 			-- Removes all items from the subtitle
 		require
-			valid_item = item.count /= 0
+			-- valid_item = item.count /= 0
 		do
 			items.wipe_out
 
 		ensure
-			items.count = 0
+			valid_items_count: items.count = 0
 		end
 
 	remove_items (start_frame: INTEGER; stop_frame: INTEGER)
 			-- Removes all subtitle items between start_frame and stop_frame
-			require valid_items = item.count /= 0
+			-- require valid_items = item.count /= 0
 		do
-
-			ensure items.count <= old items.count
+			from
+				items.start
+			until
+				items.after or stop_frame <= items.item.stop_frame
+			loop
+				if (start_frame <= items.item.start_frame) and (items.item.stop_frame <= stop_frame) then
+					items.remove
+				else
+					items.forth
+				end
+			end
+		ensure
+			valid_items_count: items.count <= old items.count
 		end
 
 feature -- Status report
@@ -95,6 +111,26 @@ feature -- Status checking
 			-- Checks if subtitle is internally consistent.
 			-- Subtitle items should be within increasingly larger
 			-- frames.
+		local
+			res: BOOLEAN
+			prev_stop_frame: INTEGER
+		do
+			res := true
+			from
+				items.start
+			until
+				items.off
+			loop
+				if not items.isfirst then
+					if prev_stop_frame > items.item.start_frame then
+						res := false
+					end
+				end
+				prev_stop_frame := items.item.stop_frame
+				items.forth
+			end
+			Result := res
+		end
 
 feature {NONE} -- Implementation
 
