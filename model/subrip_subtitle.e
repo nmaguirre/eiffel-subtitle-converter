@@ -26,9 +26,9 @@ feature -- Status setting
 			-- must be added in the correct place in the list of subtitle items
 		do
 		ensure
-			start_time = start_time
-			stop_tim = stop_time
-			text = text
+			items.item.start_time = start_time
+			items.item.stop_time = stop_time
+			items.item.text = text
 		end
 
 	flush
