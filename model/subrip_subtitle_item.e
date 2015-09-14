@@ -29,12 +29,16 @@ feature -- Status setting
 			-- Changes the start time to the provided value
 		do
 			start_time := new_start_time
+		ensure
+			start_time_set: start_time = new_start_time
 		end
 
 	adjust_stop_time (new_stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Changes the stop time to the provided value
 		do
 			stop_time := new_stop_time
+		ensure
+			stop_time_set: stop_time = new_stop_time
 		end
 
 	set_text (new_text: STRING)
