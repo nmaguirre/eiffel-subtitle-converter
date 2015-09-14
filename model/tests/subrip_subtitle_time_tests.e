@@ -45,7 +45,7 @@ feature -- Test routines
 
 
 	test_set_hour_invalid
-			--  set an invalid hour
+			--set an invalid hour
 		note
 			testing:  "covers/{SUBRIP_SUBTITLE_TIME}.set_hour"
 		local
