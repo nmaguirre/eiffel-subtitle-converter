@@ -16,8 +16,8 @@ inherit
 feature -- Test routines
 
 	test_repOk_valid_representation
-			-- create a valid sequence and evaluate it with repOk
-			-- modifies the items list manually
+			-- create a valid sequence and evaluate it with repOk.
+			-- Modifies the items list manually
 		note
 			testing:  "covers/{MICRODVD_SUBTITLE}.repOK"
 		local
@@ -33,8 +33,8 @@ feature -- Test routines
 		end
 
 	test_repOk_invalid_representation
-			-- create a valid sequence and evaluate it with repOk
-			-- modifies the items list manually
+			-- create a invalid sequence and evaluate it with repOk.
+			-- Modifies the items list manually
 		note
 			testing:  "covers/{MICRODVD_SUBTITLE}.repOK"
 		local
@@ -50,8 +50,8 @@ feature -- Test routines
 		end
 
 	test_repOk_invalid_representation_with_void_element
-			-- create a valid sequence and evaluate it with repOk
-			-- modifies the items list manually
+			-- create a invalid sequence with a Void elment in the head and evaluate it with repOk.
+			-- Modifies the items list manually
 		note
 			testing:  "covers/{MICRODVD_SUBTITLE}.repOK"
 		local
