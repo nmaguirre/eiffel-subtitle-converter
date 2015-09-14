@@ -96,7 +96,7 @@ feature -- Test routines
 			-- method set_milliseconds sets miillisecods correctly
 
 		note
-			testting : "covers/{SUBRIP_SUBTITLE_TIME}.se_milliseconds"
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.set_milliseconds"
 		local
 			subtitle_time: SUBRIP_SUBTITLE_TIME
 		do
@@ -109,7 +109,7 @@ feature -- Test routines
 			-- method set_milliseconds breaks on negative value
 
 		note
-			testting : "covers/{SUBRIP_SUBTITLE_TIME}.se_milliseconds"
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.set_milliseconds"
 		local
 			subtitle_time: SUBRIP_SUBTITLE_TIME
 			passed: BOOLEAN
@@ -132,7 +132,7 @@ feature -- Test routines
 			-- method set_milliseconds breaks on invalid value
 
 		note
-			testting : "covers/{SUBRIP_SUBTITLE_TIME}.se_milliseconds"
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.set_milliseconds"
 		local
 			subtitle_time: SUBRIP_SUBTITLE_TIME
 			passed: BOOLEAN
@@ -144,67 +144,6 @@ feature -- Test routines
 				passed := True
 			end
 			assert ("set_milliseconds broke", not passed)
-		rescue
-			if (not rescued) then
-				rescued := True
-				retry
-			end
-		end
-
-
-	test_set_seconds_valid
-			-- set a seconds correctly
-		note
-			testing:  "covers/{SUBRIP_SUBTITLE_TIME}.set_seconds"
-		local
-			item: SUBRIP_SUBTITLE_TIME
-		do
-			create item.make
-			item.set_seconds(0)
-			assert ("set_seconds correct", item.seconds = 0)
-		end
-
-
-	test_set_seconds_invalid
-			--set an invalid seconds
-		note
-			testing:  "covers/{SUBRIP_SUBTITLE_TIME}.set_seconds"
-		local
-			item: SUBRIP_SUBTITLE_TIME
-			passed: BOOLEAN
-			rescued: BOOLEAN
-		do
-			create item.make
-			if (not rescued) then
-				item.set_seconds(65)
-				passed := True
-			end
-			assert ("set_seconds Invalid", not passed)
-		rescue
-			if (not rescued) then
-				rescued := True
-				retry
-			end
-		end
-
-
-	test_set_seconds_invalid_negative_value
-			-- method set_seconds breaks on negative value
-		note
-			testing : "covers/{SUBRIP_SUBTITLE_TIME}.set_seconds"
-
-		local
-			item: SUBRIP_SUBTITLE_TIME
-			passed: BOOLEAN
-			rescued: BOOLEAN
-
-		do
-			create item.make
-			if (not rescued) then
-				item.set_seconds(-10)
-				passed := True
-			end
-			assert ("set_seconds invalid negative value", not passed)
 		rescue
 			if (not rescued) then
 				rescued := True
