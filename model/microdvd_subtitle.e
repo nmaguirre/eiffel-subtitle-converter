@@ -53,11 +53,16 @@ feature -- Status setting
 				loop
 					if (new_frame.start_frame > items[i].stop_frame) then
 				 		condition := true
-				 	end
+				 	else
 						i := i+1
+					end
 				end
 				if (new_frame.stop_frame<items[i].start_frame) then
-					items.put_i_th(new_frame, i)
+					if i<=items.count then
+						items.put_i_th(new_frame, i)
+					else
+						items.extend(new_frame)
+					end
 				end
 			 end
 		ensure
