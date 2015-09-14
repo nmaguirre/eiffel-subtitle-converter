@@ -16,6 +16,13 @@ feature -- Initialisation
 			-- Constructs a subrip sub. item with empty text, and provided
 			-- start and stop times
 		do
+			start_frame:=new_start_frame
+			stop_frame:=new_stop_frame
+			create text.make_empty
+		ensure
+			valid_result: start_frame = new_start_frame and
+						  stop_frame = new_stop_frame and
+						  text.is_empty=true
 		end
 
 	make_with_text (new_start_time: SUBRIP_SUBTITLE_TIME; new_stop_time: SUBRIP_SUBTITLE_TIME; new_text: STRING)
@@ -28,16 +35,25 @@ feature -- Status setting
 	adjust_start_time (new_start_time: SUBRIP_SUBTITLE_TIME)
 			-- Changes the start time to the provided value
 		do
+			start_time := new_start_time
+		ensure
+			start_time_set: start_time = new_start_time
 		end
 
 	adjust_stop_time (new_stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Changes the stop time to the provided value
 		do
+			stop_time := new_stop_time
+		ensure
+			stop_time_set: stop_time = new_stop_time
 		end
 
 	set_text (new_text: STRING)
 			-- Changes the text of the item to the provided string
 		do
+			text := new_text
+		ensure
+			text_is_set: text = new_text
 		end
 
 feature -- Status report

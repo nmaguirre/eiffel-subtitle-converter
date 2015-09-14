@@ -51,7 +51,7 @@ feature -- Status setting
 		do
 			start_frame := new_start_frame
 		ensure
-			valid_start_frame: start_frame = new_start_frame
+			start_frame_set: start_frame = new_start_frame
 		end
 
 	adjust_stop_frame (new_stop_frame: INTEGER)
