@@ -15,12 +15,8 @@ feature -- Initialisation
 	make
 			-- Default constructor
 		do
-			-- create repOk.make
 			create items.make
-			create frames_per_second
-
-			-- repOk := TRUE
-			frames_per_Second := 25
+			frames_per_Second := 23.97
 		ensure
 			valid_items_count: items.count = 0
 		end
@@ -111,20 +107,20 @@ feature -- Status checking
 	repOK: BOOLEAN
 			-- Checks if subtitle is internally consistent.
 			-- Subtitle items should be within increasingly larger
-			-- frames.
+			-- frames and distinc to Void.
 		local
 			res: BOOLEAN
 			prev_stop_frame: INTEGER
 		do
-			res := true
+			res := True
 			from
 				items.start
 			until
-				items.off
+				items.off or res = False
 			loop
 				if not items.isfirst then
-					if prev_stop_frame > items.item.start_frame then
-						res := false
+					if  items.item = Void or prev_stop_frame > items.item.start_frame then
+						res := False
 					end
 				end
 				prev_stop_frame := items.item.stop_frame

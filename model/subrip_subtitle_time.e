@@ -55,6 +55,8 @@ feature -- Status setting
 		require (new_hour < 24) and (new_hour >= 0)
 		do
 			hours:= new_hour
+		ensure
+			hours = new_hour
 		end
 
 	set_minute (new_minute: INTEGER)
@@ -62,6 +64,8 @@ feature -- Status setting
 		require (new_minute < 60) and (new_minute >= 0)
 		do
 			minutes:= new_minute
+		ensure
+			minutes = new_minute
 		end
 
 	set_seconds (new_seconds: INTEGER)
