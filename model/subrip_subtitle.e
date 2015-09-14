@@ -26,6 +26,10 @@ feature -- Status setting
 	add_subtitle_item (start_time: SUBRIP_SUBTITLE_TIME; stop_time: SUBRIP_SUBTITLE_TIME; text: STRING)
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
+		require
+			valid_time: start_time < stop_time
+			new_text_not_void: new_text /= Void
+
 		do
 		ensure
 			items.item.start_time = start_time
