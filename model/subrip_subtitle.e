@@ -99,6 +99,8 @@ feature -- Status checking
 				items.forth
 			end
 			Result := res
+		ensure
+				repOk_check: Result or not Result
 		end
 
 feature {NONE} -- Implementation
