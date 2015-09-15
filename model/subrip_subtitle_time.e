@@ -10,7 +10,7 @@ class
 inherit
 	COMPARABLE
 		redefine
-			is_equal
+			is_less
 		end
 
 create
@@ -49,7 +49,7 @@ feature -- Initialisation
 
 feature -- Status setting
 
-	time_milliseconds ():INTEGER
+	time_milliseconds:INTEGER
 		do
 			Result:= hours*3600000 + minutes*60000 + seconds*1000 + milliseconds
 		end
@@ -155,23 +155,6 @@ feature -- Comparison
 			end
 			Result := res
 		end
-
-	is_equal (other: like Current): BOOLEAN
-		local
-			current_milliseconds : INTEGER
-			other_milliseconds : INTEGER
-			res : BOOLEAN
-		do
-			current_milliseconds := Current.hours * 3600000 + Current.minutes * 60000 + Current.seconds * 1000 + Current.milliseconds
-			other_milliseconds := other.hours * 3600000 + other.minutes * 60000 + other.seconds * 1000 + other.milliseconds
-			if (current_milliseconds = other_milliseconds) then
-				res := True
-			else
-				res := False
-			end
-			Result := res
-		end
-
 
 feature -- Status report
 
