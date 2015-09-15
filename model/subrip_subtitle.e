@@ -78,13 +78,13 @@ feature -- Status checking
 			-- time ranges.
 		local
 			res: BOOLEAN
-			prev_stop_time: SUBRIP_SUBTITLE_ITEM
-		do
+			prev_stop_time: SUBRIP_SUBTITLE_TIME
+ 		do
 			res := True
 			from
 				items.start
 			until
-				items.off
+				items.off or not res
 			loop
 				if items.item = Void then
 					res := False
