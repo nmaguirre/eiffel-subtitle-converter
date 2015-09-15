@@ -38,8 +38,6 @@ feature -- Status setting
 		end
 
 	flush
-		require
-			valid_items: items /= void
 			-- Removes all items from the subtitle
 		do
 			items.wipe_out
@@ -58,7 +56,7 @@ feature -- Status setting
 			until
 				items.after or items.item.stop_time < stop_time
 			loop
-				cond1:= start_frame < items.item.start_frame or start_frame.is_equal(items.item.start_frame)
+				cond1:= start_time < items.item.start_time or start_time.is_equal(items.item.start_time)
 				cond2:= items.item.stop_time < stop_time or items.item.stop_time.is_equal(stop_time)
 				if cond1 and cond2 then
 					items.remove
