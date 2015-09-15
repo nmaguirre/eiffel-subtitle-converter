@@ -458,7 +458,7 @@ feature -- Test routines
 			create other_time.make_with_values (0, 0, 0, 1)
 			assert ("current_time is less than other_time", current_time < other_time)
 			assert ("current_time is not higher than other_time", not (current_time > other_time))
-			assert ("current_time is not equal than other_time", not (current_time = other_time))
+			assert ("current_time is not equal than other_time", not (current_time.is_equal(other_time)))
 		end
 
 end -- class SUBRIP_SUBTITLE_ITEM_TESTS
