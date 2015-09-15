@@ -59,7 +59,7 @@ feature -- Status setting
 		require
 			valid_new_stop_frame: new_stop_frame > start_frame
 		do
-
+			stop_frame := new_stop_frame
 		ensure
 			stop_frame_set: stop_frame = new_stop_frame
 		end
