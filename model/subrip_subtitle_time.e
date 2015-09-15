@@ -7,6 +7,12 @@ note
 class
 	SUBRIP_SUBTITLE_TIME
 
+inherit
+	COMPARABLE
+		redefine
+			is_less
+		end
+
 create
 	make, make_with_values
 
@@ -43,9 +49,11 @@ feature -- Initialisation
 
 feature -- Status setting
 
-	time_milliseconds ():INTEGER
+	time_milliseconds:INTEGER
 		do
 			Result:= hours*3600000 + minutes*60000 + seconds*1000 + milliseconds
+		ensure
+			total_milliseconds: Result = (hours*3600000 + minutes*60000 + seconds*1000 + milliseconds)
 		end
 
 
@@ -130,6 +138,13 @@ feature -- Status setting
 			valid_minutes: minutes = (old minutes) - (offset_milliseconds\\3600000)//60000
 			valid_seconds: seconds = (old seconds) - ((offset_milliseconds\\3600000)\\60000)//1000
 		 	valid_milliseconds: milliseconds = (old milliseconds) - ((offset_milliseconds\\3600000)\\60000)\\1000
+		end
+
+feature -- Comparison
+
+	is_less alias "<" (other: like Current): BOOLEAN
+		do
+			Result := Current.milliseconds < other.milliseconds
 		end
 
 feature -- Status report

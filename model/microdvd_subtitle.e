@@ -37,6 +37,9 @@ feature -- Status setting
 	add_subtitle_item (start_frame: INTEGER; stop_frame: INTEGER; text: STRING)
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
+		require
+			valid_item: start_frame < stop_frame
+			text_not_void : text /= Void
 		local
 			i: INTEGER
 			new_frame: MICRODVD_SUBTITLE_ITEM
@@ -54,11 +57,16 @@ feature -- Status setting
 				loop
 					if (new_frame.start_frame > items[i].stop_frame) then
 				 		condition := true
-				 	end
+				 	else
 						i := i+1
+					end
 				end
 				if (new_frame.stop_frame<items[i].start_frame) then
-					items.put_i_th(new_frame, i)
+					if i<=items.count then
+						items.put_i_th(new_frame, i)
+					else
+						items.extend(new_frame)
+					end
 				end
 			 end
 		ensure

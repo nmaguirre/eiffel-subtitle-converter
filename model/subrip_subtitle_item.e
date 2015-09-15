@@ -29,6 +29,9 @@ feature -- Initialisation
 
 	make_with_text (new_start_time: SUBRIP_SUBTITLE_TIME; new_stop_time: SUBRIP_SUBTITLE_TIME; new_text: STRING)
 			-- Constructs a subrip sub. item with provided text, start and stop times
+		require
+			valid_time: new_start_time < new_stop_time
+			new_text_not_void: new_text /= Void
 		do
 			start_time := new_start_time
 			stop_time := new_stop_time

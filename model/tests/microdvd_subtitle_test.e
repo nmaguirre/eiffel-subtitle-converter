@@ -198,6 +198,46 @@ feature -- Test routines
 			end
 		end
 
+	test_add_subtitle_item_valid
+			-- check that the items are entered correctly
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.add_subtitle_item"
+		local
+			sub: MICRODVD_SUBTITLE
+			res:BOOLEAN
+		do
+			create sub.make
+			sub.add_subtitle_item(20,100,"text1")
+			sub.add_subtitle_item(201,300,"text3")
+			sub.add_subtitle_item(101,200,"text2")
+			res := (sub.items[2].text="text2" and sub.items[1].text="text1" and sub.items[3].text="text3")
+			assert ("Add Subtitle is ok",res)
+		end
+
+	test_add_subtitle_item_invalid
+			--  add_subtitle_item breaks on invalid parameters
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.add_subtitle_item"
+		local
+			item: MICRODVD_SUBTITLE
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create item.make
+			if (not rescued) then
+				item.add_subtitle_item (100,-5,"text")
+				passed := True
+			end
+			assert ("add_subtitle_items is broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+
+
 end-- class MICRODVD_SUBTITLE_TESTS
 
 
