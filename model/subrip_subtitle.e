@@ -38,8 +38,6 @@ feature -- Status setting
 		end
 
 	flush
-		require
-			valid_items: items /= void
 			-- Removes all items from the subtitle
 		do
 			items.wipe_out
