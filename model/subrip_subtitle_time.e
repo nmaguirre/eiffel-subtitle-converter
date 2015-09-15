@@ -141,19 +141,8 @@ feature -- Status setting
 feature -- Comparison
 
 	is_less alias "<" (other: like Current): BOOLEAN
-		local
-			current_milliseconds : INTEGER
-			other_milliseconds : INTEGER
-			res : BOOLEAN
 		do
-			current_milliseconds := Current.hours * 3600000 + Current.minutes * 60000 + Current.seconds * 1000 + Current.milliseconds
-			other_milliseconds := other.hours * 3600000 + other.minutes * 60000 + other.seconds * 1000 + other.milliseconds
-			if (current_milliseconds < other_milliseconds) then
-				res := True
-			else
-				res := False
-			end
-			Result := res
+			Result := Current.milliseconds < other.milliseconds
 		end
 
 feature -- Status report
