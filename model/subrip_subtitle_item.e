@@ -80,4 +80,6 @@ feature -- Status report
 
 	text: STRING
 			-- Text constituting this subtitle item (to be shown between initial and final times)
+invariant
+	valid_start_time: start_time.is_less (stop_time)
 end
