@@ -75,7 +75,7 @@ feature -- Status setting
 			-- Removes all subtitle items between start_time and stop_time
 
 		require
-			valid_time_not_void: start_time /= Void and start_time /= Void
+			valid_time_not_void: start_time /= Void and stop_time /= Void
 			valid_time: start_time < stop_time
 
 		local
