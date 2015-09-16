@@ -15,7 +15,19 @@ inherit
 
 feature -- Test routines
 
-
+	test_valid_flush
+		-- Checks that removes all items from the subtitle
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE_TESTS}.flush"
+		local
+			subrip_sub:SUBRIP_SUBTITLE
+			flag: BOOLEAN
+		do
+			create subrip_sub.make
+			subrip_sub.flush
+			flag:= True
+			assert ("flush correct", flag = True)
+		end
 
 end-- class SUBRIP_SUBTITLE_TESTS
 
