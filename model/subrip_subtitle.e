@@ -27,10 +27,36 @@ feature -- Status setting
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
 		require
-			valid_time: start_time < stop_time
+			valid_time: start_time.time_milliseconds < stop_time.time_milliseconds
 			text_not_void: text /= Void
-
+		local
+			subtitle:SUBRIP_SUBTITLE_ITEM
+			condition:BOOLEAN
 		do
+			create subtitle.make_with_text(start_time, stop_time, text)
+			condition := false
+			if (items.is_empty) then
+				items.extend(subtitle)
+			else
+				from
+					items.start
+				until
+					condition or items.off
+				loop
+					if (start_time.time_milliseconds > items.item.stop_time.time_milliseconds) then
+						if(items.index < items.count)then
+							if (stop_time.time_milliseconds<items[items.index+1].start_time.time_milliseconds) then
+								condition := true
+								items.put_right(subtitle)
+							end
+						else
+							condition := true
+							items.extend(subtitle)
+						end
+					end
+					items.forth
+				end
+			end
 		ensure
 			items.item.start_time = start_time
 			items.item.stop_time = stop_time
