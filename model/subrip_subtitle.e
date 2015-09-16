@@ -130,7 +130,7 @@ feature -- Status checking
 			end
 			Result := res
 		ensure
-				repOk_check: Result or not Result
+			repOk_check: Result /= Void
 		end
 
 feature {NONE} -- Implementation
