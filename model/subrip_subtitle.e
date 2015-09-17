@@ -58,9 +58,9 @@ feature -- Status setting
 				end
 			end
 		ensure
-			items.item.start_time.is_equal(start_time) = true
-			items.item.stop_time.is_equal(stop_time) = true
-			items.item.text.is_equal(text) = true
+			items.item.start_time.is_equal(start_time)
+			items.item.stop_time.is_equal(stop_time)
+			items.item.text.is_equal(text)
 		end
 
 	flush
@@ -105,8 +105,6 @@ feature -- Status checking
 			-- Checks if subtitle is internally consistent.
 			-- Subtitle items should be within increasingly larger
 			-- time ranges.
-		require
-			True
 		local
 			res: BOOLEAN
 			prev_stop_time: SUBRIP_SUBTITLE_TIME
