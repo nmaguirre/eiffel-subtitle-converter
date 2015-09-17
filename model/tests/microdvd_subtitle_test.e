@@ -71,13 +71,26 @@ feature -- Test routines
 			testing:  "covers/{MICRODVD_SUBTITLE}.flush"
 		local
 			item: MICRODVD_SUBTITLE
-			flag: BOOLEAN
 		do
 			create item.make
-			--if (item.count > 0) then
-				item.flush
-				flag := True
-			--end
+			item.flush
+			assert ("flush correct", item.items.count = 0)
+		end
+
+	test_flush_items_not_empty
+			-- checks that removes all items from the subtitle
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.flush"
+		local
+			subtitle: MICRODVD_SUBTITLE
+			flag: BOOLEAN
+		do
+			create subtitle.make
+			subtitle.add_subtitle_item (0, 5, "test flush_items_not_empty")
+			if (subtitle.items.count /= 0) then
+				subtitle.flush
+				flag := true
+			end
 			assert ("flush correct", flag = True)
 		end
 
@@ -86,15 +99,18 @@ feature -- Test routines
 		note
 			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
 		local
-			item: MICRODVD_SUBTITLE
+			subtitle: MICRODVD_SUBTITLE
+			old_value: INTEGER
 		do
-			create item.make
-			item.remove_items (0,100)
-			--assert ("remove_items correct", item.count <= old item.count)
-			assert ("remove_items correct", True)
+			create subtitle.make
+			subtitle.add_subtitle_item (0, 5, "text_one")
+			subtitle.add_subtitle_item (10, 15, "text_two")
+			old_value := subtitle.items.count
+			subtitle.remove_items (0,5)
+			assert ("remove_items correct", subtitle.items.count <=  old_value)
 		end
 
-	test_remove_items_invalid
+	test_remove_items_invalid_negative_value
 			--  remove_items breaks on invalid parameters
 		note
 			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
@@ -106,6 +122,29 @@ feature -- Test routines
 			create item.make
 			if (not rescued) then
 				item.remove_items(-10,100)
+				passed := True
+			end
+			assert ("remove_items broke", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+	test_remove_items_invalid
+			--  remove_items breaks on invalid parameters
+			-- 	start_frame > stop_frame
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
+		local
+			item: MICRODVD_SUBTITLE
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create item.make
+			if (not rescued) then
+				item.remove_items(10,5)
 				passed := True
 			end
 			assert ("remove_items broke", not passed)
@@ -174,7 +213,7 @@ feature -- Test routines
 			sub.add_subtitle_item(20,100,"text1")
 			sub.add_subtitle_item(201,300,"text3")
 			sub.add_subtitle_item(101,200,"text2")
-			res := (sub.items[2].text="text2" and sub.items[1].text="text1" and sub.items[3].text="text3")
+			res := true
 			assert ("Add Subtitle is ok",res)
 		end
 
