@@ -112,10 +112,10 @@ feature -- Status setting
 			seconds := seconds + remainder_minutes//1000
 			milliseconds := milliseconds + remainder_minutes\\1000
 		ensure
-			hours = hours + offset_milliseconds//3600000
-			minutes = minutes + (offset_milliseconds\\3600000)//60000
-			seconds = seconds + (offset_milliseconds\\3600000)//1000
-			milliseconds = milliseconds + 	(offset_milliseconds\\3600000)\\1000
+			hours = old hours + offset_milliseconds//3600000
+			minutes = old minutes + (offset_milliseconds\\3600000)//60000
+			seconds = old seconds + (offset_milliseconds\\3600000)//1000
+			milliseconds = old milliseconds + 	(offset_milliseconds\\3600000)\\1000
 		end
 
 	rewind (offset_milliseconds: INTEGER)
