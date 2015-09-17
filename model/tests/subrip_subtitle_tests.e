@@ -71,5 +71,62 @@ feature -- Test routines
 			end
 		end
 
+test_repOk_valid_representation
+			-- create a valid sequence and evaluate it with repOk
+			-- modifies the items list manually
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.repOK"
+		local
+			sub_title: SUBRIP_SUBTITLE
+			sub_start_time: SUBRIP_SUBTITLE_TIME
+			sub_stop_time:  SUBRIP_SUBTITLE_TIME
+
+			sub:STRING
+		do
+			create sub_title.make
+			sub := "Test Subtitle"
+
+			create sub_start_time.make_with_values(0,0,0,20)
+			create sub_stop_time.make_with_values(0,0,0,500)
+			sub_title.add_subtitle_item(sub_start_time,sub_stop_time,sub)
+
+			create sub_start_time.make_with_values(0,0,0,900)
+			create sub_stop_time.make_with_values(0,0,0,990)
+			sub_title.add_subtitle_item (sub_start_time,sub_stop_time,sub)
+
+			assert ("Subtitle representation is ok", sub_title.repOK)
+		end
+
+	test_repOk_invalid_representation
+			-- create a valid sequence and evaluate it with repOk
+			-- modifies the items list manually
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.repOK"
+		local
+			sub_title: SUBRIP_SUBTITLE
+			sub_start_time: SUBRIP_SUBTITLE_TIME
+			sub_stop_time:  SUBRIP_SUBTITLE_TIME
+			sub_start1_time: SUBRIP_SUBTITLE_TIME
+			sub_stop1_time:  SUBRIP_SUBTITLE_TIME
+
+			sub:STRING
+		do
+			create sub_title.make
+			sub := "Test Subtitle"
+
+			create sub_start_time.make_with_values(0,0,0,20)
+			create sub_stop_time.make_with_values(0,0,0,500)
+			sub_title.add_subtitle_item(sub_start_time,sub_stop_time,sub)
+
+			create sub_start1_time.make_with_values(0,0,0,488)
+			create sub_stop1_time.make_with_values(0,0,0,990)
+			sub_title.add_subtitle_item (sub_start1_time,sub_stop1_time,sub)
+
+			assert ("Subtitle representation not is correct", not sub_title.repOK)
+		end
+
+
+
+
 end-- class SUBRIP_SUBTITLE_TESTS
 
