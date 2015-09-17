@@ -99,12 +99,15 @@ feature -- Test routines
 		note
 			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
 		local
-			item: MICRODVD_SUBTITLE
+			subtitle: MICRODVD_SUBTITLE
+			old_value: INTEGER
 		do
-			create item.make
-			item.remove_items (0,100)
-			--assert ("remove_items correct", item.items.count <= old item.items.count)
-			assert ("remove_items correct", True)
+			create subtitle.make
+			subtitle.add_subtitle_item (0, 5, "text_one")
+			subtitle.add_subtitle_item (10, 15, "text_two")
+			old_value := subtitle.items.count
+			subtitle.remove_items (0,5)
+			assert ("remove_items correct", subtitle.items.count <=  old_value)
 		end
 
 	test_remove_items_invalid_negative_value
