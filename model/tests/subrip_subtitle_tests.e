@@ -125,7 +125,23 @@ test_repOk_valid_representation
 			assert ("Subtitle representation not is correct", not sub_title.repOK)
 		end
 
-
+	test_add_subtitle_item_valid
+			-- check that add_subtitle_item run correctly
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.add_subtitle_item"
+		local
+			subtitle_item: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+			text: STRING
+		do
+			create subtitle_item.make
+			text := "Text Subtitle"
+			create start_time.make_with_values (2, 30,50 , 101)
+			create stop_time.make_with_values (2, 35, 55,150)
+			subtitle_item.add_subtitle_item(start_time,stop_time,text)
+			assert ("add_subtitle_item correct", true)
+		end
 
 
 end-- class SUBRIP_SUBTITLE_TESTS
