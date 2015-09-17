@@ -58,9 +58,9 @@ feature -- Status setting
 				end
 			end
 		ensure
-			items.item.start_time = start_time
-			items.item.stop_time = stop_time
-			items.item.text = text
+			items.item.start_time.is_equal(start_time) = true
+			items.item.stop_time.is_equal(stop_time) = true
+			items.item.text.is_equal(text) = true
 		end
 
 	flush
@@ -75,6 +75,7 @@ feature -- Status setting
 			-- Removes all subtitle items between start_time and stop_time
 
 		require
+			valid_time_not_void: start_time /= Void and stop_time /= Void
 			valid_time: start_time < stop_time
 
 		local
