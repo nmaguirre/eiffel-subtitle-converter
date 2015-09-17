@@ -153,6 +153,34 @@ feature -- Test routines
 			assert ("add_subtitle_item correct", true)
 		end
 
+	test_add_subtitle_item_invalid
+			--add_subtitle_item breaks on invalid paramters
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.add_subtitle_item"
+		local
+			subtitle_item: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+			text: STRING
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create subtitle_item.make
+			text := "Test Subtitle"
+			create start_time.make_with_values(2,50,50,950)
+			create stop_time.make_with_values(1,30,30,100)
+
+			if (not rescued) then
+				subtitle_item.add_subtitle_item(start_time,stop_time,text)
+				passed := True
+			end
+			assert ("add_subtitle_item Invalid", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
 
 end-- class SUBRIP_SUBTITLE_TESTS
 
