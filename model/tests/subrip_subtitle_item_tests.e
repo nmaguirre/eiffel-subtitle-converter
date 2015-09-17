@@ -176,10 +176,10 @@ feature -- Test routines
 			exception: BOOLEAN
 			pass: BOOLEAN
 		do
-			create start_time.make
-			create stop_time.make_with_values (0, 0, 5, 0)
+			create start_time.make_with_values (0, 0, 5, 0)
+			create stop_time.make_with_values (0, 0, 6, 0)
 			create item.make(start_time, stop_time)
-			create new_stop_time.make_with_values (0, 0, -1, 0)
+			create new_stop_time.make_with_values (0, 0, 0, 0)
 			if (not exception) then
 				item.adjust_stop_time(new_stop_time)
 				pass := True

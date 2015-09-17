@@ -44,21 +44,26 @@ feature -- Initialisation
 
 feature -- Status setting
 
-	adjust_start_time (new_start_time: SUBRIP_SUBTITLE_TIME)
-			-- Changes the start time to the provided value
-		do
-			start_time := new_start_time
-		ensure
-			start_time_set: start_time.is_equal(new_start_time)
-		end
 
 	adjust_stop_time (new_stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Changes the stop time to the provided value
+		require
+			new_stop_time_not_void: new_stop_time /= Void
 		do
 			stop_time := new_stop_time
 		ensure
 			stop_time_set: stop_time.is_equal(new_stop_time)
 		end
+
+	adjust_start_time (new_start_time: SUBRIP_SUBTITLE_TIME)
+			-- Changes the start time to the provided value
+		require
+ 			new_start_time_not_void: new_start_time /= Void
+		do
+			start_time := new_start_time
+		ensure
+			start_time_set: start_time.is_equal(new_start_time)
+		end	
 
 	set_text (new_text: STRING)
 			-- Changes the text of the item to the provided string
@@ -80,4 +85,7 @@ feature -- Status report
 
 	text: STRING
 			-- Text constituting this subtitle item (to be shown between initial and final times)
+invariant
+	valid_start_time: start_time.is_less (stop_time)
+	valid_text: text /= Void
 end

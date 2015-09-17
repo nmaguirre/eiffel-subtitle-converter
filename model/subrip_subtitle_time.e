@@ -144,7 +144,7 @@ feature -- Comparison
 
 	is_less alias "<" (other: like Current): BOOLEAN
 		do
-			Result := Current.milliseconds < other.milliseconds
+			Result := Current.time_milliseconds < other.time_milliseconds
 		end
 
 feature -- Status report

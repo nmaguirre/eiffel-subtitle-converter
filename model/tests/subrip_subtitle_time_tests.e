@@ -446,19 +446,44 @@ feature -- Test routines
 			end
 		end
 
-	test_is_less
-			-- this method compare two sub. where the first one is less than the second one
+	test_is_less_second_argunment_greater
+			-- this method compare two sub. times where the first one is less than the second one
 		note
 			testing : "covers/{SUBRIP_SUBTITLE_TIME}.is_less"
 		local
 			current_time: SUBRIP_SUBTITLE_TIME
 			other_time: SUBRIP_SUBTITLE_TIME
 		do
-			create current_time.make
-			create other_time.make_with_values (0, 0, 0, 1)
+			create current_time.make_with_values (0, 1, 0, 1)
+			create other_time.make_with_values (1, 0, 1, 0)
 			assert ("current_time is less than other_time", current_time < other_time)
-			assert ("current_time is not higher than other_time", not (current_time > other_time))
-			assert ("current_time is not equal than other_time", not (current_time.is_equal(other_time)))
+		end
+
+	test_is_less_first_argument_greater
+			-- this method compare two sub. times where the first one is greater than the second one
+		note
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.is_less"
+		local
+			current_time: SUBRIP_SUBTITLE_TIME
+			other_time: SUBRIP_SUBTITLE_TIME
+		do
+			create current_time.make_with_values (1, 0, 1, 0)
+			create other_time.make_with_values (0, 1, 0, 1)
+			assert ("current_time is greater than other_time", other_time < current_time)
+		end
+
+	test_is_less_equal_objects
+			-- this method compare two sub. times where the first one is equal to the second one
+		note
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.is_less"
+		local
+			current_time: SUBRIP_SUBTITLE_TIME
+			other_time: SUBRIP_SUBTITLE_TIME
+		do
+			create current_time.make_with_values (1, 0, 1, 0)
+			create other_time.make_with_values (1, 0, 1, 0)
+			assert ("current_time is not greater than other_time", not (other_time < current_time))
+			assert ("current_time is not less than other_time", not (current_time < other_time))
 		end
 
 end -- class SUBRIP_SUBTITLE_ITEM_TESTS

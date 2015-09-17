@@ -27,14 +27,40 @@ feature -- Status setting
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
 		require
-			valid_time: start_time < stop_time
+			valid_time: start_time.time_milliseconds < stop_time.time_milliseconds
 			text_not_void: text /= Void
-
+		local
+			subtitle:SUBRIP_SUBTITLE_ITEM
+			condition:BOOLEAN
 		do
+			create subtitle.make_with_text(start_time, stop_time, text)
+			condition := false
+			if (items.is_empty) then
+				items.extend(subtitle)
+			else
+				from
+					items.start
+				until
+					condition or items.off
+				loop
+					if (start_time.time_milliseconds > items.item.stop_time.time_milliseconds) then
+						if(items.index < items.count)then
+							if (stop_time.time_milliseconds<items[items.index+1].start_time.time_milliseconds) then
+								condition := true
+								items.put_right(subtitle)
+							end
+						else
+							condition := true
+							items.extend(subtitle)
+						end
+					end
+					items.forth
+				end
+			end
 		ensure
-			items.item.start_time = start_time
-			items.item.stop_time = stop_time
-			items.item.text = text
+			items.item.start_time.is_equal(start_time)
+			items.item.stop_time.is_equal(stop_time)
+			items.item.text.is_equal(text)
 		end
 
 	flush
@@ -47,6 +73,11 @@ feature -- Status setting
 
 	remove_items (start_time: SUBRIP_SUBTITLE_TIME; stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Removes all subtitle items between start_time and stop_time
+
+		require
+			valid_time_not_void: start_time /= Void and stop_time /= Void
+			valid_time: start_time < stop_time
+
 		local
 			cond1: BOOLEAN
 			cond2: BOOLEAN
@@ -56,7 +87,7 @@ feature -- Status setting
 			until
 				items.after or items.item.stop_time < stop_time
 			loop
-				cond1:= start_frame < items.item.start_frame or start_frame.is_equal(items.item.start_frame)
+				cond1:= start_time < items.item.start_time or start_time.is_equal(items.item.start_time)
 				cond2:= items.item.stop_time < stop_time or items.item.stop_time.is_equal(stop_time)
 				if cond1 and cond2 then
 					items.remove
@@ -74,8 +105,6 @@ feature -- Status checking
 			-- Checks if subtitle is internally consistent.
 			-- Subtitle items should be within increasingly larger
 			-- time ranges.
-		require
-			True
 		local
 			res: BOOLEAN
 			prev_stop_time: SUBRIP_SUBTITLE_TIME
@@ -100,7 +129,7 @@ feature -- Status checking
 			end
 			Result := res
 		ensure
-				repOk_check: Result or not Result
+			repOk_check: Result /= Void
 		end
 
 feature {NONE} -- Implementation
