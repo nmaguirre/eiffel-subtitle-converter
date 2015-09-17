@@ -44,15 +44,6 @@ feature -- Initialisation
 
 feature -- Status setting
 
-	adjust_start_time (new_start_time: SUBRIP_SUBTITLE_TIME)
-			-- Changes the start time to the provided value
-		require
- 			new_start_time_not_void: new_start_time /= Void
-		do
-			start_time := new_start_time
-		ensure
-			start_time_set: start_time.is_equal(new_start_time)
-		end
 
 	adjust_stop_time (new_stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Changes the stop time to the provided value
@@ -63,6 +54,16 @@ feature -- Status setting
 		ensure
 			stop_time_set: stop_time.is_equal(new_stop_time)
 		end
+
+	adjust_start_time (new_start_time: SUBRIP_SUBTITLE_TIME)
+			-- Changes the start time to the provided value
+		require
+ 			new_start_time_not_void: new_start_time /= Void
+		do
+			start_time := new_start_time
+		ensure
+			start_time_set: start_time.is_equal(new_start_time)
+		end	
 
 	set_text (new_text: STRING)
 			-- Changes the text of the item to the provided string
