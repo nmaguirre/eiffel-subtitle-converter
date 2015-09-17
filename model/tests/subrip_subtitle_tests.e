@@ -71,7 +71,7 @@ feature -- Test routines
 			end
 		end
 
-test_repOk_valid_representation
+	test_repOk_valid_representation
 			-- create a valid sequence and evaluate it with repOk
 			-- modifies the items list manually
 		note
@@ -108,21 +108,31 @@ test_repOk_valid_representation
 			sub_stop_time:  SUBRIP_SUBTITLE_TIME
 			sub_start1_time: SUBRIP_SUBTITLE_TIME
 			sub_stop1_time:  SUBRIP_SUBTITLE_TIME
-
 			sub:STRING
+
+			passed: BOOLEAN
+			rescued: BOOLEAN
+
 		do
 			create sub_title.make
 			sub := "Test Subtitle"
-
 			create sub_start_time.make_with_values(0,0,0,20)
 			create sub_stop_time.make_with_values(0,0,0,500)
-			sub_title.add_subtitle_item(sub_start_time,sub_stop_time,sub)
-
 			create sub_start1_time.make_with_values(0,0,0,488)
 			create sub_stop1_time.make_with_values(0,0,0,990)
-			sub_title.add_subtitle_item (sub_start1_time,sub_stop1_time,sub)
 
-			assert ("Subtitle representation not is correct", not sub_title.repOK)
+			if (not rescued) then
+				sub_title.add_subtitle_item(sub_start_time,sub_stop_time,sub)
+				sub_title.add_subtitle_item (sub_start1_time,sub_stop1_time,sub)
+				passed := True
+			end
+			assert ("Subtitle representation not is correct", not passed)
+			rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+
 		end
 
 	test_add_subtitle_item_valid
