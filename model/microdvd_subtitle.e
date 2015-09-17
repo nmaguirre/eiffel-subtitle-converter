@@ -41,33 +41,25 @@ feature -- Status setting
 			valid_item: start_frame < stop_frame
 			text_not_void : text /= Void
 		local
-			i: INTEGER
 			new_frame: MICRODVD_SUBTITLE_ITEM
-			condition: BOOLEAN
 		do
 			create new_frame.make_with_text(start_frame, stop_frame, text)
-			condition := false
 			if (items.count = 0) then
 				items.extend(new_frame)
 			else
 				from
-					i := 1
+					items.start
 				until
-					(i>items.count) or (not condition)
+					new_frame.start_frame > items.item.stop_frame
 				loop
-					if (new_frame.start_frame > items[i].stop_frame) then
-				 		condition := true
-				 	else
-						i := i+1
-					end
+					items.forth
 				end
-				if (new_frame.stop_frame<items[i].start_frame) then
-					if i<=items.count then
-						items.put_i_th(new_frame, i)
-					else
-						items.extend(new_frame)
-					end
+				if items.islast then
+					items.extend(new_frame)
+				else
+					items.put_right(new_frame)
 				end
+
 			 end
 		ensure
 			start_frame_set: items.item.start_frame.is_equal(start_frame)
