@@ -105,8 +105,6 @@ feature -- Status checking
 			-- Checks if subtitle is internally consistent.
 			-- Subtitle items should be within increasingly larger
 			-- time ranges.
-		require
-			True
 		local
 			res: BOOLEAN
 			prev_stop_time: SUBRIP_SUBTITLE_TIME
