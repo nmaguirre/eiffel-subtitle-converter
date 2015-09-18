@@ -20,13 +20,26 @@ feature -- Test routines
 		note
 			testing:  "covers/{SUBRIP_SUBTITLE_TESTS}.flush"
 		local
-			subrip_sub:SUBRIP_SUBTITLE
-			flag: BOOLEAN
+			subrip_sub: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+			subtitle : STRING
 		do
+			subtitle := "Text Subtitle"
 			create subrip_sub.make
-			subrip_sub.flush
-			flag:= True
-			assert ("flush correct", flag = True)
+			create start_time.make_with_values (0, 5, 0, 0)
+			create stop_time.make_with_values (0, 7, 0, 0)
+			subrip_sub.add_subtitle_item (start_time,stop_time,subtitle)
+
+			create start_time.make_with_values (0, 8, 0, 330)
+			create stop_time.make_with_values (0, 20, 0, 500)
+			subrip_sub.add_subtitle_item (start_time,stop_time,subtitle)
+			if (subrip_sub.items.count /= 0)
+			then
+				subrip_sub.flush
+			end
+
+			assert ("flush correct", subrip_sub.items.count = 0)
 		end
 
 	test_remove_items_valid
