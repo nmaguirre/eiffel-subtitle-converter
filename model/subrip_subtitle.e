@@ -132,7 +132,7 @@ feature -- Status checking
 			repOk_check: Result /= Void
 		end
 
-feature {NONE} -- Implementation
+feature {SUBRIP_SUBTITLE_TESTS} -- Implementation
 
 	items: LINKED_LIST[SUBRIP_SUBTITLE_ITEM]
 			-- items that conform the subtitle, in order.
