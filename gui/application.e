@@ -11,7 +11,7 @@ inherit
 	EV_APPLICATION
 
 create
-	make_and_launch 
+	make_and_launch
 
 feature {NONE} -- Initialization
 
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			create first_window
 
 				-- Show the first window.
-				--| TODO: Remove this line if you don't want the first 
+				--| TODO: Remove this line if you don't want the first
 				--|       window to be shown at the start of the program.
 			first_window.show
 		end
@@ -41,5 +41,9 @@ feature {NONE} -- Implementation
 
 	first_window: MAIN_WINDOW
 			-- Main window.
-	
+
+	controller: CONTROLLER
+			-- Controller object.
+			
+
 end -- class APPLICATION

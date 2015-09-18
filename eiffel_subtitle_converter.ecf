@@ -18,6 +18,7 @@
 				<tests name="tests" location=".\model\tests\"/>
 			</cluster>
 			<cluster name="gui" location=".\gui\"/>
+			<cluster name="controller" location=".\controller\"/>
 		</cluster>
 	</target>
 </system>

@@ -181,19 +181,19 @@ feature {NONE} -- ToolBar Implementation
 				-- Initialize the toolbar.
 			create toolbar_item
 			create toolbar_pixmap
-			toolbar_pixmap.set_with_named_file ("new.png")
+			toolbar_pixmap.set_with_named_file ("./gui/new.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
 			standard_toolbar.extend (toolbar_item)
 
 			create toolbar_item
 			create toolbar_pixmap
-			toolbar_pixmap.set_with_named_file ("open.png")
+			toolbar_pixmap.set_with_named_file ("./gui/open.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
 			standard_toolbar.extend (toolbar_item)
 
 			create toolbar_item
 			create toolbar_pixmap
-			toolbar_pixmap.set_with_named_file ("save.png")
+			toolbar_pixmap.set_with_named_file ("./gui/save.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
 			standard_toolbar.extend (toolbar_item)
 		ensure
@@ -216,7 +216,7 @@ feature {NONE} -- StatusBar Implementation
 		do
 				-- Initialize the status bar.
 			standard_status_bar.set_border_width (2)
-			
+
 				-- Populate the status bar.
 			standard_status_label.align_text_left
 			standard_status_bar.extend (standard_status_label)
@@ -246,7 +246,7 @@ feature {NONE} -- Implementation, Close event
 			if question_dialog.selected_button ~ (create {EV_DIALOG_CONSTANTS}).ev_ok then
 					-- Destroy the window.
 				destroy
-				
+
 					-- End the application.
 					--| TODO: Remove next instruction if you don't want the application
 					--|       to end when the first window is closed..
