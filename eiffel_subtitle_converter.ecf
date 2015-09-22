@@ -19,6 +19,7 @@
 			</cluster>
 			<cluster name="gui" location=".\gui\"/>
 			<cluster name="controller" location=".\controller\"/>
+			<cluster name="acceptance_tests" location=".\acceptance_tests\"/>
 		</cluster>
 	</target>
 </system>

@@ -264,6 +264,10 @@ feature {NONE} -- Implementation
 	build_main_container
 			-- Populate `main_container'.
 		do
+			main_container.extend (create {EV_HORIZONTAL_SEPARATOR})
+			main_container.extend (create {EV_LABEL}.make_with_text ("MicroDVD"))
+			main_container.extend (create {EV_TEXT})
+			main_container.extend (create {EV_LABEL}.make_with_text ("SubRip"))
 			main_container.extend (create {EV_TEXT})
 		ensure
 			main_container_created: main_container /= Void
