@@ -10,6 +10,16 @@ class
 inherit
 	ABSTRACT_SUBJECT
 
+create
+	make
+
+feature -- Initialisation
+
+	make
+	do
+
+	end
+
 feature
 
 	has_loaded_subtitle: BOOLEAN
@@ -37,6 +47,11 @@ feature
 		do
 
 		end
+
+	set_source(new_source: SUBTITLE)
+	do
+		source := new_source
+	end
 
 
 feature
