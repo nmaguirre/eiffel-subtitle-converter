@@ -17,7 +17,7 @@ feature -- Initialisation
 
 	make
 	do
-		
+
 	end
 
 feature
@@ -47,6 +47,11 @@ feature
 		do
 
 		end
+
+	set_source(new_source: SUBTITLE)
+	do
+		source := new_source
+	end
 
 
 feature
