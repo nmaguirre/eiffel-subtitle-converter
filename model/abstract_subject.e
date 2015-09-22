@@ -16,7 +16,7 @@ feature{ANY}  -- Initialization
 		do
 			create observers_list.make
 		ensure
-			initialize_list: observers_list.is_empty()
+			initialize_list: observers_list.is_empty
 		end
 
 feature -- Status Report
@@ -26,7 +26,7 @@ feature -- Status Report
 		do
 			Result := observers_list.has (x)
 		ensure
-			does_it_belongs: Result = observers_list.has (x)
+			is_it_an_observer: Result = observers_list.has (x)
 		end
 
 feature -- Status Settings
@@ -39,7 +39,7 @@ feature -- Status Settings
             	observers_list.put_front (x)
             end
 		ensure
-			belongs_in_list: is_observed_by(x)
+			is_an_observer: is_observed_by(x)
 		end
 
 	unsubscribe(x :ABSTRACT_OBSERVER)
@@ -47,7 +47,7 @@ feature -- Status Settings
 		do
 			observers_list.prune (x)
 		ensure
-			is_not_observed_by_x: not is_observed_by (x)
+			is_not_an_observer: not is_observed_by (x)
 		end
 
 

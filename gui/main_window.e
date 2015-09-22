@@ -22,8 +22,22 @@ inherit
 			default_create, copy
 		end
 
+	ABSTRACT_OBSERVER
+		undefine
+			default_create, copy
+		redefine
+			on_update
+		end
+
 create
-	default_create
+	create_with_logic
+
+feature -- Initialisation
+
+	create_with_logic(new_logic: CONVERTER_LOGIC)
+		do
+			system_logic := new_logic
+		end
 
 feature {NONE} -- Initialization
 
@@ -264,14 +278,32 @@ feature {NONE} -- Implementation
 	build_main_container
 			-- Populate `main_container'.
 		do
+			create microdvd_text
+			create subrip_text
 			main_container.extend (create {EV_HORIZONTAL_SEPARATOR})
 			main_container.extend (create {EV_LABEL}.make_with_text ("MicroDVD"))
-			main_container.extend (create {EV_TEXT})
+			main_container.extend (microdvd_text)
 			main_container.extend (create {EV_LABEL}.make_with_text ("SubRip"))
-			main_container.extend (create {EV_TEXT})
+			main_container.extend (subrip_text)
 		ensure
 			main_container_created: main_container /= Void
 		end
+
+feature -- Observer features
+
+	on_update
+		do
+			if system_logic.has_loaded_microdvd_subtitle then
+				microdvd_text.remove_text
+				microdvd_text.append_text (system_logic.source_as_microdvd.out)
+				if attached {SUBRIP_SUBTITLE} system_logic.target as subrip_sub then
+					subrip_text.remove_text
+					subrip_text.append_text (subrip_sub.out)
+				end
+			end
+		end
+
+
 
 feature {NONE} -- Implementation / Constants
 
@@ -283,5 +315,11 @@ feature {NONE} -- Implementation / Constants
 
 	Window_height: INTEGER = 400
 			-- Initial height for this window.
+
+	microdvd_text: EV_TEXT
+
+	subrip_text: EV_TEXT
+
+	system_logic: CONVERTER_LOGIC
 
 end

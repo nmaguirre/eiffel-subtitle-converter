@@ -28,12 +28,10 @@ feature {NONE} -- Initialization
 			-- Perform one call to first window in order to
 			-- avoid to violate the invariant of class EV_APPLICATION.
 		do
-				-- create and initialize the first window.
-			create first_window
-
+			create controller.make_with_no_subtitle
+			system_logic := controller.system_logic
+			create first_window.create_with_logic (system_logic)
 				-- Show the first window.
-				--| TODO: Remove this line if you don't want the first
-				--|       window to be shown at the start of the program.
 			first_window.show
 		end
 
@@ -44,6 +42,9 @@ feature {NONE} -- Implementation
 
 	controller: CONTROLLER
 			-- Controller object.
-			
+
+	system_logic: CONVERTER_LOGIC
+			-- Logic of the application
+
 
 end -- class APPLICATION

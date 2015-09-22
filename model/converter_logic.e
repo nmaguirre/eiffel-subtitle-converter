@@ -7,6 +7,8 @@ note
 class
 	CONVERTER_LOGIC
 
+inherit
+	ABSTRACT_SUBJECT
 
 feature
 
@@ -33,7 +35,15 @@ feature
 			-- System is ready to convert: source is loaded, and
 			-- conversion hasn't taken place yet
 		do
-			
+
+		end
+
+
+feature
+
+	convert_subtitle
+		do
+
 		end
 
 feature
