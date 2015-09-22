@@ -10,6 +10,16 @@ class
 inherit
 	ABSTRACT_SUBJECT
 
+create
+	make
+
+feature -- Initialisation
+
+	make
+	do
+		
+	end
+
 feature
 
 	has_loaded_subtitle: BOOLEAN
