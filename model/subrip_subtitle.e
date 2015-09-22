@@ -7,6 +7,9 @@ note
 class
 	SUBRIP_SUBTITLE
 
+inherit
+	SUBTITLE
+
 create
 	make
 

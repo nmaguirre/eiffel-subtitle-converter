@@ -7,6 +7,9 @@ note
 class
 	MICRODVD_SUBTITLE
 
+inherit
+	SUBTITLE
+
 create
 	make
 
@@ -97,6 +100,11 @@ feature -- Status setting
 		end
 
 feature -- Status report
+
+	nr_of_items: INTEGER
+		do
+			Result := items.count
+		end
 
 	frames_per_second: REAL
 			-- Frames per second to which this subtitle corresponds
