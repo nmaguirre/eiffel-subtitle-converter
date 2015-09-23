@@ -18,11 +18,10 @@ feature -- Initialisation
 	make
 		-- Default constructor
 	do
-		source:= Void
-		target:= Void
-		ensure
-			valid_source_and_target: source = Void and target = Void
-
+		source := Void
+		target := Void
+	ensure
+		valid_source_and_target: source = Void and target = Void
 	end
 
 feature
