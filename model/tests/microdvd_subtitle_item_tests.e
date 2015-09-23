@@ -15,6 +15,16 @@ inherit
 
 feature -- Test routines
 
+	test_make_from_string
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE_ITEM}.make_from_string"
+		local
+			item: MICRODVD_SUBTITLE_ITEM
+		do
+			create item.make_from_string("{1}{2}hola")
+			assert ("create microdvd item from string of file.sub", item.start_frame = 1 and item.stop_frame = 2 and item.text.is_equal ("hola"))
+		end
+
 	test_make_valid_frames_no_text
 			-- constructor make sets no text
 		note
