@@ -39,7 +39,7 @@ feature -- Initialisation
 		ensure
 			valid_result:start_time.is_equal(new_start_time) and
 						 stop_time.is_equal(new_stop_time)   and
-		    			 text = new_text
+		    			 text.is_equal (new_text)
 		end
 
 feature -- Status setting
@@ -63,7 +63,7 @@ feature -- Status setting
 			start_time := new_start_time
 		ensure
 			start_time_set: start_time.is_equal(new_start_time)
-		end	
+		end
 
 	set_text (new_text: STRING)
 			-- Changes the text of the item to the provided string
