@@ -15,6 +15,19 @@ inherit
 
 feature -- Test routines
 
+	test_make_from_string
+			-- Constructor make_from_string sets attributes correctly.
+		note
+			testing: "covers/{SUBRIP_SUBTITLE_TIME}.make_from_string"
+		local
+			subtitle_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subtitle_time.make_from_string("01:46:15,890")
+			assert ("set hours correctly", subtitle_time.hours = 1)
+			assert ("set minutes correctly", subtitle_time.minutes = 46)
+			assert ("set seconds correctly", subtitle_time.seconds = 15)
+			assert ("set milliseconds correctly", subtitle_time.milliseconds = 890)
+		end
 
 	test_make_valid_time
 			-- constructor make sets correctly

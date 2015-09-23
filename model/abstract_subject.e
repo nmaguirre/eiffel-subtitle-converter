@@ -33,6 +33,8 @@ feature -- Status Settings
 
 	subscribe(x :ABSTRACT_OBSERVER)
 			--Add the X observer to a current subject.
+		require
+			x /= Void
 		do
         	if (not is_observed_by (x))
             then

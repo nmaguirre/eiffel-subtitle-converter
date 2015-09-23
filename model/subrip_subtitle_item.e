@@ -8,7 +8,7 @@ class
 	SUBRIP_SUBTITLE_ITEM
 
 create
-	make, make_with_text
+	make, make_with_text, make_from_string
 
 feature -- Initialisation
 
@@ -40,6 +40,14 @@ feature -- Initialisation
 			valid_result:start_time.is_equal(new_start_time) and
 						 stop_time.is_equal(new_stop_time)   and
 		    			 text.is_equal (new_text)
+		end
+
+	make_from_string (time_line: STRING; subtitle_text: STRING)
+			-- Initialize a subrip_subtitle_item
+		do
+			start_time.make_from_string (time_line.substring(1,12))
+			stop_time.make_from_string (time_line.substring(18,29))
+			text := subtitle_text
 		end
 
 feature -- Status setting

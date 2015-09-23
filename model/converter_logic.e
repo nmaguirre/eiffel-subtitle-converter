@@ -16,8 +16,12 @@ create
 feature -- Initialisation
 
 	make
+		-- Default constructor
 	do
-
+		source := Void
+		target := Void
+	ensure
+		valid_source_and_target: source = Void and target = Void
 	end
 
 feature
@@ -34,6 +38,18 @@ feature
 			has_loaded_subtitle
 		do
 			if attached {MICRODVD_SUBTITLE} source as microdvd_sub then
+				Result := True
+			else
+				Result := False
+			end
+		end
+
+	has_loaded_subrip_subtitle: BOOLEAN
+			-- Is the loaded subtitle a SubRip one?
+		require
+			has_loaded_subtitle
+		do
+			if attached {SUBRIP_SUBTITLE} source as subrip_sub then
 				Result := True
 			else
 				Result := False
@@ -66,11 +82,22 @@ feature
 feature
 
 	source_as_microdvd: MICRODVD_SUBTITLE
+			-- Return the source as a MICRODVD_SUBTITLE object
 		require
 			has_loaded_microdvd_subtitle
 		do
 			if attached {MICRODVD_SUBTITLE} source as microdvd_sub then
 				Result := microdvd_sub
+			end
+		end
+
+	source_as_subrip: SUBRIP_SUBTITLE
+			-- Return the source as a SUBRIP_SUBTITLE object
+		require
+			has_loaded_subrip_subtitle
+		do
+			if attached {SUBRIP_SUBTITLE} source as subrip_sub then
+				Result := subrip_sub
 			end
 		end
 
