@@ -15,6 +15,27 @@ inherit
 
 feature -- Test routines
 
+	test_make_valid_source
+		note
+			testing:  "covers/{COVERTER_LOGIC}.make"
+		local
+			converter: CONVERTER_LOGIC
+		do
+			create converter.make
+			assert (" Make correct", converter.source = Void)
+		end
+
+	test_make_valid_target
+		note
+			testing:  "covers/{COVERTER_LOGIC}.make"
+		local
+			converter: CONVERTER_LOGIC
+		do
+			create converter.make
+			assert (" Make correct", converter.target = Void)
+		end
+
+
 	test_has_load_subtitle_valid
 		local
 			passed: BOOLEAN
