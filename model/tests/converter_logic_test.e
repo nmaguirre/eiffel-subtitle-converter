@@ -38,6 +38,35 @@ feature -- Test routines
 			assert ("has_load_subtitle isn't correct", passed = False)
 		end
 
+	test_has_loaded_subrip_subtitle_valid
+		local
+			passed: BOOLEAN
+			converter : CONVERTER_LOGIC
+			subtitle: SUBRIP_SUBTITLE
+		do
+			create converter.make
+			create subtitle.make
+			converter.set_source(subtitle)
+			passed := (converter.has_loaded_subrip_subtitle)
+			assert("Loaded subrip subtitle is correct ", passed =True)
+
+		end
+
+
+	test_has_loaded_subrip_subtitle_invalid
+		local
+			passed: BOOLEAN
+			converter : CONVERTER_LOGIC
+			subtitle: MICRODVD_SUBTITLE
+		do
+			create converter.make
+			create subtitle.make
+			converter.set_source(subtitle)
+			passed := (converter.has_loaded_subrip_subtitle)
+			assert("Loaded subrip subtitle isn't correct ", passed =False)
+
+		end
+
 	test_is_ready_to_convert_valid
 		local
 			passed: BOOLEAN
