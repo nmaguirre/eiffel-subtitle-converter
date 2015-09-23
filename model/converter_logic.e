@@ -51,6 +51,8 @@ feature
 	set_source(new_source: SUBTITLE)
 	do
 		source := new_source
+	ensure
+		source_is_set: source.is_equal (new_source)
 	end
 
 
