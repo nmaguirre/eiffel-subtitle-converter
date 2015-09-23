@@ -14,7 +14,7 @@ inherit
 		end
 
 create
-	make, make_with_values
+	make, make_with_values, make_from_string
 
 feature -- Initialisation
 
@@ -45,6 +45,18 @@ feature -- Initialisation
 			minutes=new_minutes and
 			seconds=new_seconds and
 			milliseconds=new_mil
+		end
+
+	make_from_string (timecode: STRING)
+			-- Creates subrip_subtitle_time from its timecode string format
+			-- hours:minutes:seconds,milliseconds
+		require
+			timecode.count = 12
+		do
+			hours := timecode.substring(1,2).to_integer
+			minutes := timecode.substring(4,5).to_integer
+			seconds := timecode.substring(7,8).to_integer
+			milliseconds := timecode.substring(10,12).to_integer
 		end
 
 feature -- Status setting
