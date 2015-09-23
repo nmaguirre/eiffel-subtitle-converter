@@ -8,7 +8,7 @@ class
 	MICRODVD_SUBTITLE_ITEM
 
 create
-	make, make_with_text
+	make, make_with_text,make_from_string
 
 feature -- Initialisation
 
@@ -25,6 +25,17 @@ feature -- Initialisation
 			start_frame=new_start_frame and
 			stop_frame=new_stop_frame and
 			text.is_empty=true
+		end
+
+	make_from_string(line: STRING)
+		local
+			text_line: STRING
+		do
+			start_frame := line.item_code(2)
+			stop_frame := line.item_code(5)
+			create text_line.make_empty
+			line.keep_tail(7)
+			text := line
 		end
 
 	make_with_text (new_start_frame: INTEGER; new_stop_frame: INTEGER; new_text: STRING)
