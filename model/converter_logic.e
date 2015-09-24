@@ -46,6 +46,9 @@ feature -- Initialisation
 			create microdvd.make_from_file(file_name)
 			source := microdvd
 			target := Void
+		ensure
+			valid_source: source /= Void
+			valid_target: target = Void
 		end
 
 
