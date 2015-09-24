@@ -124,6 +124,28 @@ feature -- Status setting
 			valid_items_count: items.count <= old items.count
 		end
 
+
+	free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
+		local
+			res: BOOLEAN
+			item_microdvd: MICRODVD_SUBTITLE_ITEM
+		do
+			create res.default_create
+			res := True
+			from
+				items.start
+			until
+				items.islast
+			loop
+				item_microdvd := items.item
+				if(item_microdvd.start_frame >= start_frame and item_microdvd.stop_frame <= stop_frame)then
+					res := False
+				end
+
+			end
+			Result := res
+		end
+
 feature -- Status report
 
 	nr_of_items: INTEGER
