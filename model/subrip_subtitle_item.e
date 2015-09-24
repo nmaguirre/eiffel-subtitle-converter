@@ -102,7 +102,7 @@ feature -- Status report
 		do
 			res.make_empty
 			res.append (start_time.out+" --> "+stop_time.out+"%N")
-			res.append (text)
+			res.append (text+"%N")
 			Result := res
 		end
 
