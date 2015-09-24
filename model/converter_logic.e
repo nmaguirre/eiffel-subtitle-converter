@@ -11,11 +11,11 @@ inherit
 	ABSTRACT_SUBJECT
 
 create
-	make
+	make,make_with_no_subtitle
 
 feature -- Initialisation
 
-	make
+	make obsolete "Use 'default_create' instead of 'make'"
 		-- Default constructor
 	do
 		source := Void
@@ -24,7 +24,20 @@ feature -- Initialisation
 		valid_source_and_target: source = Void and target = Void
 	end
 
+	make_with_no_subtitle(file_name: STRING)
+			-- Create converter logic with a microdvd subtitle as source
+		local
+			microdvd : MICRODVD_SUBTITLE
+		do
+			create microdvd.make_from_file (file_name)
+			source := microdvd
+			target := void
+		end
+
 feature
+
+	last_load_succeeded: BOOLEAN
+			-- Has last load succeeded?
 
 	has_loaded_subtitle: BOOLEAN
 			-- Is there a subtitle loaded?
