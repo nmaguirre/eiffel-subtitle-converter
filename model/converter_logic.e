@@ -37,7 +37,7 @@ feature -- Initialisation
 			source := subrip_subtitle
 			target := Void
 		ensure
-			valid_source: source /= Void
+			valid_source: (source /= Void and last_load_succeeded = true) or (source = Void and last_load_succeeded = false)
 			valid_target: target = Void
 		end
 
@@ -50,7 +50,7 @@ feature -- Initialisation
 			source := microdvd
 			target := Void
 		ensure
-			valid_source: source /= Void
+			valid_source: (source /= Void and last_load_succeeded = true) or (source = Void and last_load_succeeded = false)
 			valid_target: target = Void
 		end
 
@@ -106,7 +106,7 @@ feature
 
 	set_source(new_source: SUBTITLE)
 		require
-			valid_new_source: new_source /= Void 
+			valid_new_source: new_source /= Void
 		do
 			source := new_source
 		ensure
