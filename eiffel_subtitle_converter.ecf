@@ -20,7 +20,6 @@
 			<cluster name="gui" location=".\gui\"/>
 			<cluster name="controller" location=".\controller\"/>
 			<cluster name="acceptance_tests" location=".\acceptance_tests\"/>
-			<cluster name="temp_cluster" location="\Users\aguirre\Eiffel User Files\14.05\projects\eiffel-subtitle-converter\temp_cluster\"/>
 		</cluster>
 	</target>
 </system>
