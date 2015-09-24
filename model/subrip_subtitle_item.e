@@ -7,6 +7,12 @@ note
 class
 	SUBRIP_SUBTITLE_ITEM
 
+inherit
+	ANY
+		redefine
+			out
+		end
+
 create
 	make, make_with_text, make_from_string
 
@@ -84,6 +90,16 @@ feature -- Status setting
 		end
 
 feature -- Status report
+
+	out: STRING
+			-- Returns the STRING representation of the list
+		local
+			res: STRING
+		do
+			res.make_empty
+
+			Result := res
+		end
 
 	start_time: SUBRIP_SUBTITLE_TIME
 			-- Time when the subtitle item should start to be shown

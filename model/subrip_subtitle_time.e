@@ -10,7 +10,7 @@ class
 inherit
 	COMPARABLE
 		redefine
-			is_less
+			is_less,out
 		end
 
 create
@@ -160,6 +160,16 @@ feature -- Comparison
 		end
 
 feature -- Status report
+
+	out: STRING
+			-- Returns the STRING representation of the list
+		local
+			res: STRING
+		do
+			res.make_empty
+
+			Result := res
+		end
 
 	hours: INTEGER
 			-- hours of the time
