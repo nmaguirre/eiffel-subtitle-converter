@@ -36,6 +36,9 @@ feature -- Initialisation
 			create subrip_subtitle.make_from_file (subrip_subtitle_file)
 			source := subrip_subtitle
 			target := Void
+		ensure
+			valid_source: source /= Void
+			valid_target: target = Void
 		end
 
 	make_with_microdvd_subtitle(file_name: STRING)
@@ -46,6 +49,9 @@ feature -- Initialisation
 			create microdvd.make_from_file(file_name)
 			source := microdvd
 			target := Void
+		ensure
+			valid_source: source /= Void
+			valid_target: target = Void
 		end
 
 
@@ -72,6 +78,7 @@ feature
 			else
 				Result := False
 			end
+
 		end
 
 	has_loaded_subrip_subtitle: BOOLEAN
@@ -90,16 +97,21 @@ feature
 	is_ready_to_convert: BOOLEAN
 			-- System is ready to convert: source is loaded, and
 			-- conversion hasn't taken place yet
+		require
+			has_loaded_subtitle;
+			has_loaded_microdvd_subtitle
 		do
 
 		end
 
 	set_source(new_source: SUBTITLE)
-	do
-		source := new_source
-	ensure
-		source_is_set: source.is_equal(new_source)
-	end
+		require
+			valid_new_source: new_source /= Void 
+		do
+			source := new_source
+		ensure
+			source_is_set: source.is_equal(new_source)
+		end
 
 
 feature

@@ -208,14 +208,14 @@ feature -- Test routines
 			testing:  "covers/{MICRODVD_SUBTITLE}.add_subtitle_item"
 		local
 			sub: MICRODVD_SUBTITLE
-			res:BOOLEAN
 		do
 			create sub.make
 			sub.add_subtitle_item(20,100,"text1")
 			sub.add_subtitle_item(201,300,"text3")
 			sub.add_subtitle_item(101,200,"text2")
-			res := true
-			assert ("Add Subtitle is ok",res)
+			assert ("Add Subtitle is ok",sub.items[1].text ="text1"
+			and sub.items[2].text="text2"
+			and sub.items[3].text="text3")
 		end
 
 	test_add_subtitle_item_invalid
@@ -229,7 +229,8 @@ feature -- Test routines
 		do
 			create item.make
 			if (not rescued) then
-				item.add_subtitle_item (100,-5,"text")
+				item.add_subtitle_item (1,100,"text1")
+				item.add_subtitle_item (50,120,"text2")
 				passed := True
 			end
 			assert ("add_subtitle_items is broke", not passed)
