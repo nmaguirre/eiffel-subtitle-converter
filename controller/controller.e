@@ -16,11 +16,12 @@ feature
 			-- Initialises the controller and logic
 			-- with no loaded subtitle
 		do
+			create system_logic.make
 		end
 
 	make_with_microdvd_subtitle (filename: STRING)
 		do
-			
+
 		end
 
 feature
