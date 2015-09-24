@@ -32,8 +32,8 @@ feature -- Initialisation
 			subrip_subtitle_file: PLAIN_TEXT_FILE
 			subrip_subtitle: SUBRIP_SUBTITLE
 		do
-			subrip_subtitle_file.make_open_read (filename)
-			subrip_subtitle.make_from_file (subrip_subtitle_file)
+			create subrip_subtitle_file.make_open_read (filename)
+			create subrip_subtitle.make_from_file (subrip_subtitle_file)
 			source := subrip_subtitle
 			target := Void
 		end
