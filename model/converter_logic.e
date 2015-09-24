@@ -11,7 +11,7 @@ inherit
 	ABSTRACT_SUBJECT
 
 create
-	make
+	make, make_with_subrip_subtitle
 
 feature -- Initialisation
 
@@ -23,6 +23,19 @@ feature -- Initialisation
 	ensure
 		valid_source_and_target: source = Void and target = Void
 	end
+
+	make_with_subrip_subtitle (filename: STRING)
+			-- Constructor takes as a parameter a filename of a
+			-- subrip subtitle file, setting source with it.
+		local
+			subrip_subtitle_file: PLAIN_TEXT_FILE
+			subrip_subtitle: SUBRIP_SUBTITLE
+		do
+			subrip_subtitle_file.make_open_read (filename)
+			subrip_subtitle.make_from_file (subrip_subtitle_file)
+			source := subrip_subtitle
+			target := Void
+		end
 
 feature
 

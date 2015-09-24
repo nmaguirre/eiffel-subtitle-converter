@@ -56,7 +56,7 @@ feature -- Initialisation
 						is_timecode := False
 					else -- is text line
 						subtitle_text.append (file.last_string)
-						subtitle_text.append (" ")
+						subtitle_text.append ("%N")
 					end
 
 				end
