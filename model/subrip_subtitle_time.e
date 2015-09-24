@@ -162,12 +162,12 @@ feature -- Comparison
 feature -- Status report
 
 	out: STRING
-			-- Returns the STRING representation of the list
+			-- Returns the STRING representation of the time
 		local
 			res: STRING
 		do
 			res.make_empty
-
+			res.append(hours.out+":"+minutes.out+":"+seconds.out+","+milliseconds.out)
 			Result := res
 		end
 
