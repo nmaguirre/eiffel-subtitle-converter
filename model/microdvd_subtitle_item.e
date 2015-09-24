@@ -8,7 +8,7 @@ class
 	MICRODVD_SUBTITLE_ITEM
 
 create
-	make, make_with_text
+	make, make_with_text,make_from_string
 
 feature -- Initialisation
 
@@ -26,6 +26,48 @@ feature -- Initialisation
 			stop_frame=new_stop_frame and
 			text.is_empty=true
 		end
+
+	make_from_string(line: STRING)
+			-- COnstruct a microDVD from a string rep of asubtible of an archive
+			-- with the extension .sub and the form "{time_init}{time_finish}text"
+		local
+			start_frame_string: STRING
+			stop_frame_string: STRING
+			i: INTEGER
+		do
+			create i.default_create
+			create start_frame_string.make_empty
+			create stop_frame_string.make_empty
+
+			from
+				i := 2
+			until
+				line.item(i) ='}'
+			loop
+				if('}' /= line.item(i) and '{' /= line.item (i)) then
+					start_frame_string.extend(line.item (i))
+				end
+				i := i + 1
+
+			end
+			start_frame := start_frame_string.to_integer
+
+			from
+				i := i+1
+			until
+				line.item(i) ='}'
+			loop
+				if('}' /= line.item(i) and '{' /= line.item (i)) then
+					stop_frame_string.extend(line.item (i))
+				end
+				i := i + 1
+			end
+
+			stop_frame := stop_frame_string.to_integer
+			line.remove_head(i)
+			text := line
+		end
+
 
 	make_with_text (new_start_frame: INTEGER; new_stop_frame: INTEGER; new_text: STRING)
 			-- Constructs a microdvd sub. item with provided text, start and stop frames

@@ -11,7 +11,7 @@ inherit
 	SUBTITLE
 
 create
-	make
+	make,make_from_file
 
 feature -- Initialisation
 
@@ -20,9 +20,34 @@ feature -- Initialisation
 			-- Default constructor
 		do
 			create items.make
-			frames_per_Second := 23.97
+			frames_per_second := 23.97
 		ensure
 			valid_items_count: items.count = 0
+		end
+
+	make_from_file(name_file: STRING)
+			-- Create a microDVD from a file
+		require
+			valid_string: name_file.count > 4
+		local
+			current_line : STRING
+			microdvd_file : PLAIN_TEXT_FILE
+			microdvd_item : MICRODVD_SUBTITLE_ITEM
+		do
+			create microdvd_file.make_open_read(name_file)
+			frames_per_second := 23.97
+			create items.make
+			from
+				microdvd_file.read_line
+			until
+				microdvd_file.end_of_file
+			loop
+				create current_line.make_from_string(microdvd_file.last_string)
+				create microdvd_item.make_from_string(current_line)
+				items.extend(microdvd_item)
+				microdvd_file.read_line
+			end
+
 		end
 
 feature -- Status setting
@@ -41,7 +66,7 @@ feature -- Status setting
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
 		require
-			valid_item: start_frame < stop_frame
+			valid_item: start_frame >= 0 and start_frame < stop_frame
 			text_not_void : text /= Void
 		local
 			new_frame: MICRODVD_SUBTITLE_ITEM

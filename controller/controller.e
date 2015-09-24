@@ -8,7 +8,7 @@ class
 	CONTROLLER
 
 create
-	make_with_no_subtitle, make_with_microdvd_subtitle
+	make_with_no_subtitle, make_with_microdvd_subtitle, make_with_subrip_subtitle
 
 feature
 
@@ -16,11 +16,20 @@ feature
 			-- Initialises the controller and logic
 			-- with no loaded subtitle
 		do
+			create system_logic.make
+		ensure
+			logic_check: system_logic /= void
 		end
 
 	make_with_microdvd_subtitle (filename: STRING)
 		do
-			
+			create system_logic.make_with_microdvd_subtitle(filename)
+		end
+
+	make_with_subrip_subtitle (filename: STRING)
+			--
+		do
+			create system_logic.make_with_subrip_subtitle (filename)
 		end
 
 feature

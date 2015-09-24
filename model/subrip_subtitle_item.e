@@ -7,8 +7,14 @@ note
 class
 	SUBRIP_SUBTITLE_ITEM
 
+inherit
+	ANY
+		redefine
+			out
+		end
+
 create
-	make, make_with_text
+	make, make_with_text, make_from_string
 
 feature -- Initialisation
 
@@ -39,7 +45,15 @@ feature -- Initialisation
 		ensure
 			valid_result:start_time.is_equal(new_start_time) and
 						 stop_time.is_equal(new_stop_time)   and
-		    			 text = new_text
+		    			 text.is_equal (new_text)
+		end
+
+	make_from_string (time_line: STRING; subtitle_text: STRING)
+			-- Initialize a subrip_subtitle_item
+		do
+			create start_time.make_from_string (time_line.substring(1,12))
+			create stop_time.make_from_string (time_line.substring(18,29))
+			text := subtitle_text
 		end
 
 feature -- Status setting
@@ -63,7 +77,7 @@ feature -- Status setting
 			start_time := new_start_time
 		ensure
 			start_time_set: start_time.is_equal(new_start_time)
-		end	
+		end
 
 	set_text (new_text: STRING)
 			-- Changes the text of the item to the provided string
@@ -76,6 +90,21 @@ feature -- Status setting
 		end
 
 feature -- Status report
+
+	out: STRING
+			-- Returns the STRING representation of the item
+			-- A SubRip subtitle looks like this way:
+			-- 	 1
+			-- 	 00:01:30,069 --> 00:01:31,496
+			-- 	 Subtitle Text
+		local
+			res: STRING
+		do
+			res.make_empty
+			res.append (start_time.out+" --> "+stop_time.out+"%N")
+			res.append (text+"%N")
+			Result := res
+		end
 
 	start_time: SUBRIP_SUBTITLE_TIME
 			-- Time when the subtitle item should start to be shown

@@ -10,11 +10,11 @@ class
 inherit
 	COMPARABLE
 		redefine
-			is_less
+			is_less,out
 		end
 
 create
-	make, make_with_values
+	make, make_with_values, make_from_string
 
 feature -- Initialisation
 
@@ -45,6 +45,18 @@ feature -- Initialisation
 			minutes=new_minutes and
 			seconds=new_seconds and
 			milliseconds=new_mil
+		end
+
+	make_from_string (timecode: STRING)
+			-- Creates subrip_subtitle_time from its timecode string format
+			-- hours:minutes:seconds,milliseconds
+		require
+			timecode.count = 12
+		do
+			hours := timecode.substring(1,2).to_integer
+			minutes := timecode.substring(4,5).to_integer
+			seconds := timecode.substring(7,8).to_integer
+			milliseconds := timecode.substring(10,12).to_integer
 		end
 
 feature -- Status setting
@@ -147,7 +159,51 @@ feature -- Comparison
 			Result := Current.time_milliseconds < other.time_milliseconds
 		end
 
+feature {NONE} -- Auxiliary Functions
+
+	fill_with_zeros(act:STRING;size:INTEGER):STRING
+		do
+			from
+
+			until
+				act.count=size
+			loop
+				act.precede('0')
+			end
+		end
+
+
 feature -- Status report
+
+	out: STRING
+			-- Returns the STRING representation of the time
+		local
+			res,final_hours,final_minutes,final_seconds,final_milliseconds: STRING
+		do
+			create final_hours.make_from_string (hours.out)
+			if(final_hours.count<2) then
+				final_hours:=fill_with_zeros(final_hours,2)
+			end
+
+			create final_minutes.make_from_string (minutes.out)
+			if(final_minutes.count<2) then
+				final_minutes:=fill_with_zeros(final_minutes,2)
+			end
+
+			create final_seconds.make_from_string (seconds.out)
+			if(final_seconds.count<2) then
+				final_seconds:=fill_with_zeros(final_seconds,2)
+			end
+
+			create final_milliseconds.make_from_string (milliseconds.out)
+			if(final_milliseconds.count<3) then
+				final_milliseconds:=fill_with_zeros(final_milliseconds,3)
+			end
+
+			res.make_empty
+			res.append(final_hours+":"+final_minutes+":"+final_seconds+","+final_milliseconds)
+			Result := res
+		end
 
 	hours: INTEGER
 			-- hours of the time
