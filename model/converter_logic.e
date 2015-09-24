@@ -26,6 +26,9 @@ feature -- Initialisation
 
 feature
 
+	last_load_succeeded: BOOLEAN
+			-- Has last load succeeded?
+
 	has_loaded_subtitle: BOOLEAN
 			-- Is there a subtitle loaded?
 		do
