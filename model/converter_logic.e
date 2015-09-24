@@ -11,7 +11,7 @@ inherit
 	ABSTRACT_SUBJECT
 
 create
-	make,make_with_microdvd
+	make,make_with_microdvd_subtitle
 
 feature -- Initialisation
 
@@ -24,7 +24,7 @@ feature -- Initialisation
 			valid_source_and_target: source = Void and target = Void
 		end
 
-	make_with_microdvd(file_name: STRING)
+	make_with_microdvd_subtitle(file_name: STRING)
 			-- Create converter logic with a microdvd subtitle as source
 		local
 			microdvd : MICRODVD_SUBTITLE
@@ -35,6 +35,11 @@ feature -- Initialisation
 		end
 
 feature
+	last_load_succeeded : BOOLEAN
+			-- this is only for compile
+		do
+			result := FALSE
+		end
 
 	has_loaded_subtitle: BOOLEAN
 			-- Is there a subtitle loaded?
