@@ -15,7 +15,7 @@ create
 
 feature -- Initialisation
 
-	make
+	make obsolete "Use 'default_create' instead of 'make'"
 		-- Default constructor
 	do
 		source := Void
@@ -35,6 +35,9 @@ feature -- Initialisation
 		end
 
 feature
+
+	last_load_succeeded: BOOLEAN
+			-- Has last load succeeded?
 
 	has_loaded_subtitle: BOOLEAN
 			-- Is there a subtitle loaded?
