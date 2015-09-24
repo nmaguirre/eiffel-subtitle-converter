@@ -280,6 +280,8 @@ feature {NONE} -- Implementation
 		do
 			create microdvd_text
 			create subrip_text
+			microdvd_text.disable_edit
+			subrip_text.disable_edit
 			main_container.extend (create {EV_HORIZONTAL_SEPARATOR})
 			main_container.extend (create {EV_LABEL}.make_with_text ("MicroDVD"))
 			main_container.extend (microdvd_text)
