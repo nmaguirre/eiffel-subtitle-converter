@@ -8,7 +8,7 @@ class
 	CONTROLLER
 
 create
-	make_with_no_subtitle, make_with_microdvd_subtitle
+	make_with_no_subtitle, make_with_microdvd_subtitle, make_with_subrip_subtitle
 
 feature
 
@@ -26,6 +26,11 @@ feature
 
 		end
 
+	make_with_subrip_subtitle (filename: STRING)
+		do
+
+		end
+		
 feature
 
 	system_logic: CONVERTER_LOGIC

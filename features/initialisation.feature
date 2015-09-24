@@ -25,6 +25,5 @@ Feature: Initialisation of the subtitle converter application.
             Chau
         When the system is started with the name of the file as a parameter 
         Then the system state should be initialised loading the provided subtitle 
-        And the frame rate should be the default 
         And the user should be informed that the system is ready to convert to MicroDVD format.
 

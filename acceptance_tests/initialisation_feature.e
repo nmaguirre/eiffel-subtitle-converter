@@ -62,6 +62,45 @@ feature -- Test routines
 			assert ("system ready to convert", logic.is_ready_to_convert)
 		end
 
+
+	system_start_with_subrip_subtitle
+			--	    Scenario: Initialising the subtitle converter application with a valid SubRip subtitle
+			--        Given a SubRip subtitle file with extension .srt, containing:
+			--            1
+			--            00:00:00,394 --> 00:00:03,031
+			--            Hola
+
+			--            2
+			--            00:00:03,510 --> 00:00:05,154
+			--            Chau
+			--        When the system is started with the name of the file as a parameter
+			--        Then the system state should be initialised loading the provided subtitle
+			--        And the user should be informed that the system is ready to convert to MicroDVD format.
+		local
+			controller: CONTROLLER
+			logic: CONVERTER_LOGIC
+		do
+			--        Given a SubRip subtitle file with extension .srt, containing:
+			--            1
+			--            00:00:00,394 --> 00:00:03,031
+			--            Hola
+
+			--            2
+			--            00:00:03,510 --> 00:00:05,154
+			--            Chau
+			--        When the system is started with the name of the file as a parameter
+			create controller.make_with_subrip_subtitle ("./acceptance_tests/sample.srt")
+			--        Then the system state should be initialised loading the provided subtitle
+			logic := controller.system_logic
+			assert ("loaded subtitle is microdvd", logic.has_loaded_subrip_subtitle)
+			assert ("loaded subtitle has two items", logic.source_as_subrip.nr_of_items = 2)
+			--        And the user should be informed that the system is ready to convert to SubRip format.
+			assert ("system ready to convert", logic.is_ready_to_convert)
+		end
+
+
+
+
 feature
 
 	default_framerate: REAL = 23.97
