@@ -92,6 +92,7 @@ feature -- Test routines
 				flag := true
 			end
 			assert ("flush correct", flag = True)
+			assert ("flush correct", subtitle.items.count = 0)
 		end
 
 	test_remove_items_valid
