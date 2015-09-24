@@ -92,12 +92,17 @@ feature -- Status setting
 feature -- Status report
 
 	out: STRING
-			-- Returns the STRING representation of the list
+			-- Returns the STRING representation of the item
+			-- A SubRip subtitle looks like this way:
+			-- 	 1
+			-- 	 00:01:30,069 --> 00:01:31,496
+			-- 	 Subtitle Text
 		local
 			res: STRING
 		do
 			res.make_empty
-
+			res.append (start_time.out+" --> "+stop_time.out+"%N")
+			res.append (text+"%N")
 			Result := res
 		end
 
