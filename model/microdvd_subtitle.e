@@ -126,6 +126,9 @@ feature -- Status setting
 
 
 	free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
+		require
+			valid_start_frame: start_frame>=0 and start_frame<stop_frame
+			valid_stop_frame: stop_frame>0 and start_frame<stop_frame
 		local
 			res: BOOLEAN
 			item_microdvd: MICRODVD_SUBTITLE_ITEM
