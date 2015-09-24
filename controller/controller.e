@@ -17,6 +17,8 @@ feature
 			-- with no loaded subtitle
 		do
 			create system_logic.make
+		ensure
+			logic_check: system_logic /= void
 		end
 
 	make_with_microdvd_subtitle (filename: STRING)
