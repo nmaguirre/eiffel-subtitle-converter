@@ -159,15 +159,49 @@ feature -- Comparison
 			Result := Current.time_milliseconds < other.time_milliseconds
 		end
 
+feature {NONE} -- Auxiliary Functions
+
+	fill_with_zeros(act:STRING;size:INTEGER):STRING
+		do
+			from
+
+			until
+				act.count=size
+			loop
+				act.precede('0')
+			end
+		end
+
+
 feature -- Status report
 
 	out: STRING
 			-- Returns the STRING representation of the time
 		local
-			res: STRING
+			res,final_hours,final_minutes,final_seconds,final_milliseconds: STRING
 		do
+			create final_hours.make_from_string (hours.out)
+			if(final_hours.count<2) then
+				final_hours:=fill_with_zeros(final_hours,2)
+			end
+
+			create final_minutes.make_from_string (minutes.out)
+			if(final_minutes.count<2) then
+				final_minutes:=fill_with_zeros(final_minutes,2)
+			end
+
+			create final_seconds.make_from_string (seconds.out)
+			if(final_seconds.count<2) then
+				final_seconds:=fill_with_zeros(final_seconds,2)
+			end
+
+			create final_milliseconds.make_from_string (milliseconds.out)
+			if(final_milliseconds.count<3) then
+				final_milliseconds:=fill_with_zeros(final_milliseconds,3)
+			end
+
 			res.make_empty
-			res.append(hours.out+":"+minutes.out+":"+seconds.out+","+milliseconds.out)
+			res.append(final_hours+":"+final_minutes+":"+final_seconds+","+final_milliseconds)
 			Result := res
 		end
 

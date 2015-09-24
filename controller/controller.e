@@ -23,7 +23,7 @@ feature
 
 	make_with_microdvd_subtitle (filename: STRING)
 		do
-
+			create system_logic.make_with_microdvd_subtitle(filename)
 		end
 
 	make_with_subrip_subtitle (filename: STRING)

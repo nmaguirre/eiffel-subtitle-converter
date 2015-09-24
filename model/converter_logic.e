@@ -11,18 +11,19 @@ inherit
 	ABSTRACT_SUBJECT
 
 create
-	make, make_with_subrip_subtitle
+
+	make,make_with_microdvd_subtitle, make_with_subrip_subtitle
 
 feature -- Initialisation
 
 	make
-		-- Default constructor
-	do
-		source := Void
-		target := Void
-	ensure
-		valid_source_and_target: source = Void and target = Void
-	end
+			-- Default constructor
+		do
+			source := Void
+			target := Void
+		ensure
+			valid_source_and_target: source = Void and target = Void
+		end
 
 	make_with_subrip_subtitle (filename: STRING)
 			-- Constructor takes as a parameter a filename of a
@@ -37,10 +38,23 @@ feature -- Initialisation
 			target := Void
 		end
 
-feature
+	make_with_microdvd_subtitle(file_name: STRING)
+			-- Create converter logic with a microdvd subtitle as source
+		local
+			microdvd : MICRODVD_SUBTITLE
+		do
+			create microdvd.make_from_file(file_name)
+			source := microdvd
+			target := Void
+		end
 
-	last_load_succeeded: BOOLEAN
-			-- Has last load succeeded?
+
+feature
+	last_load_succeeded : BOOLEAN
+			-- this is only for compile
+		do
+			result := FALSE
+		end
 
 	has_loaded_subtitle: BOOLEAN
 			-- Is there a subtitle loaded?
