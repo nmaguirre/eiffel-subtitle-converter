@@ -46,5 +46,6 @@ feature {NONE} -- Implementation
 	system_logic: CONVERTER_LOGIC
 			-- Logic of the application
 
+	empty_class: MY_NEW_CLASS
 
 end -- class APPLICATION
