@@ -163,7 +163,7 @@ feature -- Status checking
 			until
 				items.off
 			loop
-				res.append (items.item.out+"%N")
+				res.append (items.index.out+"%N"+items.item.out+"%N")
 				items.forth
 			end
 			Result := res
