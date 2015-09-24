@@ -15,7 +15,7 @@ create
 
 feature -- Initialisation
 
-	make
+	make obsolete "Use 'default_create' instead of 'make'"
 		-- Default constructor
 	do
 		source := Void
