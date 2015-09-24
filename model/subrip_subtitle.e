@@ -41,7 +41,7 @@ feature -- Initialisation
 			create items.make
 			is_number := True -- srt files start with a number
 			is_timecode := False
-			file.open_read
+			-- file.open_read
 			from
 				file.read_line
 			until

@@ -32,8 +32,8 @@ feature -- Initialisation
 			subrip_subtitle_file: PLAIN_TEXT_FILE
 			subrip_subtitle: SUBRIP_SUBTITLE
 		do
-			subrip_subtitle_file.make_open_read (filename)
-			subrip_subtitle.make_from_file (subrip_subtitle_file)
+			create subrip_subtitle_file.make_open_read (filename)
+			create subrip_subtitle.make_from_file (subrip_subtitle_file)
 			source := subrip_subtitle
 			target := Void
 		ensure
@@ -99,17 +99,19 @@ feature
 			-- conversion hasn't taken place yet
 		require
 			has_loaded_subtitle;
-			has_loaded_microdvd_subtitle 
+			has_loaded_microdvd_subtitle
 		do
 
 		end
 
 	set_source(new_source: SUBTITLE)
-	do
-		source := new_source
-	ensure
-		source_is_set: source.is_equal(new_source)
-	end
+		require
+			valid_new_source: new_source /= Void 
+		do
+			source := new_source
+		ensure
+			source_is_set: source.is_equal(new_source)
+		end
 
 
 feature

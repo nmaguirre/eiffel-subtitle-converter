@@ -172,8 +172,6 @@ feature -- Test routines
 		local
 			converter: CONVERTER_LOGIC
 			microdvd_sub: MICRODVD_SUBTITLE
-			start_frame: MICRODVD_SUBTITLE_ITEM
-			stop_frame:  MICRODVD_SUBTITLE_ITEM
 		do
 			create microdvd_sub.make
 			microdvd_sub.add_subtitle_item (9, 72, "Subtitulo one")
@@ -186,7 +184,7 @@ feature -- Test routines
 		end
 
 	test_set_source_subrip_invalid
-			-- Routine 'set_source' sets 'source' with a start_time invalid
+			-- Routine 'set_source' sets 'source' with a start_time greater than stop_time
 		note
 			testing:  "covers/{CONVERTER_LOGIC_TEST}.set_source"
 		local
@@ -221,8 +219,6 @@ feature -- Test routines
 		local
 			converter: CONVERTER_LOGIC
 			microdvd_sub: MICRODVD_SUBTITLE
-			start_frame: MICRODVD_SUBTITLE_ITEM
-			stop_frame:  MICRODVD_SUBTITLE_ITEM
 			passed: BOOLEAN
 			rescued: BOOLEAN
 		do
