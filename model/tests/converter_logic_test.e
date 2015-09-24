@@ -98,7 +98,7 @@ feature -- Test routines
 			create subtitle.make
 			subtitle.add_subtitle_item(1,2,"texto")
 			converter.set_source(subtitle)
-			passed := (converter.source /= Void)
+			passed := (converter.source /= Void) and (converter.target = Void)
 			assert ("is_ready_to_convert correct", passed = True)
 		end
 
@@ -108,7 +108,7 @@ feature -- Test routines
 			converter: CONVERTER_LOGIC
 		do
 			create converter.make
-			passed := (converter.source /= Void)
+			passed := (converter.source /= Void) and (converter.target = Void)
 			assert ("is_ready_to_convert correct", passed = False)
 		end
 
