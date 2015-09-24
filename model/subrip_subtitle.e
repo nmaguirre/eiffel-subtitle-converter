@@ -14,7 +14,7 @@ inherit
 		end
 
 create
-	make
+	make, make_from_file
 
 feature -- Initialisation
 
@@ -26,6 +26,51 @@ feature -- Initialisation
 		ensure
 			empty_list:	items.is_empty
 		end
+
+	make_from_file (file: PLAIN_TEXT_FILE)
+			-- Initialize a subrip_subtitle from a file
+		local
+			time_line: STRING
+			subtitle_text: STRING
+			item: SUBRIP_SUBTITLE_ITEM
+			is_number: BOOLEAN
+			is_timecode: BOOLEAN
+		do
+			create time_line.make_empty
+			create subtitle_text.make_empty
+			create items.make
+			is_number := True -- srt files start with a number
+			is_timecode := False
+			file.open_read
+			from
+				file.read_line
+			until
+				file.end_of_file
+			loop
+				if is_number then
+					is_number := False
+					is_timecode := True -- next line is a timecode
+				else -- is not a number
+					if is_timecode then
+						time_line.append (file.last_string)
+						is_timecode := False
+					else -- is text line
+						subtitle_text.append (file.last_string)
+						subtitle_text.append (" ")
+					end
+
+				end
+				if file.last_string.is_equal ("") then
+					create item.make_from_string (time_line, subtitle_text)
+					items.extend (item)
+					time_line.wipe_out		-- remove all characters from time_line
+					subtitle_text.wipe_out	-- remove all characters from subtitle_text
+					is_number := True		-- next line is a number
+				end
+				file.read_line -- next line
+			end
+		end
+
 
 feature -- Status setting
 

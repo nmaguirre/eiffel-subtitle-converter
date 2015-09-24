@@ -51,8 +51,8 @@ feature -- Initialisation
 	make_from_string (time_line: STRING; subtitle_text: STRING)
 			-- Initialize a subrip_subtitle_item
 		do
-			start_time.make_from_string (time_line.substring(1,12))
-			stop_time.make_from_string (time_line.substring(18,29))
+			create start_time.make_from_string (time_line.substring(1,12))
+			create stop_time.make_from_string (time_line.substring(18,29))
 			text := subtitle_text
 		end
 
