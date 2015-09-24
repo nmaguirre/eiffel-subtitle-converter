@@ -28,12 +28,16 @@ feature
 			else
 				Result := False
 			end
+
 		end
 
 
 	is_ready_to_convert: BOOLEAN
 			-- System is ready to convert: source is loaded, and
 			-- conversion hasn't taken place yet
+		require
+			has_loaded_subtitle;
+			has_loaded_microdvd_subtitle 
 		do
 
 		end
