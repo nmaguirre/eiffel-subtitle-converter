@@ -36,6 +36,9 @@ feature -- Initialisation
 			subrip_subtitle.make_from_file (subrip_subtitle_file)
 			source := subrip_subtitle
 			target := Void
+		ensure
+			valid_source: source /= Void
+			valid_target: target = Void
 		end
 
 	make_with_microdvd_subtitle(file_name: STRING)
