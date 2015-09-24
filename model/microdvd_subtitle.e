@@ -144,7 +144,7 @@ feature -- Status setting
 				if(item_microdvd.start_frame >= start_frame and item_microdvd.stop_frame <= stop_frame)then
 					res := False
 				end
-
+				items.forth
 			end
 			Result := res
 		end
