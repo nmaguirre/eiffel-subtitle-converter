@@ -170,6 +170,7 @@ feature {NONE} -- Auxiliary Functions
 			loop
 				act.precede('0')
 			end
+			Result:=act
 		end
 
 
@@ -200,7 +201,7 @@ feature -- Status report
 				final_milliseconds:=fill_with_zeros(final_milliseconds,3)
 			end
 
-			res.make_empty
+			create res.make_empty
 			res.append(final_hours+":"+final_minutes+":"+final_seconds+","+final_milliseconds)
 			Result := res
 		end

@@ -499,6 +499,17 @@ feature -- Test routines
 			assert ("current_time is not less than other_time", not (current_time < other_time))
 		end
 
+	test_out
+			-- this test creates a time object and vefiries that out makes a valid representation
+		note
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.out"
+		local
+			time: SUBRIP_SUBTITLE_TIME
+		do
+			create time.make_with_values (3, 0, 2, 1)
+			assert ("Representation is right", time.out.is_equal("03:00:02,001"))
+		end
+
 end -- class SUBRIP_SUBTITLE_ITEM_TESTS
 
 
