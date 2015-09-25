@@ -117,6 +117,10 @@ feature
 			source_is_set: source.is_equal(new_source)
 		end
 
+	set_target(new_target: SUBTITLE)
+		do
+			target := new_target
+		end
 
 feature
 
