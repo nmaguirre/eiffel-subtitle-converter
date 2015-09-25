@@ -117,7 +117,7 @@ feature
 			source_is_set: source.is_equal(new_source)
 		end
 
-	set_target(new_target: SUBTITLE)
+	set_target(new_target: SUBTITLE) obsolete "To be deleted: Unnecessary feature"
 		do
 			target := new_target
 		end
