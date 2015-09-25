@@ -101,7 +101,11 @@ feature
 			has_loaded_subtitle;
 			has_loaded_microdvd_subtitle
 		do
-
+			if has_loaded_subtitle and target = Void  then
+				Result := True
+			else
+				Result := False
+			end
 		end
 
 	set_source(new_source: SUBTITLE)
