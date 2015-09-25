@@ -154,6 +154,9 @@ feature -- Status checking
 
 	nr_of_items: INTEGER
 			-- Number of items in the subtitle
+		do
+			Result:=items.count
+		end
 
 	out: STRING
 			-- Returns the STRING representation of the list
