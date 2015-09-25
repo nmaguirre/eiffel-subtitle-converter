@@ -149,7 +149,11 @@ feature
 			if attached {SUBRIP_SUBTITLE} source as subrip_sub then
 				Result := subrip_sub
 			end
+
+		ensure
+	    	source_is_subrip: Result /= source
 		end
+
 
 	source: detachable SUBTITLE
 
