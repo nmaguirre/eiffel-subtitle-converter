@@ -22,6 +22,8 @@ feature
 		end
 
 	make_with_microdvd_subtitle (filename: STRING)
+		require
+			valid_filename: filename /= Void
 		do
 			create system_logic.make_with_microdvd_subtitle(filename)
 		end
