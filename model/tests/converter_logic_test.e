@@ -59,7 +59,12 @@ feature -- Test routines
 			assert ("has_load_subtitle isn't correct", passed = False)
 		end
 
+
 	test_has_loaded_subrip_subtitle_valid
+		-- Load subtitle subrip correct
+		note
+			testing : "covers/{CONVERTER_LOGIC}.has_loaded_subrip_subtitle"
+
 		local
 			passed: BOOLEAN
 			converter : CONVERTER_LOGIC
@@ -68,13 +73,16 @@ feature -- Test routines
 			create converter.make
 			create subtitle.make
 			converter.set_source(subtitle)
-			passed := (converter.has_loaded_subrip_subtitle)
-			assert("Loaded subrip subtitle is correct ", passed =True)
+			passed := (converter.source /= Void) and (converter.has_loaded_subrip_subtitle = True)
+			assert("Loaded subrip subtitle is correct ", passed = True)
 
 		end
 
-
 	test_has_loaded_subrip_subtitle_invalid
+		-- Load subtitle subrip invalid
+		note
+			testing : "covers/{CONVERTER_LOGIC}.has_loaded_subrip_subtitle"
+
 		local
 			passed: BOOLEAN
 			converter : CONVERTER_LOGIC
@@ -83,11 +91,34 @@ feature -- Test routines
 			create converter.make
 			create subtitle.make
 			converter.set_source(subtitle)
-			passed := (converter.has_loaded_subrip_subtitle)
-			assert("Loaded subrip subtitle isn't correct ", passed =False)
+			passed := (converter.source /= Void) and (converter.has_loaded_subrip_subtitle = False)
+			assert("Loaded subrip subtitle isn't correct because of load microdvd subtitle ", passed = True)
 
 		end
 
+	test_has_loaded_subrip_subtitle_invalid_void
+		-- without loaded subtitle for the  routine has_loaded_subrip_subtitle
+		note
+			testing : "covers/{CONVERTER_LOGIC}.has_loaded_subrip_subtitle"
+
+		local
+			converter: CONVERTER_LOGIC
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create converter.make
+			if (not rescued) then
+				passed:= converter.has_loaded_subrip_subtitle
+			end
+			passed := converter.source /= Void
+			assert("Loaded subrip subtitle isn't correct because is empty ", not passed)
+
+			rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
 	test_is_ready_to_convert_valid
 		local
 			passed: BOOLEAN
