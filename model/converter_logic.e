@@ -98,10 +98,13 @@ feature
 			-- System is ready to convert: source is loaded, and
 			-- conversion hasn't taken place yet
 		require
-			has_loaded_subtitle;
-			has_loaded_microdvd_subtitle
+			has_loaded_subtitle /= Void
 		do
-
+			if has_loaded_subtitle and target = Void  then
+				Result := True
+			else
+				Result := False
+			end
 		end
 
 	set_source(new_source: SUBTITLE)
@@ -113,6 +116,10 @@ feature
 			source_is_set: source.is_equal(new_source)
 		end
 
+	set_target(new_target: SUBTITLE) obsolete "To be deleted: Unnecessary feature"
+		do
+			target := new_target
+		end
 
 feature
 
