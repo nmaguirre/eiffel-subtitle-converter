@@ -20,7 +20,10 @@ feature -- Initialisation
 
 	make
 			-- Creates time with default values hh:mm:ss:mmmm
+		obsolete
+			"Use 'default_create' instead"
 		do
+			default_create
 		ensure
 			hours=0 and
 			minutes=0 and
