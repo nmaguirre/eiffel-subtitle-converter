@@ -100,7 +100,7 @@ feature -- Status report
 		local
 			res: STRING
 		do
-			res.make_empty
+			create res.make_empty
 			res.append (start_time.out+" --> "+stop_time.out+"%N")
 			res.append (text+"%N")
 			Result := res
