@@ -93,7 +93,8 @@ feature -- Status setting
 
 	set_seconds (new_seconds: INTEGER)
 			-- sets seconds to provided value
-		require (new_seconds < 60) and (new_seconds >= 0)
+		require
+			valid_seconds: (new_seconds < 60) and (new_seconds >= 0)
 		do
 			seconds:= new_seconds
 		ensure
