@@ -163,7 +163,7 @@ feature -- Status checking
 		local
 			res: STRING
 		do
-			res.make_empty
+			create res.make_empty
 			from
 				items.start
 			until
