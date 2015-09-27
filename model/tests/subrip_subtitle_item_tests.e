@@ -90,7 +90,7 @@ feature -- Test routines
 			create item.make_with_text (start_time,stop_time,text)
 			pass := True
 		end
-		assert ("Create Subrip with invalid text entry", not pass)
+		assert ("Create Subrip item with invalid text entry", not pass)
 		rescue
 		if (not rescued) then
 			rescued := True
