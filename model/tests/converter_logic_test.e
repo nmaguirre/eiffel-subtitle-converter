@@ -269,6 +269,74 @@ feature -- Test routines
 				retry
 			end
 	end
+
+	test_source_as_subrip_void_valid
+			-- Checks 'source_as_subrip' with a SUBRIP_SUBTITLE void
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.source_as_subrip"
+		local
+			converter: CONVERTER_LOGIC
+			subrip_sub: SUBRIP_SUBTITLE
+		do
+			create subrip_sub.make
+			create converter.make
+			converter.set_source (subrip_sub)
+			assert ("source_as_subrip valid", converter.source.is_equal(converter.source_as_subrip))
+		end
+
+	test_source_as_subrip_valid
+			-- Checks 'source_as_subrip' with a SUBRIP_SUBTITLE /= void
+		note
+			testing: "covers/{CONVERTER_LOGIC}.source_as_subrip"
+		local
+			converter: CONVERTER_LOGIC
+			subrip_sub: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subrip_sub.make
+			create converter.make
+			create start_time.make_with_values (0, 10, 35, 100)
+			create stop_time.make_with_values (0, 11, 25, 250)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "Subtitle line_one")
+			create start_time.make_with_values (1, 22, 45, 350)
+			create stop_time.make_with_values (1, 23, 50, 500)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "Subtitle line_two")
+
+			converter.set_source (subrip_sub)
+			assert("source_as_subrip valid", converter.source.is_equal(converter.source_as_subrip))
+		end
+
+	test_source_as_subrip_invalid
+			-- Checks 'source_as_subrip' with an invalid SUBRIP_SUBTITLE
+		note
+			testing:  "covers/{CONVERTER_LOGIC_TEST}.source_as_subrip"
+		local
+			converter: CONVERTER_LOGIC
+			subrip_sub: SUBRIP_SUBTITLE
+			source_subrip_sub: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create subrip_sub.make
+			create converter.make
+			create start_time.make_with_values (2,23,40,600)
+			create stop_time.make_with_values (1,40,28,100)
+			if (not rescued) then
+				subrip_sub.add_subtitle_item (start_time, stop_time,"Subtitle line")
+				converter.set_source (subrip_sub)
+				source_subrip_sub := converter.source_as_subrip
+				passed := True
+			end
+			assert ("source_as_subrip broke", not passed)
+			rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
 end
 
 
