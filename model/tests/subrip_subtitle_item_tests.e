@@ -69,7 +69,7 @@ feature -- Test routines
 		create stop_time.make_with_values (2,0,0,0)
 		text:="Subtitle"
 		create item.make_with_text (start_time,stop_time,text)
-		assert ("Make With Subtitle", item.text.is_equal(text))
+		assert ("Create Subrip item with text", item.text.is_equal(text))
 	end
 
 	test_make_invalid_with_text
@@ -90,7 +90,7 @@ feature -- Test routines
 			create item.make_with_text (start_time,stop_time,text)
 			pass := True
 		end
-		assert ("make broke", not pass)
+		assert ("Create Subrip with invalid text entry", not pass)
 		rescue
 		if (not rescued) then
 			rescued := True
@@ -260,7 +260,7 @@ feature -- Test routines
 			"[
 			01:02:15,322 --> 01:20:54,500
 			Subtitle
-			
+
 			]"
 		))
 	end
