@@ -15,6 +15,118 @@ inherit
 
 feature -- Test routines
 
+
+	test_valid_make_from_file
+			-- Make MicroDVD Subtitle from file
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.make_from_file"
+		local
+			subs: MICRODVD_SUBTITLE
+			file: PLAIN_TEXT_FILE
+		do
+			create file.make_with_name ("text_archive")
+			file.open_write
+			file.putstring ("{1}{2}first_text")
+			file.new_line
+			file.putstring ("{3}{5}second_text")
+			file.new_line
+			file.close
+			create subs.make_from_file("text_archive")
+			assert ("Make MicroDVD from file is correct", subs.items.count = 2)
+			file.delete
+		end
+
+
+	test_make_from_file_invalid_values
+			--make_from_file breaks on invalid values
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.make_from_file"
+		local
+			subs: MICRODVD_SUBTITLE
+			file: PLAIN_TEXT_FILE
+			pass: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create file.make_with_name ("text_archive")
+			if not rescued then
+				file.open_write
+				file.putstring ("{2}{1}first_text")
+				file.new_line
+				file.close
+				create subs.make_from_file("text_archive")
+				pass:= True
+			end
+			assert ("Make MicroDVD from file with invalid value is broke", not pass)
+			file.delete
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+
+	test_invalid_make_from_file_negative_value
+			--make_from_file breaks on negative value
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.make_from_file"
+		local
+			subs: MICRODVD_SUBTITLE
+			file: PLAIN_TEXT_FILE
+			pass: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create file.make_with_name ("text_archive")
+			if not rescued then
+				file.open_write
+				file.putstring ("{-1}{2}first_text")
+				file.new_line
+				file.close
+				create subs.make_from_file("text_archive")
+				pass:= True
+			end
+			assert ("Make MicroDVD from file with negative value is broke", not pass)
+			file.delete
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+
+	test_invalid_make_from_file_wrong_sequence
+			--make_from_file breaks on wrong sequence
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.make_from_file"
+		local
+			subs: MICRODVD_SUBTITLE
+			file: PLAIN_TEXT_FILE
+			pass: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create file.make_with_name ("text_archive")
+			if not rescued then
+				file.open_write
+				file.putstring ("{1}{4}first_text")
+				file.new_line
+				file.putstring ("{3}{7}second_text")
+				file.new_line
+				file.putstring ("{2}{9}third_text")
+				file.new_line
+				file.close
+				create subs.make_from_file("text_archive")
+				pass:= True
+			end
+			assert ("Make MicroDVD from file on invalid sequence is broke", not pass)
+			file.delete
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
 	test_repOk_valid_representation
 			-- create a valid sequence and evaluate it with repOk.
 			-- Modifies the items list manually
