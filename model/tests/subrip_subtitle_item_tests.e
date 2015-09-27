@@ -242,5 +242,28 @@ feature -- Test routines
 			end
 		end
 
+	test_out
+		--check the correct string representation of a item
+	note
+			testing : "covers/{SUBRIP_SUBTITLE_ITEM}.out"
+	local
+		start_time: SUBRIP_SUBTITLE_TIME
+		stop_time: SUBRIP_SUBTITLE_TIME
+		item: SUBRIP_SUBTITLE_ITEM
+		text: STRING
+	do
+		create start_time.make_with_values(1,2,15,322)
+		create stop_time.make_with_values (1,20,54,500)
+		text:="Subtitle"
+		create item.make_with_text (start_time,stop_time,text)
+		assert ("Make With Subtitle", item.out.is_equal (
+			"[
+			01:02:15,322 --> 01:20:54,500
+			Subtitle
+			
+			]"
+		))
+	end
+
 end-- class SUBRIP_SUBTITLE_ITEM_TESTS
 
