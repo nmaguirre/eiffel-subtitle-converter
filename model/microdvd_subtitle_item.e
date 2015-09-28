@@ -7,6 +7,12 @@ note
 class
 	MICRODVD_SUBTITLE_ITEM
 
+inherit
+	ANY
+		redefine
+			out
+		end
+
 create
 	make, make_with_text,make_from_string
 
@@ -117,6 +123,14 @@ feature -- Status setting
 		end
 
 feature -- Status report
+
+	out: STRING
+			-- Returns the string representation of a MicroDVD item.
+			-- A MicroDVD subtitle looks this way:
+			--	{100}{250}Subtitle Text.
+		do
+			Result := "{"+start_frame.out+"}{"+stop_frame.out+"}"+text
+		end
 
 	start_frame: INTEGER
 			-- Frame where the subtitle item should start to be shown
