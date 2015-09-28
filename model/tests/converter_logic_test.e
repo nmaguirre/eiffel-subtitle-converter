@@ -310,7 +310,7 @@ feature -- Test routines
 	test_source_as_subrip_invalid
 			-- Checks 'source_as_subrip' with an invalid SUBRIP_SUBTITLE
 		note
-			testing:  "covers/{CONVERTER_LOGIC_TEST}.source_as_subrip"
+			testing:  "covers/{CONVERTER_LOGIC}.source_as_subrip"
 		local
 			converter: CONVERTER_LOGIC
 			subrip_sub: SUBRIP_SUBTITLE
@@ -331,6 +331,65 @@ feature -- Test routines
 				passed := True
 			end
 			assert ("source_as_subrip broke", not passed)
+			rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+	test_source_as_microdvd_void_valid
+			-- Checks 'source_as_microdvd' with a MICRODVD_SUBTITLE void
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.source_as_microdvd"
+		local
+			converter: CONVERTER_LOGIC
+			microdvd_sub: MICRODVD_SUBTITLE
+		do
+			create converter.make
+			create microdvd_sub.make
+			converter.set_source (microdvd_sub)
+
+			assert("source_as_microdvd valid",converter.source.is_equal(converter.source_as_microdvd))
+		end
+
+	test_source_as_microdvd_valid
+			-- Checks 'source_as_microdvd' with a MICRODVD_SUBTITLE /= void
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.source_as_microdvd"
+		local
+			converter: CONVERTER_LOGIC
+			microdvd_sub: MICRODVD_SUBTITLE
+		do
+			create converter.make
+			create microdvd_sub.make
+			microdvd_sub.add_subtitle_item (9,72,"Subtitle one")
+			microdvd_sub.add_subtitle_item (84,123,"Subtitle two")
+			converter.set_source (microdvd_sub)
+			assert("source_as_microdvd valid",converter.source.is_equal(converter.source_as_microdvd))
+		end
+
+	test_source_as_microdvd_invalid
+			-- Checks 'source_as_microdvd' with an invalid MICRODVD_SUBTITLE
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.source_as_microdvd"
+		local
+			converter: CONVERTER_LOGIC
+			microdvd_sub: MICRODVD_SUBTITLE
+			source_microdvd_sub: MICRODVD_SUBTITLE
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create microdvd_sub.make
+			create converter.make
+			if (not rescued) then
+				microdvd_sub.add_subtitle_item (9, 72, "Subtitulo one")
+				microdvd_sub.add_subtitle_item (60, 123, "Subtitulo two")
+				converter.set_source (microdvd_sub)
+				source_microdvd_sub := converter.source_as_microdvd
+				passed := True
+			end
+			assert ("source_as_microdvd broke", not passed)
 			rescue
 			if (not rescued) then
 				rescued := True
