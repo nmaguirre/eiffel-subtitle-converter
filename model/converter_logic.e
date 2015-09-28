@@ -64,7 +64,7 @@ feature -- Initialisation
 
 feature
 	last_load_succeeded : BOOLEAN
-		
+
 	has_loaded_subtitle: BOOLEAN
 			-- Is there a subtitle loaded?
 		do
@@ -153,7 +153,7 @@ feature
 			end
 
 		ensure
-	    	source_is_subrip: Result /= source
+	    	valid_source: Result = attached {SUBRIP_SUBTITLE} source
 		end
 
 
