@@ -34,11 +34,7 @@ feature -- Test routines
 			create start_time.make_with_values (0, 8, 0, 330)
 			create stop_time.make_with_values (0, 20, 0, 500)
 			subrip_sub.add_subtitle_item (start_time,stop_time,subtitle)
-			if (subrip_sub.items.count /= 0)
-			then
-				subrip_sub.flush
-			end
-
+			subrip_sub.flush
 			assert ("flush correct", subrip_sub.items.count = 0)
 		end
 
