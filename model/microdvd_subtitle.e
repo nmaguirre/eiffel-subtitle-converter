@@ -9,6 +9,9 @@ class
 
 inherit
 	SUBTITLE
+		redefine
+			out
+		end
 
 create
 	make,make_from_file
@@ -162,6 +165,23 @@ feature -- Status report
 			-- Frames per second to which this subtitle corresponds
 
 feature -- Status checking
+
+	out: STRING
+			-- Returns the STRING representation of the list
+		local
+			res: STRING
+		do
+			create res.make_empty
+			from
+				items.start
+			until
+				items.off
+			loop
+				res.append (items.item.out+"%N")
+				items.forth
+			end
+			Result := res
+		end
 
 	repOK: BOOLEAN
 			-- Checks if subtitle is internally consistent.
