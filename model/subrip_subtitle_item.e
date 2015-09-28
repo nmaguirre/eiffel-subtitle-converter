@@ -43,9 +43,9 @@ feature -- Initialisation
 			stop_time := new_stop_time
 			text := new_text
 		ensure
-			valid_result:start_time.is_equal(new_start_time) and
-						 stop_time.is_equal(new_stop_time)   and
-		    			 text.is_equal (new_text)
+			valid_start_time:start_time.is_equal(new_start_time)
+			valid_stop_time: stop_time.is_equal(new_stop_time)
+			valid_text: text.is_equal (new_text)
 		end
 
 	make_from_string (time_line: STRING; subtitle_text: STRING)
@@ -100,7 +100,7 @@ feature -- Status report
 		local
 			res: STRING
 		do
-			res.make_empty
+			create res.make_empty
 			res.append (start_time.out+" --> "+stop_time.out+"%N")
 			res.append (text+"%N")
 			Result := res

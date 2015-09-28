@@ -47,8 +47,15 @@ feature -- Initialisation
 			microdvd : MICRODVD_SUBTITLE
 		do
 			create microdvd.make_from_file(file_name)
-			source := microdvd
-			target := Void
+			if(microdvd.repok) then
+				source := microdvd
+				target := Void
+				last_load_succeeded := true
+			else
+				source := Void
+				target := Void
+				last_load_succeeded := false
+			end
 		ensure
 			valid_source: (source /= Void and last_load_succeeded = true) or (source = Void and last_load_succeeded = false)
 			valid_target: target = Void
@@ -57,11 +64,7 @@ feature -- Initialisation
 
 feature
 	last_load_succeeded : BOOLEAN
-			-- this is only for compile
-		do
-			result := FALSE
-		end
-
+		
 	has_loaded_subtitle: BOOLEAN
 			-- Is there a subtitle loaded?
 		do

@@ -29,48 +29,42 @@ feature -- Initialisation
 
 	make_from_file (file: PLAIN_TEXT_FILE)
 			-- Initialize a subrip_subtitle from a file
+		require
+			open_read: file.is_open_read
 		local
 			time_line: STRING
-			subtitle_text: STRING
+			text_line: STRING
 			item: SUBRIP_SUBTITLE_ITEM
-			is_number: BOOLEAN
-			is_timecode: BOOLEAN
+			read_mode: INTEGER
 		do
-			create time_line.make_empty
-			create subtitle_text.make_empty
 			create items.make
-			is_number := True -- srt files start with a number
-			is_timecode := False
-			-- file.open_read
+			create time_line.make_empty
+			create text_line.make_empty
+			read_mode := 0	-- srt files start with a number
 			from
 				file.read_line
 			until
 				file.end_of_file
 			loop
-				if is_number then
-					is_number := False
-					is_timecode := True -- next line is a timecode
-				else -- is not a number
-					if is_timecode then
-						time_line.append (file.last_string)
-						is_timecode := False
-					else -- is text line
-						subtitle_text.append (file.last_string)
-						subtitle_text.append ("%N")
+				inspect read_mode
+				when 0 then
+					read_mode := 1 -- next line is a timecode
+				when 1 then
+					time_line.append (file.last_string)
+					read_mode := 2 -- next line is a text_line
+				when 2 then
+					if file.last_string.is_equal ("") then
+						create item.make_from_string (time_line, text_line)
+						items.extend (item)
+						time_line.wipe_out	-- remove all characters from time_line
+						text_line.wipe_out	-- remove all characters from subtitle_text
+						read_mode := 0		-- next line is a number
 					end
-
-				end
-				if file.last_string.is_equal ("") then
-					create item.make_from_string (time_line, subtitle_text)
-					items.extend (item)
-					time_line.wipe_out		-- remove all characters from time_line
-					subtitle_text.wipe_out	-- remove all characters from subtitle_text
-					is_number := True		-- next line is a number
+					text_line.append (file.last_string)
 				end
 				file.read_line -- next line
 			end
 		end
-
 
 feature -- Status setting
 
@@ -163,7 +157,7 @@ feature -- Status checking
 		local
 			res: STRING
 		do
-			res.make_empty
+			create res.make_empty
 			from
 				items.start
 			until

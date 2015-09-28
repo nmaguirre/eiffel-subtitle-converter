@@ -30,11 +30,11 @@ inherit
 		end
 
 create
-	create_with_logic
+	default_create
 
 feature -- Initialisation
 
-	create_with_logic(new_logic: CONVERTER_LOGIC)
+	set_logic(new_logic: CONVERTER_LOGIC)
 		do
 			system_logic := new_logic
 		end
@@ -277,13 +277,18 @@ feature {NONE} -- Implementation
 
 	build_main_container
 			-- Populate `main_container'.
+		local
+			microdvd_label: EV_LABEL
+			subrip_label: EV_LABEL
 		do
 			create microdvd_text
 			create subrip_text
 			microdvd_text.disable_edit
 			subrip_text.disable_edit
+			create microdvd_label.make_with_text ("MicroDVD")
+			microdvd_label.set_minimum_size (1, 1)
 			main_container.extend (create {EV_HORIZONTAL_SEPARATOR})
-			main_container.extend (create {EV_LABEL}.make_with_text ("MicroDVD"))
+			main_container.extend (microdvd_label)
 			main_container.extend (microdvd_text)
 			main_container.extend (create {EV_LABEL}.make_with_text ("SubRip"))
 			main_container.extend (subrip_text)
@@ -312,10 +317,10 @@ feature {NONE} -- Implementation / Constants
 	Window_title: STRING = "eiffel_subtitle_converter"
 			-- Title of the window.
 
-	Window_width: INTEGER = 400
+	Window_width: INTEGER = 600
 			-- Initial width for this window.
 
-	Window_height: INTEGER = 400
+	Window_height: INTEGER = 800
 			-- Initial height for this window.
 
 	microdvd_text: EV_TEXT

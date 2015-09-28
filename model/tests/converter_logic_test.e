@@ -59,7 +59,12 @@ feature -- Test routines
 			assert ("has_load_subtitle isn't correct", passed = False)
 		end
 
+
 	test_has_loaded_subrip_subtitle_valid
+		-- Load subtitle subrip correct
+		note
+			testing : "covers/{CONVERTER_LOGIC}.has_loaded_subrip_subtitle"
+
 		local
 			passed: BOOLEAN
 			converter : CONVERTER_LOGIC
@@ -68,13 +73,16 @@ feature -- Test routines
 			create converter.make
 			create subtitle.make
 			converter.set_source(subtitle)
-			passed := (converter.has_loaded_subrip_subtitle)
-			assert("Loaded subrip subtitle is correct ", passed =True)
+			passed := (converter.source /= Void) and (converter.has_loaded_subrip_subtitle = True)
+			assert("Loaded subrip subtitle is correct ", passed = True)
 
 		end
 
-
 	test_has_loaded_subrip_subtitle_invalid
+		-- Load subtitle subrip invalid
+		note
+			testing : "covers/{CONVERTER_LOGIC}.has_loaded_subrip_subtitle"
+
 		local
 			passed: BOOLEAN
 			converter : CONVERTER_LOGIC
@@ -83,11 +91,34 @@ feature -- Test routines
 			create converter.make
 			create subtitle.make
 			converter.set_source(subtitle)
-			passed := (converter.has_loaded_subrip_subtitle)
-			assert("Loaded subrip subtitle isn't correct ", passed =False)
+			passed := (converter.source /= Void) and (converter.has_loaded_subrip_subtitle = False)
+			assert("Loaded subrip subtitle isn't correct because of load microdvd subtitle ", passed = True)
 
 		end
 
+	test_has_loaded_subrip_subtitle_invalid_void
+		-- without loaded subtitle for the  routine has_loaded_subrip_subtitle
+		note
+			testing : "covers/{CONVERTER_LOGIC}.has_loaded_subrip_subtitle"
+
+		local
+			converter: CONVERTER_LOGIC
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create converter.make
+			if (not rescued) then
+				passed:= converter.has_loaded_subrip_subtitle
+			end
+			passed := converter.source /= Void
+			assert("Loaded subrip subtitle isn't correct because is empty ", not passed)
+
+			rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
 	test_is_ready_to_convert_valid
 		local
 			passed: BOOLEAN
@@ -145,7 +176,7 @@ feature -- Test routines
 	test_set_source_subrip_valid
 			-- Routine 'set_source' sets 'source' with a SUBRIP_SUBTITLE
 		note
-			testing:  "covers/{CONVERTER_LOGIC_TEST}.set_source"
+			testing:  "covers/{CONVERTER_LOGIC}.set_source"
 		local
 			converter: CONVERTER_LOGIC
 			subrip_sub: SUBRIP_SUBTITLE
@@ -168,7 +199,7 @@ feature -- Test routines
 	test_set_source_microdvd_valid
 		-- Routine 'set_source' sets 'source' with a MICRODVD_SUBTITLE
 		note
-			testing:  "covers/{CONVERTER_LOGIC_TEST}.set_source"
+			testing:  "covers/{CONVERTER_LOGIC}.set_source"
 		local
 			converter: CONVERTER_LOGIC
 			microdvd_sub: MICRODVD_SUBTITLE
@@ -186,7 +217,7 @@ feature -- Test routines
 	test_set_source_subrip_invalid
 			-- Routine 'set_source' sets 'source' with a start_time greater than stop_time
 		note
-			testing:  "covers/{CONVERTER_LOGIC_TEST}.set_source"
+			testing:  "covers/{CONVERTER_LOGIC}.set_source"
 		local
 			converter: CONVERTER_LOGIC
 			subrip_sub: SUBRIP_SUBTITLE
@@ -215,7 +246,7 @@ feature -- Test routines
 	test_set_source_microdvd_invalid
 			-- Routine 'set_source' sets 'source' with a start_frame underhand
 		note
-			testing:  "covers/{CONVERTER_LOGIC_TEST}.set_source"
+			testing:  "covers/{CONVERTER_LOGIC}.set_source"
 		local
 			converter: CONVERTER_LOGIC
 			microdvd_sub: MICRODVD_SUBTITLE
@@ -238,6 +269,133 @@ feature -- Test routines
 				retry
 			end
 	end
+
+	test_source_as_subrip_void_valid
+			-- Checks 'source_as_subrip' with a SUBRIP_SUBTITLE void
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.source_as_subrip"
+		local
+			converter: CONVERTER_LOGIC
+			subrip_sub: SUBRIP_SUBTITLE
+		do
+			create subrip_sub.make
+			create converter.make
+			converter.set_source (subrip_sub)
+			assert ("source_as_subrip valid", converter.source.is_equal(converter.source_as_subrip))
+		end
+
+	test_source_as_subrip_valid
+			-- Checks 'source_as_subrip' with a SUBRIP_SUBTITLE /= void
+		note
+			testing: "covers/{CONVERTER_LOGIC}.source_as_subrip"
+		local
+			converter: CONVERTER_LOGIC
+			subrip_sub: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subrip_sub.make
+			create converter.make
+			create start_time.make_with_values (0, 10, 35, 100)
+			create stop_time.make_with_values (0, 11, 25, 250)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "Subtitle line_one")
+			create start_time.make_with_values (1, 22, 45, 350)
+			create stop_time.make_with_values (1, 23, 50, 500)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "Subtitle line_two")
+
+			converter.set_source (subrip_sub)
+			assert("source_as_subrip valid", converter.source.is_equal(converter.source_as_subrip))
+		end
+
+	test_source_as_subrip_invalid
+			-- Checks 'source_as_subrip' with an invalid SUBRIP_SUBTITLE
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.source_as_subrip"
+		local
+			converter: CONVERTER_LOGIC
+			subrip_sub: SUBRIP_SUBTITLE
+			source_subrip_sub: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create subrip_sub.make
+			create converter.make
+			create start_time.make_with_values (2,23,40,600)
+			create stop_time.make_with_values (1,40,28,100)
+			if (not rescued) then
+				subrip_sub.add_subtitle_item (start_time, stop_time,"Subtitle line")
+				converter.set_source (subrip_sub)
+				source_subrip_sub := converter.source_as_subrip
+				passed := True
+			end
+			assert ("source_as_subrip broke", not passed)
+			rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+	test_source_as_microdvd_void_valid
+			-- Checks 'source_as_microdvd' with a MICRODVD_SUBTITLE void
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.source_as_microdvd"
+		local
+			converter: CONVERTER_LOGIC
+			microdvd_sub: MICRODVD_SUBTITLE
+		do
+			create converter.make
+			create microdvd_sub.make
+			converter.set_source (microdvd_sub)
+
+			assert("source_as_microdvd valid",converter.source.is_equal(converter.source_as_microdvd))
+		end
+
+	test_source_as_microdvd_valid
+			-- Checks 'source_as_microdvd' with a MICRODVD_SUBTITLE /= void
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.source_as_microdvd"
+		local
+			converter: CONVERTER_LOGIC
+			microdvd_sub: MICRODVD_SUBTITLE
+		do
+			create converter.make
+			create microdvd_sub.make
+			microdvd_sub.add_subtitle_item (9,72,"Subtitle one")
+			microdvd_sub.add_subtitle_item (84,123,"Subtitle two")
+			converter.set_source (microdvd_sub)
+			assert("source_as_microdvd valid",converter.source.is_equal(converter.source_as_microdvd))
+		end
+
+	test_source_as_microdvd_invalid
+			-- Checks 'source_as_microdvd' with an invalid MICRODVD_SUBTITLE
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.source_as_microdvd"
+		local
+			converter: CONVERTER_LOGIC
+			microdvd_sub: MICRODVD_SUBTITLE
+			source_microdvd_sub: MICRODVD_SUBTITLE
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create microdvd_sub.make
+			create converter.make
+			if (not rescued) then
+				microdvd_sub.add_subtitle_item (9, 72, "Subtitulo one")
+				microdvd_sub.add_subtitle_item (60, 123, "Subtitulo two")
+				converter.set_source (microdvd_sub)
+				source_microdvd_sub := converter.source_as_microdvd
+				passed := True
+			end
+			assert ("source_as_microdvd broke", not passed)
+			rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
 end
 
 

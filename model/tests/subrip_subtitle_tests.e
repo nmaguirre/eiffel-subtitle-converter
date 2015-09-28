@@ -50,12 +50,21 @@ feature -- Test routines
 			subrip_sub: SUBRIP_SUBTITLE
 			start_time: SUBRIP_SUBTITLE_TIME
 			stop_time: SUBRIP_SUBTITLE_TIME
+			old_items_count: INTEGER
 		do
 			create subrip_sub.make
 			create start_time.make_with_values (1, 20, 15, 350)
-			create stop_time.make_with_values (1, 25, 15, 550)
+			create stop_time.make_with_values (1, 21, 15, 550)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "First line")
+			create start_time.make_with_values (1, 40, 35, 240)
+			create stop_time.make_with_values (1, 40, 36, 760)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "Last line")
+			old_items_count := subrip_sub.items.count
+
+			create start_time.make_with_values (1, 40, 00, 000)
+			create stop_time.make_with_values (1, 41, 00, 000)
 			subrip_sub.remove_items (start_time,stop_time)
-			assert ("remove_items correct", True)
+			assert ("remove_items correct", subrip_sub.items.count <= old_items_count)
 		end
 
 	test_remove_items_invalid
