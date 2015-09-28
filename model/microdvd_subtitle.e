@@ -9,6 +9,9 @@ class
 
 inherit
 	SUBTITLE
+		redefine
+			out
+		end
 
 create
 	make,make_from_file
@@ -44,7 +47,7 @@ feature -- Initialisation
 			loop
 				create current_line.make_from_string(microdvd_file.last_string)
 				create microdvd_item.make_from_string(current_line)
-				items.extend(microdvd_item)
+				add_subtitle_item(microdvd_item.start_frame,microdvd_item.stop_frame,microdvd_item.text)
 				microdvd_file.read_line
 			end
 
@@ -66,7 +69,8 @@ feature -- Status setting
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
 		require
-			valid_item: start_frame >= 0 and start_frame < stop_frame
+			valid_item: start_frame < stop_frame
+			valid_start_frame: start_frame >= 0
 			text_not_void : text /= Void
 		local
 			new_frame: MICRODVD_SUBTITLE_ITEM
@@ -84,8 +88,10 @@ feature -- Status setting
 				end
 				if items.islast then
 					items.extend(new_frame)
+					items.forth
 				else
 					items.put_right(new_frame)
+					items.forth
 				end
 
 			 end
@@ -161,6 +167,23 @@ feature -- Status report
 			-- Frames per second to which this subtitle corresponds
 
 feature -- Status checking
+
+	out: STRING
+			-- Returns the STRING representation of the list
+		local
+			res: STRING
+		do
+			create res.make_empty
+			from
+				items.start
+			until
+				items.off
+			loop
+				res.append (items.item.out+"%N")
+				items.forth
+			end
+			Result := res
+		end
 
 	repOK: BOOLEAN
 			-- Checks if subtitle is internally consistent.
