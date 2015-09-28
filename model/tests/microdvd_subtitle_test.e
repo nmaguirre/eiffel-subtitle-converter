@@ -208,12 +208,10 @@ feature -- Test routines
 			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
 		local
 			subtitle: MICRODVD_SUBTITLE
-			old_value: INTEGER
 		do
 			create subtitle.make
 			subtitle.add_subtitle_item (0, 5, "text_one")
 			subtitle.add_subtitle_item (10, 15, "text_two")
-			old_value := subtitle.items.count
 			subtitle.remove_items (0,5)
 			assert ("remove_items correct", subtitle.items.count =  1)
 		end
@@ -225,12 +223,10 @@ feature -- Test routines
 			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
 		local
 			subtitle: MICRODVD_SUBTITLE
-			old_value: INTEGER
 		do
 			create subtitle.make
 			subtitle.add_subtitle_item (0, 5, "text_one")
 			subtitle.add_subtitle_item (10, 15, "text_two")
-			old_value := subtitle.items.count
 			subtitle.remove_items (0,8)
 			assert ("remove_items correct", subtitle.items.count = 1)
 		end
@@ -241,12 +237,10 @@ feature -- Test routines
 			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
 		local
 			subtitle: MICRODVD_SUBTITLE
-			old_value: INTEGER
 		do
 			create subtitle.make
 			subtitle.add_subtitle_item (0, 5, "text_one")
 			subtitle.add_subtitle_item (10, 15, "text_two")
-			old_value := subtitle.items.count
 			subtitle.remove_items (0,15)
 			assert ("remove_items correct", subtitle.items.count = 0)
 		end
@@ -257,12 +251,10 @@ feature -- Test routines
 			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
 		local
 			subtitle: MICRODVD_SUBTITLE
-			old_value: INTEGER
 		do
 			create subtitle.make
 			subtitle.add_subtitle_item (0, 5, "text_one")
 			subtitle.add_subtitle_item (10, 15, "text_two")
-			old_value := subtitle.items.count
 			subtitle.remove_items (4,13)
 			assert ("remove_items correct", subtitle.items.count =  2)
 		end
@@ -274,12 +266,10 @@ feature -- Test routines
 			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
 		local
 			subtitle: MICRODVD_SUBTITLE
-			old_value: INTEGER
 		do
 			create subtitle.make
 			subtitle.add_subtitle_item (0, 5, "text_one")
 			subtitle.add_subtitle_item (10, 15, "text_two")
-			old_value := subtitle.items.count
 			subtitle.remove_items (0,20)
 			assert ("remove_items correct", subtitle.items.count = 0)
 		end
@@ -290,12 +280,10 @@ feature -- Test routines
 			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
 		local
 			subtitle: MICRODVD_SUBTITLE
-			old_value: INTEGER
 		do
 			create subtitle.make
 			subtitle.add_subtitle_item (0, 5, "text_one")
 			subtitle.add_subtitle_item (10, 15, "text_two")
-			old_value := subtitle.items.count
 			subtitle.remove_items (6,9)
 			assert ("remove_items correct", subtitle.items.count = 2)
 		end
