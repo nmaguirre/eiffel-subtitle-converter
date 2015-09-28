@@ -195,15 +195,10 @@ feature -- Test routines
 			testing:  "covers/{MICRODVD_SUBTITLE}.flush"
 		local
 			subtitle: MICRODVD_SUBTITLE
-			flag: BOOLEAN
 		do
 			create subtitle.make
 			subtitle.add_subtitle_item (0, 5, "test flush_items_not_empty")
-			if (subtitle.items.count /= 0) then
-				subtitle.flush
-				flag := true
-			end
-			assert ("flush correct", flag = True)
+			subtitle.flush
 			assert ("flush correct", subtitle.items.count = 0)
 		end
 
