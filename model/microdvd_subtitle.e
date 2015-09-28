@@ -66,7 +66,8 @@ feature -- Status setting
 			-- adds new item to the subtitle.
 			-- must be added in the correct place in the list of subtitle items
 		require
-			valid_item: start_frame >= 0 and start_frame < stop_frame
+			valid_item: start_frame < stop_frame
+			valid_start_frame: start_frame >= 0
 			text_not_void : text /= Void
 		local
 			new_frame: MICRODVD_SUBTITLE_ITEM
