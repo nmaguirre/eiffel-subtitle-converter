@@ -202,20 +202,90 @@ feature -- Test routines
 			assert ("flush correct", subtitle.items.count = 0)
 		end
 
-	test_remove_items_valid
+	test_remove_items_valid_one
+			-- checks that remove subtitle items from start_frame
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
+		local
+			subtitle: MICRODVD_SUBTITLE
+		do
+			create subtitle.make
+			subtitle.add_subtitle_item (0, 5, "text_one")
+			subtitle.add_subtitle_item (10, 15, "text_two")
+			subtitle.remove_items (0,5)
+			assert ("remove_items correct", subtitle.items.count =  1)
+		end
+
+
+	test_remove_items_valid_two
+			-- checks that removes subtitle items between start_frame and one value out of range from start_frame
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
+		local
+			subtitle: MICRODVD_SUBTITLE
+		do
+			create subtitle.make
+			subtitle.add_subtitle_item (0, 5, "text_one")
+			subtitle.add_subtitle_item (10, 15, "text_two")
+			subtitle.remove_items (0,8)
+			assert ("remove_items correct", subtitle.items.count = 1)
+		end
+
+	test_remove_items_valid_three
 			-- checks that removes all subtitle items between start_frame and stop_frame
 		note
 			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
 		local
 			subtitle: MICRODVD_SUBTITLE
-			old_value: INTEGER
 		do
 			create subtitle.make
 			subtitle.add_subtitle_item (0, 5, "text_one")
 			subtitle.add_subtitle_item (10, 15, "text_two")
-			old_value := subtitle.items.count
-			subtitle.remove_items (0,5)
-			assert ("remove_items correct", subtitle.items.count <=  old_value)
+			subtitle.remove_items (0,15)
+			assert ("remove_items correct", subtitle.items.count = 0)
+		end
+
+	test_remove_items_valid_four
+			-- checks that removes subtitle items between start_frame and stop_frame
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
+		local
+			subtitle: MICRODVD_SUBTITLE
+		do
+			create subtitle.make
+			subtitle.add_subtitle_item (0, 5, "text_one")
+			subtitle.add_subtitle_item (10, 15, "text_two")
+			subtitle.remove_items (4,13)
+			assert ("remove_items correct", subtitle.items.count =  2)
+		end
+
+
+	test_remove_items_valid_five
+			-- checks that removes all subtitle items between start_frame and stop_frame and value out of range from stop_frame
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
+		local
+			subtitle: MICRODVD_SUBTITLE
+		do
+			create subtitle.make
+			subtitle.add_subtitle_item (0, 5, "text_one")
+			subtitle.add_subtitle_item (10, 15, "text_two")
+			subtitle.remove_items (0,20)
+			assert ("remove_items correct", subtitle.items.count = 0)
+		end
+
+	test_remove_items_valid_six
+			-- checks that removes subtitle items of value between start_frame and stop_frame
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.remove_items"
+		local
+			subtitle: MICRODVD_SUBTITLE
+		do
+			create subtitle.make
+			subtitle.add_subtitle_item (0, 5, "text_one")
+			subtitle.add_subtitle_item (10, 15, "text_two")
+			subtitle.remove_items (6,9)
+			assert ("remove_items correct", subtitle.items.count = 2)
 		end
 
 	test_remove_items_invalid_negative_value
