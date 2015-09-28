@@ -189,6 +189,49 @@ feature -- Status checking
 			repOk_check: Result /= void
 		end
 
+feature {CONVERTER_LOGIC} -- Auxiliary functions 	
+
+	convert_to_subrip : SUBRIP_SUBTITLE
+			-- This routine converts a Microdvd subtitle into a Subrip subtitle
+		local
+			subrip_sub: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+		do
+			from
+				items.start
+			until
+				items.off
+			loop
+				create subrip_sub.make
+				start_time:= change_format_to_subrip(items.item.start_frame)
+				stop_time:= change_format_to_subrip(items.item.stop_frame)
+				subrip_sub.add_subtitle_item (start_time, stop_time,items.item.text)
+				items.forth
+			end
+			Result := subrip_sub
+		end
+
+	change_format_to_subrip (stframe: INTEGER): SUBRIP_SUBTITLE_TIME
+			-- This auxiliary routine converts a  Microdvd subtitle format into aSubrip subtitle format	
+		local
+		seconds,hours,minutes,miliseconds_rounded: INTEGER
+		frame_microdvd,miliseconds: DOUBLE
+		subrip_time: SUBRIP_SUBTITLE_TIME
+		do
+			frame_microdvd := (stframe / frames_per_second)
+			hours:= frame_microdvd.truncated_to_integer // 3600
+			minutes:= (frame_microdvd.truncated_to_integer \\ 3600) // 60
+			seconds:= frame_microdvd.truncated_to_integer \\ 60
+			miliseconds:= (frame_microdvd - frame_microdvd.truncated_to_integer )*1000
+			miliseconds_rounded:= miliseconds.rounded
+			create subrip_time.make_with_values (hours, minutes, seconds, miliseconds_rounded)
+			Result:= subrip_time
+
+		end
+
+
+
 feature {MICRODVD_SUBTITLE_TEST} -- Implementation
 
 	items: LINKED_LIST[MICRODVD_SUBTITLE_ITEM]
