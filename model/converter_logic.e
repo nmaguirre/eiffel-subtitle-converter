@@ -153,7 +153,7 @@ feature
 			end
 
 		ensure
-	    	valid_source: Result = attached {SUBRIP_SUBTITLE} source
+	    	valid_source: attached {SUBRIP_SUBTITLE} Result
 		end
 
 
