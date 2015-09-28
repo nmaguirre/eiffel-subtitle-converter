@@ -176,7 +176,7 @@ feature -- Test routines
 	test_set_source_subrip_valid
 			-- Routine 'set_source' sets 'source' with a SUBRIP_SUBTITLE
 		note
-			testing:  "covers/{CONVERTER_LOGIC_TEST}.set_source"
+			testing:  "covers/{CONVERTER_LOGIC}.set_source"
 		local
 			converter: CONVERTER_LOGIC
 			subrip_sub: SUBRIP_SUBTITLE
@@ -199,7 +199,7 @@ feature -- Test routines
 	test_set_source_microdvd_valid
 		-- Routine 'set_source' sets 'source' with a MICRODVD_SUBTITLE
 		note
-			testing:  "covers/{CONVERTER_LOGIC_TEST}.set_source"
+			testing:  "covers/{CONVERTER_LOGIC}.set_source"
 		local
 			converter: CONVERTER_LOGIC
 			microdvd_sub: MICRODVD_SUBTITLE
@@ -217,7 +217,7 @@ feature -- Test routines
 	test_set_source_subrip_invalid
 			-- Routine 'set_source' sets 'source' with a start_time greater than stop_time
 		note
-			testing:  "covers/{CONVERTER_LOGIC_TEST}.set_source"
+			testing:  "covers/{CONVERTER_LOGIC}.set_source"
 		local
 			converter: CONVERTER_LOGIC
 			subrip_sub: SUBRIP_SUBTITLE
@@ -246,7 +246,7 @@ feature -- Test routines
 	test_set_source_microdvd_invalid
 			-- Routine 'set_source' sets 'source' with a start_frame underhand
 		note
-			testing:  "covers/{CONVERTER_LOGIC_TEST}.set_source"
+			testing:  "covers/{CONVERTER_LOGIC}.set_source"
 		local
 			converter: CONVERTER_LOGIC
 			microdvd_sub: MICRODVD_SUBTITLE
