@@ -260,8 +260,7 @@ feature -- Test routines
 			"[
 			01:02:15,322 --> 01:20:54,500
 			Subtitle
-
-			]"
+			]"+"%N"
 		))
 	end
 
