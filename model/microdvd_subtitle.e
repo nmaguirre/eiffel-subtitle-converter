@@ -85,8 +85,10 @@ feature -- Status setting
 				end
 				if items.islast then
 					items.extend(new_frame)
+					items.forth
 				else
 					items.put_right(new_frame)
+					items.forth
 				end
 
 			 end
