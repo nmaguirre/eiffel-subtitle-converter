@@ -42,10 +42,11 @@ feature -- Initialisation
 			create text_line.make_empty
 			read_mode := 0	-- srt files start with a number
 			from
-				file.read_line
+				file.start
 			until
 				file.end_of_file
 			loop
+				file.read_line -- next line
 				inspect read_mode
 				when 0 then
 					read_mode := 1 -- next line is a timecode
@@ -62,7 +63,7 @@ feature -- Initialisation
 					end
 					text_line.append (file.last_string)
 				end
-				file.read_line -- next line
+
 			end
 		end
 
