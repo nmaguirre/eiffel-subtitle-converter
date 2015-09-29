@@ -112,14 +112,14 @@ feature -- Test routines
 --        Given a MicroDVD subtitle file with extension .sub, containing:
 --            {10}{0}Hola
 --        When the system is started with the name of the file as a parameter
-			create controller.make_with_microdvd_subtitle ("./acceptance_tests/sampleInvalid.sub")
+
+			create controller.make_with_microdvd_subtitle ("./acceptance_tests/invalidSample.sub")
 --        Then the system state should be initialised with no loaded subtitles
 --        And the user should be informed that the attempted load has failed
 			logic := controller.system_logic
 			assert ("load failed", not logic.last_load_succeeded)
 			assert ("loaded subtitle is microdvd", not logic.has_loaded_subtitle)
 		end
-
 
 feature
 
