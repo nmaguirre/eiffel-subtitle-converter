@@ -510,6 +510,66 @@ feature -- Test routines
 			assert ("Representation is right", time.out.is_equal("03:00:02,001"))
 		end
 
+	test_set_seconds_valid
+			-- set a seconds correctly
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE_TIME}.set_seconds"
+		local
+			item: SUBRIP_SUBTITLE_TIME
+		do
+			create item.make
+			item.set_seconds(0)
+			assert ("set_seconds correct", item.seconds = 0)
+		end
+
+
+	test_set_seconds_invalid
+			--set an invalid seconds
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE_TIME}.set_seconds"
+		local
+			item: SUBRIP_SUBTITLE_TIME
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create item.make
+			if (not rescued) then
+				item.set_seconds(65)
+				passed := True
+			end
+			assert ("set_seconds Invalid", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+
+	test_set_seconds_invalid_negative_value
+			-- method set_seconds breaks on negative value
+		note
+			testing : "covers/{SUBRIP_SUBTITLE_TIME}.set_seconds"
+
+		local
+			item: SUBRIP_SUBTITLE_TIME
+			passed: BOOLEAN
+			rescued: BOOLEAN
+
+		do
+			create item.make
+			if (not rescued) then
+				item.set_seconds(-10)
+				passed := True
+			end
+			assert ("set_seconds invalid negative value", not passed)
+		rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
 end -- class SUBRIP_SUBTITLE_ITEM_TESTS
 
 
