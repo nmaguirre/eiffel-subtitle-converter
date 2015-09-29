@@ -27,16 +27,16 @@ feature -- Initialisation
 			empty_list:	items.is_empty
 		end
 
-	make_from_file (file: PLAIN_TEXT_FILE)
+	make_from_file (filename: STRING)
 			-- Initialize a subrip_subtitle from a file
-		require
-			open_read: file.is_open_read
 		local
+			file: PLAIN_TEXT_FILE
 			time_line: STRING
 			text_line: STRING
 			item: SUBRIP_SUBTITLE_ITEM
 			read_mode: INTEGER
 		do
+			create file.make_open_read (filename)
 			create items.make
 			create time_line.make_empty
 			create text_line.make_empty

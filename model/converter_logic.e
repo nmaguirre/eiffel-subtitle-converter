@@ -29,13 +29,18 @@ feature -- Initialisation
 			-- Constructor takes as a parameter a filename of a
 			-- subrip subtitle file, setting source with it.
 		local
-			subrip_subtitle_file: PLAIN_TEXT_FILE
 			subrip_subtitle: SUBRIP_SUBTITLE
 		do
-			create subrip_subtitle_file.make_open_read (filename)
-			create subrip_subtitle.make_from_file (subrip_subtitle_file)
-			source := subrip_subtitle
-			target := Void
+			create subrip_subtitle.make_from_file (filename)
+			if subrip_subtitle.repok then
+				source := subrip_subtitle
+				target := Void
+				last_load_succeeded := True
+			else
+				source := Void
+				target := Void
+				last_load_succeeded := False
+			end
 		ensure
 			valid_source: (source /= Void and last_load_succeeded = true) or (source = Void and last_load_succeeded = false)
 			valid_target: target = Void
