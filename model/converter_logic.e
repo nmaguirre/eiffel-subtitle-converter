@@ -103,11 +103,7 @@ feature
 		require
 			has_loaded_subtitle /= Void
 		do
-			if has_loaded_subtitle and target = Void  then
-				Result := True
-			else
-				Result := False
-			end
+			Result := has_loaded_subtitle and target = Void 
 		end
 
 	set_source(new_source: SUBTITLE)
