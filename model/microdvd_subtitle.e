@@ -96,9 +96,9 @@ feature -- Status setting
 
 			 end
 		ensure
-			start_frame_set: items.item.start_frame.is_hashable
-			stop_frame_set: items.item.stop_frame.is_hashable
-			text_set: items.item.text.is_hashable
+			start_frame_set: items.item.start_frame.is_equal(start_frame)
+			stop_frame_set: items.item.stop_frame.is_equal(stop_frame)
+			text_set: items.item.text.is_equal(text)
 		end
 
 	flush
