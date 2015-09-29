@@ -396,6 +396,52 @@ feature -- Test routines
 				retry
 			end
 		end
+
+	test_convert_subtitle_source_microdvd
+		note
+			testing: "covers/{CONVERTER_LOGIC}.convert_subtitle"
+		local
+			converter: CONVERTER_LOGIC
+			subtitle : MICRODVD_SUBTITLE
+		do
+			create converter.make
+			create subtitle.make
+			subtitle.add_subtitle_item (0, 20,"Subtitle one")
+			subtitle.add_subtitle_item (23, 67,"Subtitle two")
+			subtitle.add_subtitle_item (68,89,"Subtitle three")
+			converter.set_source(subtitle)
+			converter.convert_subtitle
+			assert("Convert is correct",attached {SUBRIP_SUBTITLE} converter.target)
+		end
+
+  test_convert_subtitle_source_subrip
+  	note
+		testing: "covers/{CONVERTER_LOGIC}.convert_subtitle"
+  	local
+  		converter: CONVERTER_LOGIC
+  		subtitle_subrip: SUBRIP_SUBTITLE
+  		subrip_start_time: SUBRIP_SUBTITLE_TIME
+ 		subrip_stop_time: SUBRIP_SUBTITLE_TIME
+	do
+  		create converter.make
+  		create subtitle_subrip.make
+  		create subrip_start_time.make_with_values (0,9,34,300)
+  		create subrip_stop_time.make_with_values (0,19,0,200)
+  		subtitle_subrip.add_subtitle_item (subrip_start_time, subrip_stop_time,"text one")
+
+ 		create subrip_start_time.make_with_values (3,36,23,0)
+  		create subrip_stop_time.make_with_values (6,12,0,200)
+  		subtitle_subrip.add_subtitle_item (subrip_start_time, subrip_stop_time,"text two")
+
+  		create subrip_start_time.make_with_values (6,30,23,0)
+  		create subrip_stop_time.make_with_values (6,56,45,700)
+  		subtitle_subrip.add_subtitle_item (subrip_start_time, subrip_stop_time,"text three")
+
+  		converter.set_source (subtitle_subrip)
+  		converter.convert_subtitle
+  		assert("Convert is correct",attached {MICRODVD_SUBTITLE} converter.target)
+  end
+
 end
 
 

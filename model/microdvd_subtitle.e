@@ -138,20 +138,20 @@ feature -- Status setting
 			valid_stop_frame: stop_frame>0 and start_frame<stop_frame
 		local
 			res: BOOLEAN
-			item_microdvd: MICRODVD_SUBTITLE_ITEM
+			microdvd: MICRODVD_SUBTITLE_ITEM
 		do
 			create res.default_create
-			res := True
+			res := False
 			from
 				items.start
 			until
-				items.islast
+				items.off or res
 			loop
-				item_microdvd := items.item
-				if(item_microdvd.start_frame >= start_frame and item_microdvd.stop_frame <= stop_frame)then
-					res := False
-				end
+				microdvd := items.item
 				items.forth
+				if(microdvd.stop_frame < start_frame and items.item.start_frame > stop_frame)then
+					res := True
+				end
 			end
 			Result := res
 		end
@@ -211,6 +211,49 @@ feature -- Status checking
 		ensure
 			repOk_check: Result /= void
 		end
+
+feature {CONVERTER_LOGIC} -- Auxiliary functions 	
+
+	convert_to_subrip : SUBRIP_SUBTITLE
+			-- This routine converts a Microdvd subtitle into a Subrip subtitle
+		local
+			subrip_sub: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+		do
+			from
+				items.start
+			until
+				items.off
+			loop
+				create subrip_sub.make
+				start_time:= change_format_to_subrip(items.item.start_frame)
+				stop_time:= change_format_to_subrip(items.item.stop_frame)
+				subrip_sub.add_subtitle_item (start_time, stop_time,items.item.text)
+				items.forth
+			end
+			Result := subrip_sub
+		end
+
+	change_format_to_subrip (stframe: INTEGER): SUBRIP_SUBTITLE_TIME
+			-- This auxiliary routine converts a  Microdvd subtitle format into aSubrip subtitle format	
+		local
+		seconds,hours,minutes,miliseconds_rounded: INTEGER
+		frame_microdvd,miliseconds: DOUBLE
+		subrip_time: SUBRIP_SUBTITLE_TIME
+		do
+			frame_microdvd := (stframe / frames_per_second)
+			hours:= frame_microdvd.truncated_to_integer // 3600
+			minutes:= (frame_microdvd.truncated_to_integer \\ 3600) // 60
+			seconds:= frame_microdvd.truncated_to_integer \\ 60
+			miliseconds:= (frame_microdvd - frame_microdvd.truncated_to_integer )*1000
+			miliseconds_rounded:= miliseconds.rounded
+			create subrip_time.make_with_values (hours, minutes, seconds, miliseconds_rounded)
+			Result:= subrip_time
+
+		end
+
+
 
 feature {MICRODVD_SUBTITLE_TEST} -- Implementation
 
