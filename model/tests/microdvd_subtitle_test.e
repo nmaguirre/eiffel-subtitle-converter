@@ -432,6 +432,20 @@ feature -- Test routines
 			assert("free time frame",microdvd.free_time_frame (6, 7))
 		end
 
+	test_free_time_frame_invalid
+		note
+			testing: "convers/{MICRODVD_SUBTITLE}.free_time_frame"
+		local
+			microdvd: MICRODVD_SUBTITLE
+		do
+			create microdvd.make
+			microdvd.add_subtitle_item (1, 2,"hola")
+			microdvd.add_subtitle_item (3, 5,"buenas")
+			microdvd.add_subtitle_item (8, 10,"chau")
+			assert("free time frame",not microdvd.free_time_frame (6, 8))
+		end
+
+
 
 
 
