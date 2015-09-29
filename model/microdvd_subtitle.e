@@ -70,6 +70,7 @@ feature -- Status setting
 			-- must be added in the correct place in the list of subtitle items
 		require
 			valid_item: start_frame < stop_frame
+			valid_start_frame: start_frame >= 0
 			text_not_void : text /= Void
 		local
 			new_frame: MICRODVD_SUBTITLE_ITEM
@@ -87,8 +88,10 @@ feature -- Status setting
 				end
 				if items.islast then
 					items.extend(new_frame)
+					items.forth
 				else
 					items.put_right(new_frame)
+					items.forth
 				end
 
 			 end
