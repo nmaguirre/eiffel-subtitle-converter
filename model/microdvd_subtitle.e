@@ -227,8 +227,8 @@ feature {CONVERTER_LOGIC} -- Auxiliary functions
 				items.off
 			loop
 				create subrip_sub.make
-				start_time:= change_format_to_subrip(items.item.start_frame)
-				stop_time:= change_format_to_subrip(items.item.stop_frame)
+				start_time := change_format_to_subrip(items.item.start_frame)
+				stop_time := change_format_to_subrip(items.item.stop_frame)
 				subrip_sub.add_subtitle_item (start_time, stop_time,items.item.text)
 				items.forth
 			end
@@ -243,13 +243,13 @@ feature {CONVERTER_LOGIC} -- Auxiliary functions
 		subrip_time: SUBRIP_SUBTITLE_TIME
 		do
 			frame_microdvd := (stframe / frames_per_second)
-			hours:= frame_microdvd.truncated_to_integer // 3600
-			minutes:= (frame_microdvd.truncated_to_integer \\ 3600) // 60
-			seconds:= frame_microdvd.truncated_to_integer \\ 60
-			miliseconds:= (frame_microdvd - frame_microdvd.truncated_to_integer )*1000
-			miliseconds_rounded:= miliseconds.rounded
+			hours := frame_microdvd.truncated_to_integer // 3600
+			minutes := (frame_microdvd.truncated_to_integer \\ 3600) // 60
+			seconds := frame_microdvd.truncated_to_integer \\ 60
+			miliseconds := (frame_microdvd - frame_microdvd.truncated_to_integer )*1000
+			miliseconds_rounded := miliseconds.rounded
 			create subrip_time.make_with_values (hours, minutes, seconds, miliseconds_rounded)
-			Result:= subrip_time
+			Result := subrip_time
 
 		end
 

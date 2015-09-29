@@ -108,7 +108,7 @@ feature
 		require
 			has_loaded_subtitle /= Void
 		do
-			Result := has_loaded_subtitle and target = Void 
+			Result := has_loaded_subtitle and target = Void
 		end
 
 	set_source(new_source: SUBTITLE)
@@ -134,11 +134,11 @@ feature
 		do
 			if attached {MICRODVD_SUBTITLE} source as microdvd_sub
 			then
-				target:= microdvd_sub.convert_to_subrip
+				target := microdvd_sub.convert_to_subrip
 			end
 			if attached {SUBRIP_SUBTITLE} source as subrip_sub
 			then
-				target:= subrip_sub.convert_to_microdvd
+				target := subrip_sub.convert_to_microdvd
 			end
 
 		end
