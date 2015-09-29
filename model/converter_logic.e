@@ -103,11 +103,7 @@ feature
 		require
 			has_loaded_subtitle /= Void
 		do
-			if has_loaded_subtitle and target = Void  then
-				Result := True
-			else
-				Result := False
-			end
+			Result := has_loaded_subtitle and target = Void 
 		end
 
 	set_source(new_source: SUBTITLE)
@@ -127,9 +123,21 @@ feature
 feature
 
 	convert_subtitle
+			-- Converts the contents of 'source' and set 'target'.
+			-- If 'source' is a microdvd subtitle, 'target' will be a subrip subtitle.
+			-- In the other hand, if 'source' is a subrip subtitle, 'target' will be a microdvd subtitle.
 		do
+			if attached {MICRODVD_SUBTITLE} source as microdvd_sub
+			then
+				target:= microdvd_sub.convert_to_subrip
+			end
+			if attached {SUBRIP_SUBTITLE} source as subrip_sub
+			then
+				target:= subrip_sub.convert_to_microdvd
+			end
 
 		end
+
 
 feature
 
@@ -153,7 +161,7 @@ feature
 			end
 
 		ensure
-	    	valid_source: Result = attached {SUBRIP_SUBTITLE} source
+	    	valid_source: attached {SUBRIP_SUBTITLE} Result
 		end
 
 
