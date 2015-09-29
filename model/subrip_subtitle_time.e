@@ -75,7 +75,7 @@ feature -- Status setting
 	set_hour (new_hour: INTEGER)
 			-- sets hours to provided value
 		require
-			valid_hours: (new_hour < 24) and (new_hour >= 0)
+			valid_hours: (new_hour >= 0)
 		do
 			hours:= new_hour
 		ensure
