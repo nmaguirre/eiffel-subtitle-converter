@@ -138,20 +138,20 @@ feature -- Status setting
 			valid_stop_frame: stop_frame>0 and start_frame<stop_frame
 		local
 			res: BOOLEAN
-			item_microdvd: MICRODVD_SUBTITLE_ITEM
+			microdvd: MICRODVD_SUBTITLE_ITEM
 		do
 			create res.default_create
-			res := True
+			res := False
 			from
 				items.start
 			until
-				items.islast
+				items.off or res
 			loop
-				item_microdvd := items.item
-				if(item_microdvd.start_frame >= start_frame and item_microdvd.stop_frame <= stop_frame)then
-					res := False
-				end
+				microdvd := items.item
 				items.forth
+				if(microdvd.stop_frame < start_frame and items.item.start_frame > stop_frame)then
+					res := True
+				end
 			end
 			Result := res
 		end
