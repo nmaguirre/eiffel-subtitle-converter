@@ -197,8 +197,6 @@ feature -- Status checking
 				items.forth
 			end
 			Result := res
-		ensure
-			repOk_check: Result /= Void
 		end
 
 feature {CONVERTER_LOGIC} -- Auxiliary functions 		
