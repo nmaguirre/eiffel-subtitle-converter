@@ -46,18 +46,11 @@ feature -- Test routines
 		local
 			controller: CONTROLLER
 			logic: CONVERTER_LOGIC
-			file_subtitle: PLAIN_TEXT_FILE
 		do
 			--        Given a MicroDVD subtitle file with extension .sub, containing:
 			--            {1}{10}Hola
 			--            {12}{24}Chau
 			--        When the system is started with the name of the file as a parameter
-			create file_subtitle.make_open_write("sample.sub")
-			file_subtitle.putstring("{1}{10}Hola")
-			file_subtitle.new_line
-			file_subtitle.putstring("{12}{24}Chau")
-			file_subtitle.new_line
-			file_subtitle.close
 			create controller.make_with_microdvd_subtitle ("./acceptance_tests/sample.sub")
 			--        Then the system state should be initialised loading the provided subtitle
 			logic := controller.system_logic
@@ -67,7 +60,6 @@ feature -- Test routines
 			assert ("frame rate is the default", logic.source_as_microdvd.frames_per_second = default_framerate)
 			--        And the user should be informed that the system is ready to convert to SubRip format.
 			assert ("system ready to convert", logic.is_ready_to_convert)
-			file_subtitle.delete
 		end
 
 
