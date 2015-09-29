@@ -8,7 +8,7 @@ note
 	testing: "type/manual"
 
 class
-	CONTROLLER_TEST
+	CONTROLLER_TESTS
 
 inherit
 	EQA_TEST_SET

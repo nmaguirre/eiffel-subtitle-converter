@@ -106,7 +106,6 @@ feature
 			-- System is ready to convert: source is loaded, and
 			-- conversion hasn't taken place yet
 		require
-			has_loaded_subtitle /= Void
 		do
 			Result := has_loaded_subtitle and target = Void
 		end
@@ -154,6 +153,9 @@ feature
 			if attached {MICRODVD_SUBTITLE} source as microdvd_sub then
 				Result := microdvd_sub
 			end
+			
+		ensure
+			valid_source: attached {MICRODVD_SUBTITLE} Result
 		end
 
 	source_as_subrip: SUBRIP_SUBTITLE
