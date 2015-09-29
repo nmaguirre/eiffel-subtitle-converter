@@ -106,7 +106,6 @@ feature
 			-- System is ready to convert: source is loaded, and
 			-- conversion hasn't taken place yet
 		require
-			has_loaded_subtitle /= Void
 		do
 			Result := has_loaded_subtitle and target = Void
 		end
