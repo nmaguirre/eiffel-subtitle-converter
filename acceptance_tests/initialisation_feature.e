@@ -145,20 +145,27 @@ feature -- Test routines
 		local
 			controller: CONTROLLER
 			logic: CONVERTER_LOGIC
+			rescued: BOOLEAN
 		do
 			--        Given a SubRip subtitle file with extension .srt, containing:
 			--            1
 			--            00:00:05,394 --> 00:00:03,031
 			--            Hola
-
 			--        When the system is started with the name of the file as a parameter
-			create controller.make_with_subrip_subtitle ("./acceptance_tests/invalidSample.srt")
-			--        Then the system state should be initialised loading the provided subtitle
-			--        And the user should be informed that the attempted load has faile
-
-			logic := controller.system_logic
+			create logic.make
+			if (not rescued) then
+				create controller.make_with_subrip_subtitle ("./acceptance_tests/invalidSample.srt")
+				--        Then the system state should be initialised loading the provided subtitle
+				--        And the user should be informed that the attempted load has faile
+				logic := controller.system_logic
+			end
 			assert ("load failed", not logic.last_load_succeeded)
 			assert ("loaded subtitle is subrip", not logic.has_loaded_subtitle)
+		rescue
+			if (not rescued) then
+				rescued:= True
+				retry
+			end
 		end
 
 feature
