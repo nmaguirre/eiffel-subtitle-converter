@@ -28,17 +28,33 @@ feature -- Test routines
 			--            00:00:04,171 --> 00:00:06,257
 			--            Chau
 		local
-			microdvd_sub :MICRODVD_SUBTITLE
+			microdvd_sub: MICRODVD_SUBTITLE
 			subrip_sub: SUBRIP_SUBTITLE
-			logic : CONVERTER_LOGIC
+			logic: CONVERTER_LOGIC
+			other: STRING
 		do
 			create microdvd_sub.make
 			create subrip_sub.make
 			create logic.make
-			logic.set_source (microdvd_sub)
 
 			microdvd_sub.add_subtitle_item (0, 50,"Hola")
-			microdvd_sub.add_subtitle_item (100, 150, "Chau")
+			microdvd_sub.add_subtitle_item (100, 150,"Chau")
 
+			logic.set_source (microdvd_sub)
+			logic.convert_subtitle
+			--subrip_sub:= logic.target_as_subrip
+
+			create other.make_from_string (
+			"[
+			1
+			00:00:00,000 --> 00:00:02,085
+			Hola
+			
+			2
+			00:00:04,171 --> 00:00:06,257
+			Chau
+			]"
+			)
+			assert("Subtitle has been well converted",subrip_sub.out.is_equal (other))
 		end
 end
