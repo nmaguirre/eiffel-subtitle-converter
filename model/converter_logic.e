@@ -153,6 +153,9 @@ feature
 			if attached {MICRODVD_SUBTITLE} source as microdvd_sub then
 				Result := microdvd_sub
 			end
+			
+		ensure
+			valid_source: attached {MICRODVD_SUBTITLE} Result
 		end
 
 	source_as_subrip: SUBRIP_SUBTITLE

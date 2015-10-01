@@ -108,17 +108,64 @@ feature -- Test routines
 		local
 			controller: CONTROLLER
 			logic: CONVERTER_LOGIC
+			rescued: BOOLEAN
 		do
---        Given a MicroDVD subtitle file with extension .sub, containing:
---            {10}{0}Hola
---        When the system is started with the name of the file as a parameter
+			create logic.make
+			if (not rescued) then
 
-			create controller.make_with_microdvd_subtitle ("./acceptance_tests/invalidSample.sub")
---        Then the system state should be initialised with no loaded subtitles
---        And the user should be informed that the attempted load has failed
-			logic := controller.system_logic
+				--	Given a MicroDVD subtitle file with extension .sub, containing:
+				--	{10}{0}Hola
+				--	When the system is started with the name of the file as a parameter
+				create controller.make_with_microdvd_subtitle ("./acceptance_tests/invalidSample.sub")
+				logic := controller.system_logic
+			end
+			--	Then the system state should be initialised with no loaded subtitles
+			--	And the user should be informed that the attempted load has failed
+
 			assert ("load failed", not logic.last_load_succeeded)
 			assert ("loaded subtitle is microdvd", not logic.has_loaded_subtitle)
+
+			rescue
+				if (not rescued) then
+					rescued := True
+					retry
+				end
+		end
+
+	system_start_with_invalid_subrip_subtitle
+			--	    Scenario: Initialising the subtitle converter application with a invalid SubRip subtitle
+			--        Given a SubRip subtitle file with extension .srt, containing:
+			--            1
+			--            00:00:05,394 --> 00:00:03,031
+			--            Hola
+			--        When the system is started with the name of the file as a parameter
+			--        Then the system state should be initialised loading the provided subtitle
+			--        And the user should be informed that the attempted load has failed
+
+		local
+			controller: CONTROLLER
+			logic: CONVERTER_LOGIC
+			rescued: BOOLEAN
+		do
+			--        Given a SubRip subtitle file with extension .srt, containing:
+			--            1
+			--            00:00:05,394 --> 00:00:03,031
+			--            Hola
+			--        When the system is started with the name of the file as a parameter
+			create logic.make
+			if (not rescued) then
+				create controller.make_with_subrip_subtitle ("./acceptance_tests/invalidSample.srt")
+				--        Then the system state should be initialised loading the provided subtitle
+				--        And the user should be informed that the attempted load has faile
+				logic := controller.system_logic
+			end
+			assert ("load failed", not logic.last_load_succeeded)
+			assert ("loaded subtitle is subrip", not logic.has_loaded_subtitle)
+		rescue
+			if (not rescued) then
+				rescued:= True
+				retry
+			end
 		end
 
 feature

@@ -222,12 +222,12 @@ feature {CONVERTER_LOGIC} -- Auxiliary functions
 			start_time: SUBRIP_SUBTITLE_TIME
 			stop_time: SUBRIP_SUBTITLE_TIME
 		do
+			create subrip_sub.make
 			from
 				items.start
 			until
 				items.off
 			loop
-				create subrip_sub.make
 				start_time := change_format_to_subrip(items.item.start_frame)
 				stop_time := change_format_to_subrip(items.item.stop_frame)
 				subrip_sub.add_subtitle_item (start_time, stop_time,items.item.text)

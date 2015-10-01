@@ -208,12 +208,12 @@ feature {CONVERTER_LOGIC} -- Auxiliary functions
 			start_frame: INTEGER
 			stop_frame: INTEGER
 		do
+			create microdvd_sub.make
 			from
 				items.start
 			until
 				items.off
 			loop
-				create microdvd_sub.make
 				start_frame := change_format_to_microdvd(items.item.start_time, microdvd_sub.frames_per_second)
 				stop_frame := change_format_to_microdvd(items.item.stop_time,microdvd_sub.frames_per_second)
 				microdvd_sub.add_subtitle_item (start_frame, stop_frame, items.item.text)
