@@ -21,11 +21,11 @@ feature -- Test routines
 			--        When the user selects the convert subtitle option
 			--        Then the obtained subtitle is in SubRip format, and contains the following
 			--            1
-			--            00:00:00,000 --> 00:00:02,085
+			--            00:00:00,000 --> 00:00:02,086
 			--            Hola
 
 			--            2
-			--            00:00:04,171 --> 00:00:06,257
+			--            00:00:04,172 --> 00:00:06,258
 			--            Chau
 		local
 			microdvd_sub: MICRODVD_SUBTITLE
@@ -42,18 +42,10 @@ feature -- Test routines
 
 			logic.set_source (microdvd_sub)
 			logic.convert_subtitle
-			--subrip_sub:= logic.target_as_subrip
+			subrip_sub:= logic.target_as_subrip
 
 			create other.make_from_string (
-			"[
-			1
-			00:00:00,000 --> 00:00:02,085
-			Hola
-			
-			2
-			00:00:04,171 --> 00:00:06,257
-			Chau
-			]"
+			"1%N00:00:00,000 --> 00:00:02,086%NHola%N%N2%N00:00:04,172 --> 00:00:06,258%NChau%N%N"
 			)
 			assert("Subtitle has been well converted",subrip_sub.out.is_equal (other))
 		end
