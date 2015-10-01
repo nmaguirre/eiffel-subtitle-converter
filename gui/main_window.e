@@ -52,10 +52,8 @@ feature {NONE} -- Initialization
 			create file_menu.make_with_text (Menu_file_item)
 				-- Create help menu.
 			create help_menu.make_with_text (Menu_help_item)
-
 				-- Create a toolbar.
 			create standard_toolbar
-
 				-- Create a status bar and a status label.
 			create standard_status_bar
 			create standard_status_label.make_with_text ("Add your status text here...")
@@ -83,6 +81,7 @@ feature {NONE} -- Initialization
 
 			build_main_container
 			extend (main_container)
+
 
 				-- Execute `request_close_window' when the user clicks
 				-- on the cross in the title bar.
@@ -188,6 +187,27 @@ feature {NONE} -- Menu Implementation
 		ensure
 			help_menu_initialized: not help_menu.is_empty
 		end
+--feature {NONE} -- Button Implementation
+
+	--button_converter: EV_BUTTON
+
+
+
+	--build_button_converter
+	--local
+	--	enclosing_box: EV_FIXED
+	--do
+	--	lock_update
+	--	create enclosing_box
+	--	extend (enclosing_box)
+	--	button_converter.set_minimum_width(105)
+	--	enclosing_box.extend(button_converter)
+	--	enclosing_box.set_item_x_position(button_converter, 225)
+	--	enclosing_box.set_item_y_position(button_converter, 256)
+	--	button_converter.select_actions.extend (agent converter_sub)
+--	end
+
+
 
 feature {NONE} -- ToolBar Implementation
 
@@ -293,6 +313,8 @@ feature {NONE} -- Implementation
 			microdvd_label: EV_LABEL
 			subrip_label: EV_LABEL
 			pixmap: EV_PIXMAP
+			button_converter: EV_BUTTON
+			enclosing_box: EV_FIXED
 		do
 			create microdvd_text
 			create subrip_text
@@ -319,9 +341,19 @@ feature {NONE} -- Implementation
 			subrip_text.set_foreground_color (a_color)
 			main_container.set_border_width (34)
 
+			-- BUTTON CONVERTER
+			create enclosing_box
+
+			create button_converter.make_with_text (button_converter_item)
+			button_converter.set_minimum_width (200)
+			enclosing_box.extend (button_converter)
+			enclosing_box.set_item_x_position(button_converter,10)
+			enclosing_box.set_item_y_position(button_converter,20)
+			main_container.extend (enclosing_box)
+
 			create a_color.make_with_8_bit_rgb (200,0,100)
 			main_container.set_background_color (a_color)
-		
+
 
 		ensure
 			main_container_created: main_container /= Void
@@ -359,8 +391,6 @@ feature {NONE} -- Implementation / Constants
 	subrip_text: EV_TEXT
 
 	a_color: EV_COLOR
-
-	a_text: READABLE_STRING_GENERAL
 
 	system_logic: CONVERTER_LOGIC
 
