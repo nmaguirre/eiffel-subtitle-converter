@@ -38,15 +38,14 @@ feature -- Test routines
 			assert ("flush correct", subrip_sub.items.count = 0)
 		end
 
-	test_remove_items_valid
-			-- checks that removes all subtitle items between start_frame and stop_frame
+	test_remove_items_valid_last_item
+			-- checks that removes the last subtitle item between start_frame and stop_frame
 		note
 			testing:  "covers/{SUBRIP_SUBTITLE}.remove_items"
 		local
 			subrip_sub: SUBRIP_SUBTITLE
 			start_time: SUBRIP_SUBTITLE_TIME
 			stop_time: SUBRIP_SUBTITLE_TIME
-			old_items_count: INTEGER
 		do
 			create subrip_sub.make
 			create start_time.make_with_values (1, 20, 15, 350)
@@ -55,12 +54,80 @@ feature -- Test routines
 			create start_time.make_with_values (1, 40, 35, 240)
 			create stop_time.make_with_values (1, 40, 36, 760)
 			subrip_sub.add_subtitle_item (start_time, stop_time, "Last line")
-			old_items_count := subrip_sub.items.count
 
 			create start_time.make_with_values (1, 40, 00, 000)
 			create stop_time.make_with_values (1, 41, 00, 000)
 			subrip_sub.remove_items (start_time,stop_time)
-			assert ("remove_items correct", subrip_sub.items.count <= old_items_count)
+			assert ("remove_items correct", subrip_sub.items.count = 1)
+		end
+
+	test_remove_items_valid_first_item
+			-- checks that removes the first subtitle item between start_frame and stop_frame
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.remove_items"
+		local
+			subrip_sub: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subrip_sub.make
+			create start_time.make_with_values (1, 20, 15, 350)
+			create stop_time.make_with_values (1, 21, 15, 550)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "First line")
+			create start_time.make_with_values (1, 40, 35, 240)
+			create stop_time.make_with_values (1, 40, 36, 760)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "Last line")
+
+			create start_time.make_with_values (1, 20, 00, 000)
+			create stop_time.make_with_values (1, 22, 00, 000)
+			subrip_sub.remove_items (start_time,stop_time)
+			assert ("remove_items correct", subrip_sub.items.count = 1)
+		end
+
+	test_remove_items_valid_no_items
+			-- checks that no removes any subtitle items between start_frame and stop_frame
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.remove_items"
+		local
+			subrip_sub: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subrip_sub.make
+			create start_time.make_with_values (1, 20, 15, 350)
+			create stop_time.make_with_values (1, 21, 15, 550)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "First line")
+			create start_time.make_with_values (1, 40, 35, 240)
+			create stop_time.make_with_values (1, 40, 36, 760)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "Last line")
+
+			create start_time.make_with_values (1, 22, 00, 000)
+			create stop_time.make_with_values (1, 35, 00, 000)
+			subrip_sub.remove_items (start_time,stop_time)
+			assert ("remove_items correct", subrip_sub.items.count = 2)
+		end
+
+	test_remove_items_valid_all_items
+			-- checks that removes all subtitle items between start_frame and stop_frame
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.remove_items"
+		local
+			subrip_sub: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+		do
+			create subrip_sub.make
+			create start_time.make_with_values (1, 20, 15, 350)
+			create stop_time.make_with_values (1, 21, 15, 550)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "First line")
+			create start_time.make_with_values (1, 40, 35, 240)
+			create stop_time.make_with_values (1, 40, 36, 760)
+			subrip_sub.add_subtitle_item (start_time, stop_time, "Last line")
+
+			create start_time.make_with_values (1, 20, 00, 000)
+			create stop_time.make_with_values (1, 41, 00, 000)
+			subrip_sub.remove_items (start_time,stop_time)
+			assert ("remove_items correct", subrip_sub.items.count = 0)
 		end
 
 	test_remove_items_invalid
