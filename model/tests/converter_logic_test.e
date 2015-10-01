@@ -119,6 +119,7 @@ feature -- Test routines
 				retry
 			end
 		end
+
 	test_is_ready_to_convert_valid
 		local
 			passed: BOOLEAN
@@ -129,18 +130,31 @@ feature -- Test routines
 			create subtitle.make
 			subtitle.add_subtitle_item(1,2,"texto")
 			converter.set_source(subtitle)
-			passed := (converter.source /= Void) and (converter.target = Void)
-			assert ("is_ready_to_convert correct", passed = True)
+			assert ("is_ready_to_convert correct", converter.is_ready_to_convert)
 		end
 
-	test_is_ready_to_convert_invalid
+	test_is_ready_to_convert_with_not_subtitle
 		local
 			passed: BOOLEAN
 			converter: CONVERTER_LOGIC
 		do
 			create converter.make
 			passed := (converter.source /= Void) and (converter.target = Void)
-			assert ("is_ready_to_convert correct", passed = False)
+			assert ("is_ready_to_convert correct", converter.is_ready_to_convert = False)
+		end
+
+	test_is_ready_to_convert_with_target_load
+		local
+			passed: BOOLEAN
+			converter : CONVERTER_LOGIC
+			subtitle: MICRODVD_SUBTITLE
+		do
+			create converter.make
+			create subtitle.make
+			subtitle.add_subtitle_item(1,2,"texto")
+			converter.set_source(subtitle)
+			converter.set_target(subtitle)
+			assert ("is_ready_to_convert correct", converter.is_ready_to_convert = False)
 		end
 
 	test_has_loaded_microdvd_subtitle_valid
