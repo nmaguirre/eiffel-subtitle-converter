@@ -153,7 +153,7 @@ feature
 			if attached {MICRODVD_SUBTITLE} source as microdvd_sub then
 				Result := microdvd_sub
 			end
-			
+
 		ensure
 			valid_source: attached {MICRODVD_SUBTITLE} Result
 		end
@@ -171,6 +171,15 @@ feature
 	    	valid_source: attached {SUBRIP_SUBTITLE} Result
 		end
 
+	target_as_subrip: SUBRIP_SUBTITLE
+			-- Return the target as a SUBRIP_SUBTITLE object
+		do
+			if attached {SUBRIP_SUBTITLE} target as subrip_sub then
+				Result := subrip_sub
+			end
+		ensure
+	    	valid_target: attached {SUBRIP_SUBTITLE} Result
+		end
 
 	source: detachable SUBTITLE
 
