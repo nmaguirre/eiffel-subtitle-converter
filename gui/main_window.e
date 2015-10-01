@@ -60,6 +60,7 @@ feature {NONE} -- Initialization
 			create standard_status_bar
 			create standard_status_label.make_with_text ("Add your status text here...")
 
+
 		end
 
 	initialize
@@ -132,10 +133,15 @@ feature {NONE} -- Menu Implementation
 			-- Create and populate `file_menu'.
 		local
 			menu_item: EV_MENU_ITEM
+			a:EV_PIXMAP
 		do
 			create menu_item.make_with_text (Menu_file_new_item)
 				--| TODO: Add the action associated with "New" here.
 			file_menu.extend (menu_item)
+			create a.make_with_size (10, 10)
+			create a_color.make_with_8_bit_rgb (0,0,110)
+			a.set_background_color (a_color)
+			file_menu.set_pixmap (a)
 
 			create menu_item.make_with_text (Menu_file_open_item)
 				--| TODO: Add the action associated with "Open" here.
@@ -168,10 +174,12 @@ feature {NONE} -- Menu Implementation
 			-- Create and populate `help_menu'.
 		local
 			menu_item: EV_MENU_ITEM
+
 		do
 			create menu_item.make_with_text (Menu_help_contents_item)
 				--| TODO: Add the action associated with "Contents and Index" here.
 			help_menu.extend (menu_item)
+
 
 			create menu_item.make_with_text (Menu_help_about_item)
 			menu_item.select_actions.extend (agent on_about)
@@ -228,8 +236,10 @@ feature {NONE} -- StatusBar Implementation
 	build_standard_status_bar
 			-- Populate the standard toolbar.
 		do
+			create a_color.make_with_8_bit_rgb (200,0,0)
+			standard_status_label.set_foreground_color (a_color)
 				-- Initialize the status bar.
-			standard_status_bar.set_border_width (2)
+			standard_status_bar.set_border_width (5)
 
 				-- Populate the status bar.
 			standard_status_label.align_text_left
@@ -255,6 +265,8 @@ feature {NONE} -- Implementation, Close event
 			question_dialog: EV_CONFIRMATION_DIALOG
 		do
 			create question_dialog.make_with_text (Label_confirm_close_window)
+			create a_color.make_with_8_bit_rgb (200,0,100)
+			question_dialog.set_background_color (a_color)
 			question_dialog.show_modal_to_window (Current)
 
 			if question_dialog.selected_button ~ (create {EV_DIALOG_CONSTANTS}).ev_ok then
@@ -280,18 +292,37 @@ feature {NONE} -- Implementation
 		local
 			microdvd_label: EV_LABEL
 			subrip_label: EV_LABEL
+			pixmap: EV_PIXMAP
 		do
 			create microdvd_text
 			create subrip_text
+			create pixmap.default_create
+			pixmap.set_with_named_file ("./gui/new.png")
 			microdvd_text.disable_edit
 			subrip_text.disable_edit
+
+			create a_color.make_with_8_bit_rgb (0, 150,0)
 			create microdvd_label.make_with_text ("MicroDVD")
-			microdvd_label.set_minimum_size (1, 1)
-			main_container.extend (create {EV_HORIZONTAL_SEPARATOR})
+			microdvd_label.set_background_color (a_color)
+
 			main_container.extend (microdvd_label)
 			main_container.extend (microdvd_text)
-			main_container.extend (create {EV_LABEL}.make_with_text ("SubRip"))
+
+			create subrip_label.make_with_text ("Subrip")
+			subrip_label.set_background_color (a_color)
+
+			main_container.extend (subrip_label)
 			main_container.extend (subrip_text)
+
+			create a_color.make_with_8_bit_rgb (0,150,0)
+			microdvd_text.set_foreground_color (a_color)
+			subrip_text.set_foreground_color (a_color)
+			main_container.set_border_width (34)
+
+			create a_color.make_with_8_bit_rgb (200,0,100)
+			main_container.set_background_color (a_color)
+		
+
 		ensure
 			main_container_created: main_container /= Void
 		end
@@ -317,7 +348,7 @@ feature {NONE} -- Implementation / Constants
 	Window_title: STRING = "eiffel_subtitle_converter"
 			-- Title of the window.
 
-	Window_width: INTEGER = 600
+	Window_width: INTEGER = 800
 			-- Initial width for this window.
 
 	Window_height: INTEGER = 800
@@ -326,6 +357,10 @@ feature {NONE} -- Implementation / Constants
 	microdvd_text: EV_TEXT
 
 	subrip_text: EV_TEXT
+
+	a_color: EV_COLOR
+
+	a_text: READABLE_STRING_GENERAL
 
 	system_logic: CONVERTER_LOGIC
 
