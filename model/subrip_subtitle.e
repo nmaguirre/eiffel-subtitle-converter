@@ -209,7 +209,7 @@ feature {CONVERTER_LOGIC} -- Auxiliary functions
 			stop_frame: INTEGER
 		do
 			from
-				items.start
+			items.start
 			until
 				items.off
 			loop
