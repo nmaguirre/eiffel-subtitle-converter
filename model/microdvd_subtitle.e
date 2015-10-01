@@ -154,6 +154,9 @@ feature -- Status setting
 					res := True
 				end
 			end
+      if (items.count = 0) then
+        res := true
+      end
 			Result := res
 		end
 
