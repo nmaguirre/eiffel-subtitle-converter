@@ -76,6 +76,14 @@ feature
 			Result := source /= Void
 		end
 
+
+	has_converted_subtitle: BOOLEAN
+			--conversion has taken place?
+		do
+			Result := target /= Void
+		end
+
+
 	has_loaded_microdvd_subtitle: BOOLEAN
 			-- Is the loaded subtitle a MicroDVD one?
 		require
@@ -99,6 +107,20 @@ feature
 			else
 				Result := False
 			end
+		end
+
+
+	has_converted_microdvd: BOOLEAN
+			--Is the converted subtitle a MicroDVD one?
+		require
+			has_converted_subtitle
+		do
+			if attached {MICRODVD_SUBTITLE} target as microdvd_sub then
+				Result := True
+			else
+				Result := False
+			end
+
 		end
 
 
