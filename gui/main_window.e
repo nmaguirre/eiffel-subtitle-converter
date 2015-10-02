@@ -324,7 +324,7 @@ feature {NONE} -- Implementation
 			enclosing_box: EV_FIXED
 			font: EV_FONT
 		do
-			create microdvd_text.make_with_text ("{1}{10}Hola")
+			create microdvd_text
 			create subrip_text
 			create pixmap.default_create
 			pixmap.set_with_named_file ("./gui/container.png")
@@ -385,9 +385,6 @@ feature --Implementation, Converter_sub
 				msj_error.set_title ("Error")
 				msj_error.set_pixmap (default_pixmaps.error_pixmap)
 				msj_error.show_modal_to_window (Current)
-			else
-				system_logic.convert_subtitle
-				on_update
 			end
 		end
 

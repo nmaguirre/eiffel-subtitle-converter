@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 			-- Perform one call to first window in order to
 			-- avoid to violate the invariant of class EV_APPLICATION.
 		do
-			create controller.make_with_microdvd_subtitle ("./gui/subtitulo.txt")
+			create controller.make_with_no_subtitle
 			system_logic := controller.system_logic
 			create first_window
 			first_window.set_logic (system_logic)
