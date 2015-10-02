@@ -49,4 +49,29 @@ feature -- Test routines
 			)
 			assert("Subtitle has been well converted",subrip_sub.out.is_equal (other))
 		end
+
+	convert_subtitle_no_loaded
+			--	Scenario: Initialising the subtitle converter application, there is no subtitle loaded and an
+			--			attempted conversion is executed			
+			--		When try to perform a conversion and there is any subtitle loaded
+			--		Then the system show a error message
+		local
+			logic: CONVERTER_LOGIC
+			controller: CONTROLLER
+			rescued: BOOLEAN
+		do
+			create controller.make_with_no_subtitle
+			logic := controller.system_logic
+			if (not rescued)
+			then
+				logic.convert_subtitle
+			end
+			assert("there is no subtitle loaded", not logic.has_loaded_subtitle)
+			rescue
+				if (not rescued) then
+					rescued := True
+					retry
+				end
+		end
+
 end
