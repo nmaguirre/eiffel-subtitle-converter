@@ -181,6 +181,16 @@ feature
 	    	valid_target: attached {SUBRIP_SUBTITLE} Result
 		end
 
+	target_as_microdvd: MICRODVD_SUBTITLE
+			-- Return the target as a MICRODVD_SUBTITLE object
+		do
+			if attached {MICRODVD_SUBTITLE} target as microdvd_sub then
+				Result := microdvd_sub
+			end
+		ensure
+	    	valid_target: attached {MICRODVD_SUBTITLE} Result
+		end
+
 	source: detachable SUBTITLE
 
 	target: detachable SUBTITLE
