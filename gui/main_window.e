@@ -316,7 +316,7 @@ feature {NONE} -- Implementation
 			button_converter: EV_BUTTON
 			enclosing_box: EV_FIXED
 		do
-			create microdvd_text
+			create microdvd_text.make_with_text ("{1}{10}Hola")
 			create subrip_text
 			create pixmap.default_create
 			pixmap.set_with_named_file ("./gui/new.png")
@@ -347,6 +347,7 @@ feature {NONE} -- Implementation
 			create button_converter.make_with_text (button_converter_item)
 			button_converter.set_minimum_width (200)
 			enclosing_box.extend (button_converter)
+			button_converter.select_actions.extend (agent converter_sub)
 			enclosing_box.set_item_x_position(button_converter,10)
 			enclosing_box.set_item_y_position(button_converter,20)
 			main_container.extend (enclosing_box)
@@ -357,6 +358,23 @@ feature {NONE} -- Implementation
 
 		ensure
 			main_container_created: main_container /= Void
+		end
+
+feature --Implementation, Converter_sub
+
+	converter_sub
+		local
+			msj_error: EV_INFORMATION_DIALOG
+		do
+			if microdvd_text.text_length = 0 and subrip_text.text_length = 0 then
+				create msj_error.make_with_text ("There is no subtitle to convert ")
+				msj_error.set_title ("Error")
+				msj_error.set_pixmap (default_pixmaps.error_pixmap)
+				msj_error.show_modal_to_window (Current)
+			else
+				system_logic.convert_subtitle
+				on_update
+			end
 		end
 
 feature -- Observer features
