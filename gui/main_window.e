@@ -238,6 +238,13 @@ feature {NONE} -- ToolBar Implementation
 			toolbar_pixmap.set_with_named_file ("./gui/save.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
 			standard_toolbar.extend (toolbar_item)
+
+			create toolbar_item
+			create toolbar_pixmap
+			toolbar_pixmap.set_with_named_file ("./gui/refresh.png")
+			toolbar_item.set_pixmap (toolbar_pixmap)
+			standard_toolbar.extend (toolbar_item)
+
 		ensure
 			toolbar_initialized: not standard_toolbar.is_empty
 		end
@@ -315,23 +322,30 @@ feature {NONE} -- Implementation
 			pixmap: EV_PIXMAP
 			button_converter: EV_BUTTON
 			enclosing_box: EV_FIXED
+			font: EV_FONT
 		do
 			create microdvd_text.make_with_text ("{1}{10}Hola")
 			create subrip_text
 			create pixmap.default_create
-			pixmap.set_with_named_file ("./gui/new.png")
+			pixmap.set_with_named_file ("./gui/container.png")
+			main_container.set_background_pixmap (pixmap)
 			microdvd_text.disable_edit
 			subrip_text.disable_edit
 
 			create a_color.make_with_8_bit_rgb (0, 150,0)
 			create microdvd_label.make_with_text ("MicroDVD")
+			create font.default_create
+			font.set_family (1)
+			microdvd_label.set_font (font)
 			microdvd_label.set_background_color (a_color)
 
 			main_container.extend (microdvd_label)
 			main_container.extend (microdvd_text)
 
 			create subrip_label.make_with_text ("Subrip")
+			subrip_label.set_font (font)
 			subrip_label.set_background_color (a_color)
+
 
 			main_container.extend (subrip_label)
 			main_container.extend (subrip_text)
@@ -339,7 +353,8 @@ feature {NONE} -- Implementation
 			create a_color.make_with_8_bit_rgb (0,150,0)
 			microdvd_text.set_foreground_color (a_color)
 			subrip_text.set_foreground_color (a_color)
-			main_container.set_border_width (34)
+			main_container.set_border_width (200)
+
 
 			-- BUTTON CONVERTER
 			create enclosing_box
@@ -352,9 +367,8 @@ feature {NONE} -- Implementation
 			enclosing_box.set_item_y_position(button_converter,20)
 			main_container.extend (enclosing_box)
 
-			create a_color.make_with_8_bit_rgb (200,0,100)
-			main_container.set_background_color (a_color)
-
+			--create a_color.make_with_8_bit_rgb (200,0,100)
+			--main_container.set_background_color (a_color)
 
 		ensure
 			main_container_created: main_container /= Void
