@@ -62,15 +62,11 @@ feature -- Test routines
 		do
 			create controller.make_with_no_subtitle
 			logic := controller.system_logic
-
 			if (not rescued)
-
 			then
 				logic.convert_subtitle
-
 			end
 			assert("there is no subtitle loaded", not logic.has_loaded_subtitle)
-
 			rescue
 				if (not rescued) then
 					rescued := True
