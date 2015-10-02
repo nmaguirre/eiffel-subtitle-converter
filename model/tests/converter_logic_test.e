@@ -140,7 +140,7 @@ feature -- Test routines
 		do
 			create converter.make
 			passed := (converter.source /= Void) and (converter.target = Void)
-			assert ("is_ready_to_convert correct", converter.is_ready_to_convert = False)
+			assert ("is_ready_to_convert correct", not converter.is_ready_to_convert)
 		end
 
 	test_is_ready_to_convert_with_target_load
@@ -154,7 +154,7 @@ feature -- Test routines
 			subtitle.add_subtitle_item(1,2,"texto")
 			converter.set_source(subtitle)
 			converter.set_target(subtitle)
-			assert ("is_ready_to_convert correct", converter.is_ready_to_convert = False)
+			assert ("is_ready_to_convert correct", not converter.is_ready_to_convert)
 		end
 
 	test_has_loaded_microdvd_subtitle_valid
