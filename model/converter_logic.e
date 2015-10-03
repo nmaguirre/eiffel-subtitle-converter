@@ -120,7 +120,6 @@ feature
 			else
 				Result := False
 			end
-
 		end
 
 
@@ -152,6 +151,8 @@ feature
 			-- Converts the contents of 'source' and set 'target'.
 			-- If 'source' is a microdvd subtitle, 'target' will be a subrip subtitle.
 			-- In the other hand, if 'source' is a subrip subtitle, 'target' will be a microdvd subtitle.
+		require
+			is_ready_to_convert
 		do
 			if attached {MICRODVD_SUBTITLE} source as microdvd_sub
 			then
@@ -161,7 +162,8 @@ feature
 			then
 				target := subrip_sub.convert_to_microdvd
 			end
-
+		ensure
+			valid_result: has_converted_subtitle
 		end
 
 
@@ -205,6 +207,8 @@ feature
 
 	target_as_microdvd: MICRODVD_SUBTITLE
 			-- Return the target as a MICRODVD_SUBTITLE object
+		require
+			has_converted_microdvd
 		do
 			if attached {MICRODVD_SUBTITLE} target as microdvd_sub then
 				Result := microdvd_sub
