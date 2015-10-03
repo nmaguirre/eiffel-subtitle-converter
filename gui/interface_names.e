@@ -18,6 +18,9 @@ feature -- Access
 	button_foward_item: STRING = "Foward"
 			-- String for "Foward" buttons.
 
+	button_reward_item: STRING = "Reward"
+			-- String for "Reward" buttons.
+
 	Menu_file_item: STRING = "&File"
 			-- String for menu "File"
 
@@ -52,4 +55,6 @@ feature -- Access
 			-- String for the confirmation dialog box that appears
 			-- when the user try to close the first window.
 
+	text_field_number_item: STRING = "number"
+			-- String for "Number" text field.
 end -- class INTERFACE_NAMES

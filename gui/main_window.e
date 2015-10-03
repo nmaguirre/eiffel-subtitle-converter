@@ -272,8 +272,6 @@ feature {NONE} -- Implementation, Close event
 			question_dialog: EV_CONFIRMATION_DIALOG
 		do
 			create question_dialog.make_with_text (Label_confirm_close_window)
-			create a_color.make_with_8_bit_rgb (200,0,100)
-			question_dialog.set_background_color (a_color)
 			question_dialog.show_modal_to_window (Current)
 
 			if question_dialog.selected_button ~ (create {EV_DIALOG_CONSTANTS}).ev_ok then
@@ -303,9 +301,9 @@ feature {NONE} -- Implementation
 			button_converter: EV_BUTTON
 			enclosing_box: EV_FIXED
 			font: EV_FONT
---textfield_number
-button_foward : EV_BUTTON
-button_reward : EV_BUTTON
+			text_field_number : EV_TEXT_FIELD
+			button_foward : EV_BUTTON
+			button_reward : EV_BUTTON
 
 		do
 			create microdvd_text
@@ -339,31 +337,38 @@ button_reward : EV_BUTTON
 			subrip_text.set_foreground_color (a_color)
 			main_container.set_border_width (200)
 
-
-			-- BUTTON CONVERTER
 			create enclosing_box
 
-create button_foward.make_with_text (button_foward_item)
-button_foward.set_minimum_width (200)
---enclosing_box.extend_with_position_and_size (button_foward, 10, 20, 200, 50)
---enclosing_box.extend_with_position_and_size (a_widget: EV_WIDGET, a_x, a_y, a_width, a_height: INTEGER_32)
-enclosing_box.extend (button_foward)
-enclosing_box.set_item_x_position(button_foward,10)
-enclosing_box.set_item_y_position(button_foward,20)
+				--BUTTON FOWARD
+			create button_foward.make_with_text (button_foward_item)
+			button_foward.set_minimum_width (130)
+			enclosing_box.extend (button_foward)
+			enclosing_box.set_item_x_position(button_foward,10)
+			enclosing_box.set_item_y_position(button_foward,20)
 
+				--NUMBER TEXT FIELD
+			create text_field_number
+			text_field_number.set_minimum_width (120)
+			enclosing_box.extend (text_field_number)
+			enclosing_box.set_item_x_position(text_field_number,140)
+			enclosing_box.set_item_y_position(text_field_number,20)
+
+				--BUTTON REWARD
+			create button_reward.make_with_text (button_reward_item)
+			button_reward.set_minimum_width (130)
+			enclosing_box.extend (button_reward)
+			enclosing_box.set_item_x_position(button_reward,260)
+			enclosing_box.set_item_y_position(button_reward,20)
+
+				-- BUTTON CONVERTER
 			create button_converter.make_with_text (button_converter_item)
 			button_converter.set_minimum_width (200)
 			enclosing_box.extend (button_converter)
 			button_converter.select_actions.extend (agent converter_sub)
-			enclosing_box.set_item_x_position(button_converter,10)
+			enclosing_box.set_item_x_position(button_converter,100)
 			enclosing_box.set_item_y_position(button_converter,50)
 
-
-
-
---create button_reward.make_with_text (button_reward_item)
-
-		main_container.extend (enclosing_box)
+			main_container.extend (enclosing_box)
 		ensure
 			main_container_created: main_container /= Void
 		end
@@ -419,22 +424,3 @@ Window_height: INTEGER = 800
 	system_logic: CONVERTER_LOGIC
 
 end
---feature {NONE} -- Button Implementation
-
-	--button_converter: EV_BUTTON
-
-
-
-	--build_button_converter
-	--local
-	--	enclosing_box: EV_FIXED
-	--do
-	--	lock_update
-	--	create enclosing_box
-	--	extend (enclosing_box)
-	--	button_converter.set_minimum_width(105)
-	--	enclosing_box.extend(button_converter)
-	--	enclosing_box.set_item_x_position(button_converter, 225)
-	--	enclosing_box.set_item_y_position(button_converter, 256)
-	--	button_converter.select_actions.extend (agent converter_sub)
---	end
