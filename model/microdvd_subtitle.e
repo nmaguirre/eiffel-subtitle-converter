@@ -40,6 +40,7 @@ feature -- Initialisation
 			create microdvd_file.make_open_read(name_file)
 			frames_per_second := 23.97
 			create items.make
+			if not (microdvd_file.is_empty) then
 			from
 				microdvd_file.read_line
 			until
@@ -49,6 +50,7 @@ feature -- Initialisation
 				create microdvd_item.make_from_string(current_line)
 				add_subtitle_item(microdvd_item.start_frame,microdvd_item.stop_frame,microdvd_item.text)
 				microdvd_file.read_line
+			end
 			end
 
 		end
@@ -196,16 +198,21 @@ feature -- Status checking
 		do
 			res := True
 			prev_stop_frame := -1
-			from
-				items.start
-			until
-				items.off or not res
-			loop
-				if  items.item /= Void and prev_stop_frame < items.item.start_frame then
-					prev_stop_frame := items.item.stop_frame
-					items.forth
-				else
-					res := False
+			if (items.is_empty)
+			then
+				res:= false
+			else
+				from
+					items.start
+				until
+					items.off or not res
+				loop
+					if  items.item /= Void and prev_stop_frame < items.item.start_frame then
+						prev_stop_frame := items.item.stop_frame
+						items.forth
+					else
+						res := False
+					end
 				end
 			end
 			Result := res
