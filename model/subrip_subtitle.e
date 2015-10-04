@@ -41,29 +41,30 @@ feature -- Initialisation
 			create time_line.make_empty
 			create text_line.make_empty
 			read_mode := 0	-- srt files start with a number
-			from
-				file.start
-			until
-				file.end_of_file
-			loop
-				file.read_line -- next line
-				inspect read_mode
-				when 0 then
-					read_mode := 1 -- next line is a timecode
-				when 1 then
-					time_line.append (file.last_string)
-					read_mode := 2 -- next line is a text_line
-				when 2 then
-					if file.last_string.is_equal ("") then
-						create item.make_from_string (time_line, text_line)
-						items.extend (item)
-						time_line.wipe_out	-- remove all characters from time_line
-						text_line.wipe_out	-- remove all characters from subtitle_text
-						read_mode := 0		-- next line is a number
+			if not (file.is_empty) then
+				from
+					file.start
+				until
+					file.end_of_file
+				loop
+					file.read_line -- next line
+					inspect read_mode
+					when 0 then
+						read_mode := 1 -- next line is a timecode
+					when 1 then
+						time_line.append (file.last_string)
+						read_mode := 2 -- next line is a text_line
+					when 2 then
+						if file.last_string.is_equal ("") then
+							create item.make_from_string (time_line, text_line)
+							items.extend (item)
+							time_line.wipe_out	-- remove all characters from time_line
+							text_line.wipe_out	-- remove all characters from subtitle_text
+							read_mode := 0		-- next line is a number
+						end
+						text_line.append (file.last_string)
 					end
-					text_line.append (file.last_string)
 				end
-
 			end
 		end
 
@@ -179,22 +180,26 @@ feature -- Status checking
 			prev_stop_time: SUBRIP_SUBTITLE_TIME
  		do
 			res := True
-			from
-				items.start
-			until
-				items.off or not res
-			loop
-				if items.item = Void then
-					res := False
-				else
-					if not items.isfirst then
-						if prev_stop_time > items.item.start_time then
-							res := False
+			if (items.is_empty) then
+				res:= false
+			else
+				from
+					items.start
+				until
+					items.off or not res
+				loop
+					if items.item = Void then
+						res := False
+					else
+						if not items.isfirst then
+							if prev_stop_time > items.item.start_time then
+								res := False
+							end
 						end
 					end
+					prev_stop_time := items.item.stop_time
+					items.forth
 				end
-				prev_stop_time := items.item.stop_time
-				items.forth
 			end
 			Result := res
 		end

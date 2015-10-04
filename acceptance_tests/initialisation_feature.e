@@ -168,6 +168,50 @@ feature -- Test routines
 			end
 		end
 
+	load_file_void_microdvd
+			-- Scenario: Carga de un archivo en formato microdvd, el cual es vacio
+			-- Then: El sistema informa que el archivo cargado no es valido para poder converir.
+
+		local
+			logic: CONVERTER_LOGIC
+			controller: CONTROLLER
+			rescued: BOOLEAN
+		do
+			if (not rescued) then
+				create controller.make_with_microdvd_subtitle ("./acceptance_tests/voidSample.sub")
+				logic := controller.system_logic
+			end
+			assert("Subtitle is void, source is void", not logic.has_loaded_subtitle)
+			assert ("system not ready to convert", not logic.is_ready_to_convert)
+		rescue
+			if (not rescued) then
+				rescued:= True
+				retry
+			end
+
+		end
+
+	load_file_void_subrip
+			-- Scenario: Carga de un archivo en formato subrip, el cual es vacio
+			-- Then: El sistema informa que el archivo cargado no es valido para poder converir.
+		local
+			logic: CONVERTER_LOGIC
+			controller: CONTROLLER
+			rescued: BOOLEAN
+		do
+			if (not rescued) then
+				create controller.make_with_subrip_subtitle ("./acceptance_tests/voidSample.srt")
+				logic := controller.system_logic
+			end
+			assert("Subtitle is void, source is void", not logic.has_loaded_subtitle)
+			assert ("system not ready to convert", not logic.is_ready_to_convert)
+			rescue
+				if (not rescued) then
+					rescued:= True
+					retry
+				end
+		end
+
 feature
 
 	default_framerate: REAL = 23.97

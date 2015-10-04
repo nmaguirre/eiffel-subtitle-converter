@@ -73,28 +73,4 @@ feature -- Test routines
 					retry
 				end
 		end
-
-	load_file_void_microdvd
-			-- Scenario: Carga de un archivo en formato microdvd, el cual es vacio
-			-- Then: El sistema informa que el archivo cargado no es valido para poder converir.
-			-- Mensaje de Error: "Archivo no valido para realizar la conversion"
-
-		local
-			logic: CONVERTER_LOGIC
-			controller: CONTROLLER
-			rescued: BOOLEAN
-		do
-			if (not rescued) then
-				create controller.make_with_microdvd_subtitle ("./acceptance_tests/voidSample.sub")
-				logic := controller.system_logic
-			end
-			assert("Subtitle is void, source is void", not logic.has_loaded_subtitle)
-			assert ("system not ready to convert", not logic.is_ready_to_convert)
-		rescue
-			if (not rescued) then
-				rescued:= True
-				retry
-			end
-
-		end
 end
