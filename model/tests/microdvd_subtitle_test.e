@@ -419,7 +419,7 @@ feature -- Test routines
 		end
 
 
-	test_free_time_frame
+	test_free_time_frame_mid
 		note
 			testing: "convers/{MICRODVD_SUBTITLE}.free_time_frame"
 		local
@@ -431,6 +431,67 @@ feature -- Test routines
 			microdvd.add_subtitle_item (8, 10,"chau")
 			assert("free time frame",microdvd.free_time_frame (6, 7))
 		end
+
+	test_free_time_frame_one_element_init
+		note
+			testing: "convers/{MICRODVD_SUBTITLE}.free_time_frame"
+		local
+			microdvd: MICRODVD_SUBTITLE
+		do
+			create microdvd.make
+			microdvd.add_subtitle_item (4, 5,"hola")
+			assert("free time frame with one element",microdvd.free_time_frame (1,3))
+		end
+
+	test_free_time_frame_one_element_last
+		note
+			testing: "convers/{MICRODVD_SUBTITLE}.free_time_frame"
+		local
+			microdvd: MICRODVD_SUBTITLE
+		do
+			create microdvd.make
+			microdvd.add_subtitle_item (1, 2,"hola")
+			assert("free time frame with one element",microdvd.free_time_frame (3, 7))
+		end
+
+	test_free_time_frame_the_first
+		note
+			testing: "convers/{MICRODVD_SUBTITLE}.free_time_frame"
+		local
+			microdvd: MICRODVD_SUBTITLE
+		do
+			create microdvd.make
+			microdvd.add_subtitle_item (8, 10,"chau")
+			assert("free time frame when the timeat init",microdvd.free_time_frame (6, 7))
+		end
+
+
+	test_free_time_frame_empty
+		note
+			testing: "convers/{MICRODVD_SUBTITLE}.free_time_frame"
+		local
+			microdvd: MICRODVD_SUBTITLE
+		do
+			create microdvd.make
+			assert("free time frame witout elementt",microdvd.free_time_frame (3, 7))
+		end
+
+
+
+	test_free_time_frame_last
+		note
+			testing: "convers/{MICRODVD_SUBTITLE}.free_time_frame"
+		local
+			microdvd: MICRODVD_SUBTITLE
+		do
+			create microdvd.make
+			microdvd.add_subtitle_item (1, 2,"hola")
+			microdvd.add_subtitle_item (3, 5,"buenas")
+			microdvd.add_subtitle_item (8, 10,"chau")
+			assert("free time frame at the last of the list",microdvd.free_time_frame (11, 14))
+		end
+
+
 
 	test_free_time_frame_invalid
 		note
