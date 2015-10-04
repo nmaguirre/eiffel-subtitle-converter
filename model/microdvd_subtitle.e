@@ -40,17 +40,18 @@ feature -- Initialisation
 			create microdvd_file.make_open_read(name_file)
 			frames_per_second := 23.97
 			create items.make
-			if not (microdvd_file.is_empty) then
-			from
-				microdvd_file.read_line
-			until
-				microdvd_file.end_of_file
-			loop
-				create current_line.make_from_string(microdvd_file.last_string)
-				create microdvd_item.make_from_string(current_line)
-				add_subtitle_item(microdvd_item.start_frame,microdvd_item.stop_frame,microdvd_item.text)
-				microdvd_file.read_line
-			end
+			if not (microdvd_file.is_empty)
+			then
+				from
+					microdvd_file.read_line
+				until
+					microdvd_file.end_of_file
+				loop
+					create current_line.make_from_string(microdvd_file.last_string)
+					create microdvd_item.make_from_string(current_line)
+					add_subtitle_item(microdvd_item.start_frame,microdvd_item.stop_frame,microdvd_item.text)
+					microdvd_file.read_line
+				end
 			end
 
 		end
