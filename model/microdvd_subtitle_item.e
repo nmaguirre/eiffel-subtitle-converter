@@ -41,7 +41,6 @@ feature -- Initialisation
 			stop_frame_string: STRING
 			i: INTEGER
 		do
-			create i.default_create
 			create start_frame_string.make_empty
 			create stop_frame_string.make_empty
 
@@ -50,22 +49,18 @@ feature -- Initialisation
 			until
 				line.item(i) ='}'
 			loop
-				if('}' /= line.item(i) and '{' /= line.item (i)) then
-					start_frame_string.extend(line.item (i))
-				end
+				start_frame_string.extend(line.item (i))
 				i := i + 1
 
 			end
 			start_frame := start_frame_string.to_integer
 
 			from
-				i := i+1
+				i := i+2
 			until
 				line.item(i) ='}'
 			loop
-				if('}' /= line.item(i) and '{' /= line.item (i)) then
-					stop_frame_string.extend(line.item (i))
-				end
+				stop_frame_string.extend(line.item (i))
 				i := i + 1
 			end
 
