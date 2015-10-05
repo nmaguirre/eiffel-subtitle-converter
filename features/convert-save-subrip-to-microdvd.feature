@@ -1,8 +1,8 @@
 Feature: Save a convert file from Subrip to microdvd.
 
-	Scenario: after to convert the subtitle subrip to microdvd formate, i want to save the microdvd in a persistent file text.
+	Scenario: save the conversion of subrip to microdvd subtitle in a file with the extension .sub
 	
-	GIVEN	 a valid subrip subtitle
-	WHEN	 i convert that subtitle to microdvd
-	AND 	 the conversiion was succes
-	THEN 	 i want to might save to a persisten text file 
+	GIVEN	 A file text with the extension .srt with a valid subrip subtitle not empty
+	WHEN	 The file is loaded into the application as subrip subtitle
+	AND 	 The subrip is converter to microdvd subtitle successfully
+	THEN 	 should save the conversion into a text fil with the extensio .sub
