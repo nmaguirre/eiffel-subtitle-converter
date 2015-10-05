@@ -47,7 +47,7 @@ feature -- Initialisation
 			loop
 				create current_line.make_from_string(microdvd_file.last_string)
 				create microdvd_item.make_from_string(current_line)
-				add_subtitle_item(microdvd_item.start_frame,microdvd_item.stop_frame,microdvd_item.text)
+				add_constructed_subtitle_item(microdvd_item)
 				microdvd_file.read_line
 			end
 
