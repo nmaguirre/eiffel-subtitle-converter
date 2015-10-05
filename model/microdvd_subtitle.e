@@ -227,27 +227,6 @@ feature -- Status setting
 		do
 			create res.default_create
 			res := False
---			from
---				items.start
---			until
---				items.off or res
---			loop
---				microdvd := items.item
-
---				if(microdvd.stop_frame < start_frame or microdvd.start_frame > stop_frame) then
---					res := True
---				end
-
---				items.forth
---				if(items.item /= Void) then
---					if (items.item.start_frame <= stop_frame)then
---						res := False
---					end
---				end
---			end
---			if(items.count = 0)then
---				res := True
---			end
 			if (items.count=0) then
 				res:=True
 			else
