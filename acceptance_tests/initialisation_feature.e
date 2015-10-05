@@ -99,12 +99,12 @@ feature -- Test routines
 		end
 
 	system_start_with_invalid_microdvd_subtitle
---    Scenario: Initialising the subtitle converter application with invalid MicroDVD subtitle
---        Given a MicroDVD subtitle file with extension .sub, containing:
---            {10}{0}Hola
---        When the system is started with the name of the file as a parameter
---        Then the system state should be initialised with no loaded subtitles
---        And the user should be informed that the attempted load has failed
+		--    Scenario: Initialising the subtitle converter application with invalid MicroDVD subtitle
+		--        Given a MicroDVD subtitle file with extension .sub, containing:
+		--            {10}{0}Hola
+		--        When the system is started with the name of the file as a parameter
+		--        Then the system state should be initialised with no loaded subtitles
+		--        And the user should be informed that the attempted load has failed
 		local
 			controller: CONTROLLER
 			logic: CONVERTER_LOGIC
@@ -161,16 +161,17 @@ feature -- Test routines
 			end
 			assert ("load failed", not logic.last_load_succeeded)
 			assert ("loaded subtitle is subrip", not logic.has_loaded_subtitle)
-		rescue
-			if (not rescued) then
-				rescued:= True
-				retry
-			end
+			rescue
+				if (not rescued) then
+					rescued:= True
+					retry
+				end
 		end
 
 	load_file_void_microdvd
-			-- Scenario: Carga de un archivo en formato microdvd, el cual es vacio
-			-- Then: El sistema informa que el archivo cargado no es valido para poder converir.
+			-- Scenario: an empty subtitle in microdvd format shouldn't be able to be accepted to convert.
+			-- When an empty microdvd subtitle is loaded
+			-- Then the system should inform that this is not possible in a message error
 
 		local
 			logic: CONVERTER_LOGIC
@@ -183,17 +184,17 @@ feature -- Test routines
 			end
 			assert("Subtitle is void, source is void", not logic.has_loaded_subtitle)
 			assert ("system not ready to convert", not logic.is_ready_to_convert)
-		rescue
-			if (not rescued) then
-				rescued:= True
-				retry
-			end
-
+			rescue
+				if (not rescued) then
+					rescued:= True
+					retry
+				end
 		end
 
 	load_file_void_subrip
-			-- Scenario: Carga de un archivo en formato subrip, el cual es vacio
-			-- Then: El sistema informa que el archivo cargado no es valido para poder converir.
+			-- Scenario: an empty subtitle in subrip format shouldn't be able to be accepted to convert.
+			-- When an empty subrip subtitle is loaded
+			-- Then the system should inform that this is not possible in a message error.
 		local
 			logic: CONVERTER_LOGIC
 			controller: CONTROLLER
@@ -211,7 +212,6 @@ feature -- Test routines
 					retry
 				end
 		end
-
 feature
 
 	default_framerate: REAL = 23.97
