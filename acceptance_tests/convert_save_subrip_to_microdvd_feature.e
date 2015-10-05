@@ -21,7 +21,7 @@ feature
 	do
 		create subrip.make
 		create microdvd.make
-		create file.make
+		--create file.make
 		create start_time.make_with_values (0, 0, 1, 0)
 		create stop_time.make_with_values (0, 0, 2, 0)
 		subrip.add_subtitle_item (start_time,stop_time,"hola")

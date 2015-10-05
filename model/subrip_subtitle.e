@@ -199,7 +199,7 @@ feature -- Status checking
 			Result := res
 		end
 
-feature {CONVERTER_LOGIC} -- Auxiliary functions 		
+feature {CONVERTER_LOGIC,CONVERT_SAVE_SUBRIP_TO_MICRODVD_FEATURE} -- Auxiliary functions 		
 
 	convert_to_microdvd : MICRODVD_SUBTITLE
 			-- This routine converts a Subrrip subtitle into a Microdvd subtitle
