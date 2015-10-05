@@ -104,7 +104,7 @@ feature -- Status setting
 
 
     check_one (sub:MICRODVD_SUBTITLE_ITEM; item: MICRODVD_SUBTITLE_ITEM) : BOOLEAN
-		-- Verifies that subtitle can be inserted.
+			-- Verifies that subtitle can be inserted.
 		local
 			cond: BOOLEAN
 		do
@@ -113,6 +113,76 @@ feature -- Status setting
 			cond:= not((item.start_frame >= sub.start_frame) and (item.stop_frame <= sub.stop_frame)) and cond
 			cond:= not((item.start_frame < sub.start_frame) and (item.stop_frame > sub.stop_frame)) and cond
 			Result := cond
+		end
+
+	checker(sub, prev, item: MICRODVD_SUBTITLE_ITEM): BOOLEAN
+			--Verifies that subtitle can be inserted between two subtitles.
+		do
+			Result:= (prev.start_frame <= sub.start_frame) and (sub.stop_frame <= item.stop_frame)
+		end
+
+
+	free_time_position(sub: MICRODVD_SUBTITLE_ITEM) : INTEGER
+	        -- returns the available position. if there is not place, returns -1
+	    local
+	        item: MICRODVD_SUBTITLE_ITEM
+	        prev: MICRODVD_SUBTITLE_ITEM
+	    do
+	    	if (items.count=0) then
+				Result:= 0
+			else
+	        	from
+		            items.start
+		        until
+		            items.off
+		        loop
+					prev:= items.item
+					items.forth
+					if (not items.off) then
+						item:= items.item
+						if (prev.stop_frame >= sub.start_frame ) then
+
+							if checker(sub,prev,item) then
+								Result:= items.index - 1
+							else
+								Result:= -1
+							end
+						end
+					else
+						if check_one(sub,prev) then
+
+							if (sub.stop_frame <= prev.start_frame) then
+								Result:= items.index
+							else
+								Result:= items.index - 1
+							end
+						else
+							Result:= -1
+						end
+					end
+		        end
+			end
+		 end
+
+
+
+	add_constructed_subtitle_item(sub: MICRODVD_SUBTITLE_ITEM)
+			--Adds new item microdvd_subtitle_item to the subtitle
+			--must be added in the correct place in the list of subtitle items
+		local
+			i: INTEGER
+		do
+			i:= free_time_position(sub)
+			if (i = 0) then
+				items.extend(sub)
+			else
+				if (i /= -1) then
+					items.go_i_th (i)
+					items.put_right (sub)
+				end
+			end
+		ensure
+			valid_items_count: items.count >= old items.count
 		end
 
 
@@ -188,7 +258,7 @@ feature -- Status setting
 				loop
 					items.forth
 				end
-				
+
 				if(not(items.off)) then
 					items.forth
 				end
