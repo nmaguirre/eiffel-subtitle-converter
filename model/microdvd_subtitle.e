@@ -102,6 +102,20 @@ feature -- Status setting
 			text_set: items.item.text.is_equal(text)
 		end
 
+
+    check_one (sub:MICRODVD_SUBTITLE_ITEM; item: MICRODVD_SUBTITLE_ITEM) : BOOLEAN
+		-- Verifies that subtitle can be inserted.
+		local
+			cond: BOOLEAN
+		do
+			cond:= not((item.stop_frame > sub.start_frame) and (item.start_frame < sub.start_frame))
+			cond:= not((item.start_frame < sub.stop_frame) and (item.stop_frame > sub.stop_frame)) and cond
+			cond:= not((item.start_frame >= sub.start_frame) and (item.stop_frame <= sub.stop_frame)) and cond
+			cond:= not((item.start_frame < sub.start_frame) and (item.stop_frame > sub.stop_frame)) and cond
+			Result := cond
+		end
+
+
 	flush
 			-- Removes all items from the subtitle
 		do
