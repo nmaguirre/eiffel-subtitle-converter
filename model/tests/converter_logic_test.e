@@ -456,6 +456,22 @@ feature -- Test routines
   		assert("Convert is correct",attached {MICRODVD_SUBTITLE} converter.target)
   end
 
+  test_convert_subtitle_target_microdvd_valid
+  		--This verifies that a loaded subrip subtitle is converted to microdvd subtitle.
+  	note
+		testing: "covers/{CONVERTER_LOGIC}.convert_subtitle"
+  	local
+		logic : CONVERTER_LOGIC
+		subrip_subtitle: SUBRIP_SUBTITLE
+	do
+		create subrip_subtitle.make
+		create logic.make_with_subrip_subtitle ("./acceptance_tests/subrip_subtitle.srt")
+
+		logic.convert_subtitle
+
+		assert("The conversion of Subtitle to microdvd is correct.",logic.has_converted_microdvd)
+	end
+
 end
 
 
