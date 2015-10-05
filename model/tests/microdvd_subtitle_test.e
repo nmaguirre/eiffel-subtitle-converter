@@ -465,6 +465,17 @@ feature -- Test routines
 			assert("free time frame when the timeat init",microdvd.free_time_frame (6, 7))
 		end
 
+	test_free_time_frame_the_first_invalid
+		note
+			testing: "convers/{MICRODVD_SUBTITLE}.free_time_frame"
+		local
+			microdvd: MICRODVD_SUBTITLE
+		do
+			create microdvd.make
+			microdvd.add_subtitle_item (8, 10,"chau")
+			assert("No free time at the beginning of the subtitle",not microdvd.free_time_frame (6, 9))
+		end
+
 
 	test_free_time_frame_empty
 		note
