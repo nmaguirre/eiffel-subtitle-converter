@@ -100,7 +100,7 @@ feature {NONE} -- Initialization
 				-- Set the initial size of the window.
 			set_size (Window_width, Window_height)
 
-			--Current.disable_user_resize
+			Current.disable_user_resize
 		end
 
 	is_in_default_state: BOOLEAN
@@ -312,20 +312,22 @@ feature {NONE} -- Implementation
 			pixmap: EV_PIXMAP
 			button_converter_subrip: EV_BUTTON
 			button_converter_microdvd: EV_BUTTON
-
+			--button_frame: EV_BUTTON
+			button_frame: EV_COMBO_BOX
 			font: EV_FONT
 			text_field_number : EV_TEXT_FIELD
 			button_foward : EV_BUTTON
-			button_reward : EV_BUTTON
+			button_rewing : EV_BUTTON
 			container_microdvd_text: EV_HORIZONTAL_BOX
 			container_microdvd_label: EV_VERTICAL_BOX
 			container_subrip_text: EV_HORIZONTAL_BOX
 			container_subrip_label: EV_VERTICAL_BOX
+			enclosing_combo_box: EV_FIXED
 
 		do
 				-- ENCLOSING
 			create pixmap.default_create
-			pixmap.set_with_named_file ("./gui/container.png")
+			pixmap.set_with_named_file ("./gui/enclosing.png")
 			enclosing_box.set_background_pixmap (pixmap)
 
 			create microdvd_text
@@ -383,6 +385,56 @@ feature {NONE} -- Implementation
 			enclosing_box.set_item_x_position(button_converter_microdvd,315)
 			enclosing_box.set_item_y_position(button_converter_microdvd,350)
 			button_converter_microdvd.select_actions.extend (agent converter_sub)
+
+				--BUTTON REWING
+			pixmap.set_with_named_file ("./gui/rewing.png")
+			create button_rewing.default_create
+			button_rewing.set_pixmap (pixmap)
+			enclosing_box.extend (button_rewing)
+			enclosing_box.set_item_x_position(button_rewing,115)
+			enclosing_box.set_item_y_position(button_rewing,550)
+
+				-- TEXTFIELD
+			create text_field_number
+			enclosing_box.extend (text_field_number)
+			enclosing_box.set_item_x_position(text_field_number,180)
+			enclosing_box.set_item_y_position(text_field_number,577)
+
+
+				--BUTTON FOWARD
+			pixmap.set_with_named_file ("./gui/foward.png")
+			create button_foward.default_create
+			button_foward.set_pixmap (pixmap)
+			enclosing_box.extend (button_foward)
+			enclosing_box.set_item_x_position(button_foward,460)
+			enclosing_box.set_item_y_position(button_foward,550)
+
+				--NUMBER TEXT FIELD
+			create text_field_number
+			enclosing_box.extend (text_field_number)
+			enclosing_box.set_item_x_position(text_field_number,525)
+			enclosing_box.set_item_y_position(text_field_number,577)
+
+
+				--BUTTON FPS
+			--button_frame.extend (create {EV_LIST_ITEM}.make_with_text (" 24"))
+		--	button_frame.extend (create {EV_LIST_ITEM}.make_with_text (" 30"))
+		--	button_frame.extend (create {EV_LIST_ITEM}.make_with_text (" 60"))
+		--	button_frame.disable_edit
+		--	create enclosing_combo_box.default_create
+		--	pixmap.set_with_named_file ("./gui/frames.png")
+		--	enclosing_combo_box.set_background_pixmap (pixmap)
+		--	create button_frame.default_create
+		--	button_frame.set_minimum_width (150)
+		--	button_frame.set_minimum_height (90)
+		--	enclosing_combo_box.set_minimum_width (150)
+		---	enclosing_combo_box.set_minimum_height (90)
+		--	enclosing_combo_box.extend (button_frame)
+			--enclosing_box.extend (button_frame)
+	--		enclosing_box.extend (enclosing_combo_box)
+			--enclosing_box.set_item_x_position(enclosing_box,285)
+			--enclosing_box.set_item_y_position(enclosing_box,550)
+
 
 			--create container_microdvd_text.default_create
 		--	container_microdvd_text.extend (microdvd_text)
