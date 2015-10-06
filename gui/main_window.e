@@ -209,6 +209,8 @@ feature {NONE} -- ToolBar Implementation
 			create toolbar_pixmap
 			toolbar_pixmap.set_with_named_file ("./gui/new.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
+			create a_color.make_with_8_bit_rgb (0,150,0)
+			standard_toolbar.set_background_color (a_color)
 			standard_toolbar.extend (toolbar_item)
 
 			create toolbar_item
@@ -249,7 +251,7 @@ feature {NONE} -- StatusBar Implementation
 		do
 			create a_color.make_with_8_bit_rgb (0,0,10)
 				-- Initialize the status bar.
-			standard_status_bar.set_border_width (3)
+			standard_status_bar.set_border_width (1)
 			standard_status_bar.set_background_color (a_color)
 
 				-- Populate the status bar.
