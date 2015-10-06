@@ -228,7 +228,7 @@ feature {CONVERTER_LOGIC,CONVERT_SAVE_SUBRIP_TO_MICRODVD_FEATURE} -- Auxiliary f
 			st_frame: INTEGER
 			time_subrip: DOUBLE
 		do
-			time_subrip := st_time.hours * 3600 + st_time.minutes * 60 + st_time.seconds + st_time.milliseconds / 1000
+			time_subrip := st_time.hours * 3600 + st_time.minutes * 60 + st_time.seconds + (st_time.milliseconds / 1000)
 			st_frame := (time_subrip * fps).rounded
 			Result := st_frame
 

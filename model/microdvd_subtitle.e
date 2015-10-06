@@ -10,7 +10,7 @@ class
 inherit
 	SUBTITLE
 		redefine
-			out
+			out,save
 		end
 
 create
@@ -133,7 +133,7 @@ feature -- Status setting
 		end
 
 
-	free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
+free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
 		require
 			valid_start_frame: start_frame>=0 and start_frame<stop_frame
 			valid_stop_frame: stop_frame>0 and start_frame<stop_frame
@@ -143,15 +143,25 @@ feature -- Status setting
 		do
 			create res.default_create
 			res := False
-			from
-				items.start
-			until
-				items.off or res
-			loop
-				microdvd := items.item
-				items.forth
-				if(microdvd.stop_frame < start_frame and items.item.start_frame > stop_frame)then
+
+			if (items.count=0) then
+				res:=True
+			else
+				from
+					items.start
+				until
+					items.off or items.item.stop_frame<start_frame
+				loop
+					items.forth
+				end
+
+				if(not(items.off)) then
+					items.forth
+				end
+				if (items.off) then
 					res := True
+				else
+					res:=items.item.start_frame>stop_frame
 				end
 			end
 			Result := res
@@ -254,7 +264,25 @@ feature {CONVERTER_LOGIC} -- Auxiliary functions
 
 		end
 
+feature
 
+	save (file_name : STRING)
+			-- this routine save the subrip subtitle
+			-- the routine create a file text with the extension .srt
+			-- and save the subrip_subitle into that file
+		local
+			file : PLAIN_TEXT_FILE
+		do
+			create file.make_with_name (file_name+".sub")
+			create file.make_open_write(file_name+".sub")
+			create items.make
+			add_subtitle_item(24,48,"Hola")
+			add_subtitle_item(72,96,"Chau")
+		--	file.put_string("{24}{48}Hola%N{72}{96}Chau%N")
+			print(out)
+			file.put_string (out)
+			file.close
+		end
 
 feature {MICRODVD_SUBTITLE_TEST} -- Implementation
 

@@ -171,6 +171,16 @@ feature -- Test routines
 			assert ("add_subtitle_item correct", true)
 		end
 
+	test_make_from_file
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.make_from_file"
+		local
+			subrip : SUBRIP_SUBTITLE
+		do
+			create subrip.make_from_file ("test_file.srt")
+			assert("make from file ",subrip.out.is_equal("1%N00:00:01,000 --> 00:00:02,000%NHola%N%N2%N00:00:03,000 --> 00:00:04,000%NChau%N%N"))
+		end
+
 	test_add_subtitle_item_invalid
 			--add_subtitle_item breaks on invalid paramters
 		note
