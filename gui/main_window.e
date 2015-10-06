@@ -100,7 +100,7 @@ feature {NONE} -- Initialization
 				-- Set the initial size of the window.
 			set_size (Window_width, Window_height)
 
-			--Current.disable_user_resize
+			Current.disable_user_resize
 		end
 
 	is_in_default_state: BOOLEAN
@@ -334,7 +334,8 @@ feature {NONE} -- Implementation
 			create microdvd_label.make_with_text ("MicroDVD")
 			microdvd_text.set_foreground_color (a_color)
 			create font.default_create
-			font.set_family (3)
+			font.set_family (1)
+			font.set_height_in_points (25)
 			microdvd_label.set_font (font)
 			microdvd_label.set_background_color (a_color)
 			microdvd_text.disable_edit
