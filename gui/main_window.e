@@ -392,13 +392,13 @@ feature {NONE} -- Implementation
 			button_rewing.set_pixmap (pixmap)
 			enclosing_box.extend (button_rewing)
 			enclosing_box.set_item_x_position(button_rewing,115)
-			enclosing_box.set_item_y_position(button_rewing,550)
+			enclosing_box.set_item_y_position(button_rewing,520)
 
 				-- TEXTFIELD
 			create text_field_number
 			enclosing_box.extend (text_field_number)
-			enclosing_box.set_item_x_position(text_field_number,180)
-			enclosing_box.set_item_y_position(text_field_number,577)
+			enclosing_box.set_item_x_position(text_field_number,160)
+			enclosing_box.set_item_y_position(text_field_number,539)
 
 
 				--BUTTON FOWARD
@@ -406,14 +406,14 @@ feature {NONE} -- Implementation
 			create button_foward.default_create
 			button_foward.set_pixmap (pixmap)
 			enclosing_box.extend (button_foward)
-			enclosing_box.set_item_x_position(button_foward,460)
-			enclosing_box.set_item_y_position(button_foward,550)
+			enclosing_box.set_item_x_position(button_foward,480)
+			enclosing_box.set_item_y_position(button_foward,520)
 
 				--NUMBER TEXT FIELD
 			create text_field_number
 			enclosing_box.extend (text_field_number)
 			enclosing_box.set_item_x_position(text_field_number,525)
-			enclosing_box.set_item_y_position(text_field_number,577)
+			enclosing_box.set_item_y_position(text_field_number,539)
 
 
 				--BUTTON FPS
@@ -563,8 +563,7 @@ feature {NONE} -- Implementation / Constants
 	Window_width: INTEGER = 800
 			-- Initial width for this window.
 
-	--Window_height: INTEGER = 800
-Window_height: INTEGER = 700
+	Window_height: INTEGER = 700
 			-- Initial height for this window.
 
 	microdvd_text: EV_TEXT
