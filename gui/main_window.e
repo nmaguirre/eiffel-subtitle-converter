@@ -145,7 +145,7 @@ feature {NONE} -- Menu Implementation
 			create menu_item.make_with_text (Menu_file_new_item)
 				--| TODO: Add the action associated with "New" here.
 			file_menu.extend (menu_item)
-			
+
 			create menu_item.make_with_text (Menu_file_open_item)
 				--| TODO: Add the action associated with "Open" here.
 			file_menu.extend (menu_item)
@@ -247,13 +247,15 @@ feature {NONE} -- StatusBar Implementation
 	build_standard_status_bar
 			-- Populate the standard toolbar.
 		do
-			create a_color.make_with_8_bit_rgb (200,0,0)
-			standard_status_label.set_foreground_color (a_color)
+			create a_color.make_with_8_bit_rgb (0,0,10)
 				-- Initialize the status bar.
-			standard_status_bar.set_border_width (5)
+			standard_status_bar.set_border_width (3)
+			standard_status_bar.set_background_color (a_color)
 
 				-- Populate the status bar.
+			create a_color.make_with_8_bit_rgb (0,150,0)
 			standard_status_label.align_text_left
+			standard_status_label.set_background_color (a_color)
 			standard_status_bar.extend (standard_status_label)
 		end
 
@@ -508,7 +510,7 @@ feature {NONE} -- Implementation / Constants
 			-- Initial width for this window.
 
 	--Window_height: INTEGER = 800
-Window_height: INTEGER = 800
+Window_height: INTEGER = 700
 			-- Initial height for this window.
 
 	microdvd_text: EV_TEXT
