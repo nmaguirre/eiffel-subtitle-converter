@@ -118,7 +118,7 @@ feature -- Status setting
 	checker(sub, prev, item: MICRODVD_SUBTITLE_ITEM): BOOLEAN
 			--Verifies that subtitle can be inserted between two subtitles.
 		do
-			Result:= (prev.start_frame <= sub.start_frame) and (sub.stop_frame <= item.stop_frame)
+			Result:= (prev.stop_frame <= sub.start_frame) and (sub.stop_frame <= item.start_frame)
 		end
 
 

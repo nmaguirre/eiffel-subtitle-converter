@@ -518,6 +518,69 @@ feature -- Test routines
 		end
 
 
+	test_checker_valid
+			--Verifies that subtitle can be inserted between two subtitles
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.checker"
+		local
+			sub, fst, snd: MICRODVD_SUBTITLE_ITEM
+			subtitles: MICRODVD_SUBTITLE
+		do
+			create sub.make (4,5)
+			create fst.make (1,3)
+			create snd.make (8,9)
+			create subtitles.make
+			assert("The microdvd subtitle item can be inserted", subtitles.checker(sub,fst,snd))
+		end
+
+
+	test_checker_invalid_fst
+			--verifies that subtitle cannot be inserted between two subtitle because does not meet condition
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.checker"
+		local
+			sub, fst, snd: MICRODVD_SUBTITLE_ITEM
+			subtitles: MICRODVD_SUBTITLE
+		do
+			create sub.make (2,5)
+			create fst.make (1,3)
+			create snd.make (8,9)
+			create subtitles.make
+			assert("The microdvd subtitle item cannot be inserted", not subtitles.checker(sub,fst,snd))
+		end
+
+
+	test_checker_invalid_snd
+			--verifies that subtitle cannot be inserted between two subtitle because does not meet condition
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.checker"
+		local
+			sub, fst, snd: MICRODVD_SUBTITLE_ITEM
+			subtitles: MICRODVD_SUBTITLE
+		do
+			create sub.make (4,9)
+			create fst.make (1,3)
+			create snd.make (8,9)
+			create subtitles.make
+			assert("The microdvd subtitle item cannot be inserted", not subtitles.checker(sub,fst,snd))
+		end
+
+
+	test_checker_invalid
+			--verifies that subtitle cannot be inserted between two subtitle because does not meet condition
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.checker"
+		local
+			sub, fst, snd: MICRODVD_SUBTITLE_ITEM
+			subtitles: MICRODVD_SUBTITLE
+		do
+			create sub.make (2,9)
+			create fst.make (1,3)
+			create snd.make (4,5)
+			create subtitles.make
+			assert("The microdvd subtitle item cannot be inserted", not subtitles.checker(sub,fst,snd))
+		end
+
 
 
 
