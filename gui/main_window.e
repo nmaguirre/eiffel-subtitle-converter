@@ -290,19 +290,16 @@ feature {NONE} -- Implementation
 			microdvd_label: EV_LABEL
 			subrip_label: EV_LABEL
 			pixmap: EV_PIXMAP
-			button_converter: EV_BUTTON
 			enclosing_box: EV_FIXED
 			font: EV_FONT
 			text_field_number : EV_TEXT_FIELD
 			button_forward : EV_BUTTON
 			button_rewind : EV_BUTTON
+			button_convert: EV_BUTTON
 
 		do
 			create microdvd_text
 			create subrip_text
-			create pixmap.default_create
-			pixmap.set_with_named_file ("./gui/container.png")
-			main_container.set_background_pixmap (pixmap)
 			microdvd_text.disable_edit
 			microdvd_text.set_minimum_height (175)
 			subrip_text.disable_edit
@@ -313,28 +310,29 @@ feature {NONE} -- Implementation
 			create microdvd_label.make_with_text ("MicroDVD")
 			create font.default_create
 			font.set_family ({EV_FONT_CONSTANTS}.family_modern)
-			font.set_height_in_points (14)
+			font.set_height_in_points (12)
 			microdvd_label.set_font (font)
 			microdvd_label.set_background_color (a_color)
 
 			main_container.extend (microdvd_label)
 			main_container.extend (microdvd_text)
+			main_container.disable_item_expand (microdvd_label)
 
 
 
 			create a_color.make_with_8_bit_rgb (0,150,200)
 			microdvd_text.set_foreground_color (a_color)
 			subrip_text.set_foreground_color (a_color)
-			--main_container.set_border_width (200)
 
 			create enclosing_box
+			enclosing_box.set_minimum_height (40)
 
 				--BUTTON REWIND
 			create button_rewind.make_with_text (button_rewind_item)
 			button_rewind.set_minimum_width (100)
 			enclosing_box.extend (button_rewind)
 			enclosing_box.set_item_x_position(button_rewind,10)
-			enclosing_box.set_item_y_position(button_rewind,20)
+			enclosing_box.set_item_y_position(button_rewind,5)
 
 				--NUMBER TEXT FIELD
 			create text_field_number
@@ -342,30 +340,32 @@ feature {NONE} -- Implementation
 			enclosing_box.extend (text_field_number)
 			enclosing_box.set_item_height (text_field_number, 10)
 			enclosing_box.set_item_x_position(text_field_number,110)
-			enclosing_box.set_item_y_position(text_field_number,20)
+			enclosing_box.set_item_y_position(text_field_number,5)
 
 				--BUTTON FORWARD
 			create button_forward.make_with_text (button_forward_item)
 			button_forward.set_minimum_width (100)
 			enclosing_box.extend (button_forward)
 			enclosing_box.set_item_x_position(button_forward,160)
-			enclosing_box.set_item_y_position(button_forward,20)
+			enclosing_box.set_item_y_position(button_forward,5)
 
-				-- BUTTON CONVERTER
-			create button_converter.make_with_text (button_converter_item)
-			button_converter.set_minimum_width (200)
-			enclosing_box.extend (button_converter)
-			button_converter.select_actions.extend (agent converter_sub)
-			enclosing_box.set_item_height (button_converter, 20)
-			enclosing_box.set_item_x_position(button_converter,500)
-			enclosing_box.set_item_y_position(button_converter,20)
+				-- BUTTON CONVERT
+			create button_convert.make_with_text (button_convert_item)
+			button_convert.set_minimum_width (200)
+			enclosing_box.extend (button_convert)
+			button_convert.select_actions.extend (agent on_convert)
+			enclosing_box.set_item_height (button_convert, 20)
+			enclosing_box.set_item_x_position(button_convert,575)
+			enclosing_box.set_item_y_position(button_convert,5)
 
 			main_container.extend (enclosing_box)
+			main_container.disable_item_expand (enclosing_box)
 			--SUBRIP LABEL & TEXT BOX
 			create subrip_label.make_with_text ("SubRip")
 			subrip_label.set_font (font)
 			subrip_label.set_background_color (a_color)
 			main_container.extend (subrip_label)
+			main_container.disable_item_expand (subrip_label)
 			main_container.extend (subrip_text)
 		ensure
 			main_container_created: main_container /= Void
@@ -373,7 +373,7 @@ feature {NONE} -- Implementation
 
 feature --Implementation, Converter_sub
 
-	converter_sub
+	on_convert
 		local
 			msj_error: EV_INFORMATION_DIALOG
 		do

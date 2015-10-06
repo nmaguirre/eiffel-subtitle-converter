@@ -12,7 +12,7 @@ feature -- Access
 	Button_ok_item: STRING = "OK"
 			-- String for "OK" buttons.
 
-	Button_Converter_item: STRING = "Converter"
+	Button_Convert_item: STRING = "Convert"
 			-- String for "Converter" buttons.
 
 	button_forward_item: STRING = "Forward"
