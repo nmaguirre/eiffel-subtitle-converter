@@ -85,7 +85,7 @@ feature -- Status setting
 	set_minute (new_minute: INTEGER)
 			-- sets minutes to provided value
 		require
-			(new_minute < 60) and (new_minute >= 0)
+			valid_minutes: (new_minute < 60) and (new_minute >= 0)
 		do
 			minutes:= new_minute
 		ensure
