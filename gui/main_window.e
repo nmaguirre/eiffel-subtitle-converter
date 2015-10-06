@@ -46,6 +46,8 @@ feature {NONE} -- Initialization
 		do
 				-- Create main container.
 			create main_container
+			create main_container_two
+			--create main_container_two
 				-- Create the menu bar.
 			create standard_menu_bar
 				-- Create file menu.
@@ -92,6 +94,8 @@ feature {NONE} -- Initialization
 
 				-- Set the initial size of the window.
 			set_size (Window_width, Window_height)
+
+			--Current.disable_user_resize
 		end
 
 	is_in_default_state: BOOLEAN
@@ -221,7 +225,7 @@ feature {NONE} -- ToolBar Implementation
 
 			create toolbar_item
 			create toolbar_pixmap
-			toolbar_pixmap.set_with_named_file ("./gui/refresh.png")
+			toolbar_pixmap.set_with_named_file ("./gui/clear.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
 			standard_toolbar.extend (toolbar_item)
 
@@ -292,6 +296,9 @@ feature {NONE} -- Implementation
 	main_container: EV_VERTICAL_BOX
 			-- Main container (contains all widgets displayed in this window).
 
+	main_container_two: EV_VERTICAL_BOX
+
+
 	build_main_container
 			-- Populate `main_container'.
 		local
@@ -307,73 +314,91 @@ feature {NONE} -- Implementation
 
 		do
 			create microdvd_text
-			create subrip_text
-			create pixmap.default_create
-			pixmap.set_with_named_file ("./gui/container.png")
-			main_container.set_background_pixmap (pixmap)
-			microdvd_text.disable_edit
-			subrip_text.disable_edit
+			create a_color.make_with_8_bit_rgb (0,100,0)
 
-			create a_color.make_with_8_bit_rgb (0, 150,0)
 			create microdvd_label.make_with_text ("MicroDVD")
+			microdvd_text.set_foreground_color (a_color)
 			create font.default_create
-			font.set_family (1)
+			font.set_family (3)
 			microdvd_label.set_font (font)
 			microdvd_label.set_background_color (a_color)
+			microdvd_text.disable_edit
 
-			main_container.extend (microdvd_label)
-			main_container.extend (microdvd_text)
 
+			create subrip_text
 			create subrip_label.make_with_text ("Subrip")
+			subrip_text.set_foreground_color (a_color)
 			subrip_label.set_font (font)
 			subrip_label.set_background_color (a_color)
+			subrip_text.disable_edit
 
+				-- ENCLOSING
+			create enclosing_box.default_create
+			create pixmap.default_create
+			pixmap.set_with_named_file ("./gui/enclosing.png")
+			enclosing_box.set_background_pixmap (pixmap)
 
+				--MAIN_CONTAINER
+			pixmap.set_with_named_file ("./gui/container.png")
+			main_container.set_background_pixmap (pixmap)
+			main_container.extend (microdvd_label)
+			main_container.set_padding_width (10)
+			main_container.extend (microdvd_text)
 			main_container.extend (subrip_label)
 			main_container.extend (subrip_text)
+			main_container.set_border_width (100)
+			main_container.extend (enclosing_box)
 
-			create a_color.make_with_8_bit_rgb (0,150,0)
-			microdvd_text.set_foreground_color (a_color)
-			subrip_text.set_foreground_color (a_color)
-			main_container.set_border_width (200)
 
-			create enclosing_box
+				--BUTTON REWARD
+			pixmap.set_with_named_file ("./gui/reward.png")
+			create button_reward.default_create
+			button_reward.set_pixmap (pixmap)
+			button_reward.set_minimum_width (60)
+			enclosing_box.extend (button_reward)
+			enclosing_box.set_item_x_position(button_reward,50)
+			enclosing_box.set_item_y_position(button_reward,80)
 
-				--BUTTON FOWARD
-			create button_foward.make_with_text (button_foward_item)
-			button_foward.set_minimum_width (130)
-			enclosing_box.extend (button_foward)
-			enclosing_box.set_item_x_position(button_foward,10)
-			enclosing_box.set_item_y_position(button_foward,20)
 
 				--NUMBER TEXT FIELD
 			create text_field_number
-			text_field_number.set_minimum_width (120)
+			text_field_number.set_minimum_width (60)
 			enclosing_box.extend (text_field_number)
-			enclosing_box.set_item_x_position(text_field_number,140)
-			enclosing_box.set_item_y_position(text_field_number,20)
+			enclosing_box.set_item_x_position(text_field_number,120)
+			enclosing_box.set_item_y_position(text_field_number,80)
 
-				--BUTTON REWARD
-			create button_reward.make_with_text (button_reward_item)
-			button_reward.set_minimum_width (130)
-			enclosing_box.extend (button_reward)
-			enclosing_box.set_item_x_position(button_reward,260)
-			enclosing_box.set_item_y_position(button_reward,20)
+
+				--BUTTON FOWARD
+			pixmap.set_with_named_file ("./gui/forward.png")
+			create button_foward.default_create
+			button_foward.set_pixmap (pixmap)
+			button_foward.set_minimum_width (60)
+			enclosing_box.extend (button_foward)
+			enclosing_box.set_item_x_position(button_foward,190)
+			enclosing_box.set_item_y_position(button_foward,80)
+
+				--NUMBER TEXT FIELD
+			create text_field_number
+			text_field_number.set_minimum_width (60)
+			enclosing_box.extend (text_field_number)
+			enclosing_box.set_item_x_position(text_field_number,260)
+			enclosing_box.set_item_y_position(text_field_number,80)
 
 				-- BUTTON CONVERTER
 			create button_converter.make_with_text (button_converter_item)
-			button_converter.set_minimum_width (200)
+			button_converter.set_background_color (a_color)
+			button_converter.set_minimum_width (70)
 			enclosing_box.extend (button_converter)
+			--enclosing_box.set_item_x_position(button_foward,300)
+			--enclosing_box.set_item_y_position(button_foward,80)
 			button_converter.select_actions.extend (agent converter_sub)
-			enclosing_box.set_item_x_position(button_converter,100)
-			enclosing_box.set_item_y_position(button_converter,50)
 
-			main_container.extend (enclosing_box)
 		ensure
 			main_container_created: main_container /= Void
 		end
 
-feature --Implementation, Converter_sub
+
+	feature --Implementation, Converter_sub
 
 	converter_sub
 		local
