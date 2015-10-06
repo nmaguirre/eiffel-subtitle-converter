@@ -315,7 +315,6 @@ feature {NONE} -- Implementation
 			font.set_family ({EV_FONT_CONSTANTS}.family_modern)
 			font.set_weight ({EV_FONT_CONSTANTS}.weight_bold)
 			font.set_height_in_points (12)
-			microdvd_label.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (50, 50, 50))
 			microdvd_label.set_font (font)
 			microdvd_label.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			microdvd_label.set_background_color (a_color)
@@ -375,7 +374,6 @@ feature {NONE} -- Implementation
 			main_container.disable_item_expand (enclosing_box)
 			--SUBRIP LABEL & TEXT BOX
 			create subrip_label.make_with_text ("SubRip")
-			subrip_label.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (50, 50, 50))
 			subrip_label.set_font (font)
 			subrip_label.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			subrip_label.set_background_color (a_color)
