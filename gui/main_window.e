@@ -296,6 +296,7 @@ feature {NONE} -- Implementation
 			button_forward : EV_BUTTON
 			button_rewind : EV_BUTTON
 			button_convert: EV_BUTTON
+			background: EV_PIXMAP
 
 		do
 			create microdvd_text
@@ -304,7 +305,6 @@ feature {NONE} -- Implementation
 			microdvd_text.set_minimum_height (175)
 			subrip_text.disable_edit
 			subrip_text.set_minimum_height (175)
-
 
 			create a_color.make_with_8_bit_rgb (0, 150,200)
 			create microdvd_label.make_with_text ("MicroDVD")
@@ -324,15 +324,19 @@ feature {NONE} -- Implementation
 			microdvd_text.set_foreground_color (a_color)
 			subrip_text.set_foreground_color (a_color)
 
+			create background
+			background.set_with_named_file ("./gui/background.png")
+			background.stretch (252, 42)
 			create enclosing_box
-			enclosing_box.set_minimum_height (40)
+			enclosing_box.set_minimum_height (42)
+			enclosing_box.set_background_pixmap (background)
 
 				--BUTTON REWIND
 			create button_rewind.make_with_text (button_rewind_item)
 			button_rewind.set_minimum_width (100)
 			enclosing_box.extend (button_rewind)
 			enclosing_box.set_item_x_position(button_rewind,10)
-			enclosing_box.set_item_y_position(button_rewind,5)
+			enclosing_box.set_item_y_position(button_rewind,7)
 
 				--NUMBER TEXT FIELD
 			create text_field_number
@@ -340,14 +344,14 @@ feature {NONE} -- Implementation
 			enclosing_box.extend (text_field_number)
 			enclosing_box.set_item_height (text_field_number, 10)
 			enclosing_box.set_item_x_position(text_field_number,110)
-			enclosing_box.set_item_y_position(text_field_number,5)
+			enclosing_box.set_item_y_position(text_field_number,8)
 
 				--BUTTON FORWARD
 			create button_forward.make_with_text (button_forward_item)
 			button_forward.set_minimum_width (100)
 			enclosing_box.extend (button_forward)
 			enclosing_box.set_item_x_position(button_forward,160)
-			enclosing_box.set_item_y_position(button_forward,5)
+			enclosing_box.set_item_y_position(button_forward,7)
 
 				-- BUTTON CONVERT
 			create button_convert.make_with_text (button_convert_item)
@@ -356,7 +360,7 @@ feature {NONE} -- Implementation
 			button_convert.select_actions.extend (agent on_convert)
 			enclosing_box.set_item_height (button_convert, 20)
 			enclosing_box.set_item_x_position(button_convert,575)
-			enclosing_box.set_item_y_position(button_convert,5)
+			enclosing_box.set_item_y_position(button_convert,7)
 
 			main_container.extend (enclosing_box)
 			main_container.disable_item_expand (enclosing_box)
