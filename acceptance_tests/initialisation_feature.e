@@ -168,50 +168,6 @@ feature -- Test routines
 				end
 		end
 
-	load_file_void_microdvd
-			-- Scenario: an empty subtitle in microdvd format shouldn't be able to be accepted to convert.
-			-- When an empty microdvd subtitle is loaded
-			-- Then the system should inform that this is not possible in a message error
-
-		local
-			logic: CONVERTER_LOGIC
-			controller: CONTROLLER
-			rescued: BOOLEAN
-		do
-			if (not rescued) then
-				create controller.make_with_microdvd_subtitle ("./acceptance_tests/voidSample.sub")
-				logic := controller.system_logic
-			end
-			assert("Subtitle is void, source is void", not logic.has_loaded_subtitle)
-			assert ("system not ready to convert", not logic.is_ready_to_convert)
-			rescue
-				if (not rescued) then
-					rescued:= True
-					retry
-				end
-		end
-
-	load_file_void_subrip
-			-- Scenario: an empty subtitle in subrip format shouldn't be able to be accepted to convert.
-			-- When an empty subrip subtitle is loaded
-			-- Then the system should inform that this is not possible in a message error.
-		local
-			logic: CONVERTER_LOGIC
-			controller: CONTROLLER
-			rescued: BOOLEAN
-		do
-			if (not rescued) then
-				create controller.make_with_subrip_subtitle ("./acceptance_tests/voidSample.srt")
-				logic := controller.system_logic
-			end
-			assert("Subtitle is void, source is void", not logic.has_loaded_subtitle)
-			assert ("system not ready to convert", not logic.is_ready_to_convert)
-			rescue
-				if (not rescued) then
-					rescued:= True
-					retry
-				end
-		end
 feature
 
 	default_framerate: REAL = 23.97

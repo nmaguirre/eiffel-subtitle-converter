@@ -199,21 +199,16 @@ feature -- Status checking
 		do
 			res := True
 			prev_stop_frame := -1
-			if (items.is_empty)
-			then
-				res:= false
-			else
-				from
-					items.start
-				until
-					items.off or not res
-				loop
-					if  items.item /= Void and prev_stop_frame < items.item.start_frame then
-						prev_stop_frame := items.item.stop_frame
-						items.forth
-					else
-						res := False
-					end
+			from
+				items.start
+			until
+				items.off or not res
+			loop
+				if  items.item /= Void and prev_stop_frame < items.item.start_frame then
+					prev_stop_frame := items.item.stop_frame
+					items.forth
+				else
+					res := False
 				end
 			end
 			Result := res

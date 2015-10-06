@@ -180,26 +180,22 @@ feature -- Status checking
 			prev_stop_time: SUBRIP_SUBTITLE_TIME
  		do
 			res := True
-			if (items.is_empty) then
-				res:= false
-			else
-				from
-					items.start
-				until
-					items.off or not res
-				loop
-					if items.item = Void then
-						res := False
-					else
-						if not items.isfirst then
-							if prev_stop_time > items.item.start_time then
-								res := False
-							end
+			from
+				items.start
+			until
+				items.off or not res
+			loop
+				if items.item = Void then
+					res := False
+				else
+					if not items.isfirst then
+						if prev_stop_time > items.item.start_time then
+							res := False
 						end
 					end
-					prev_stop_time := items.item.stop_time
-					items.forth
 				end
+				prev_stop_time := items.item.stop_time
+				items.forth
 			end
 			Result := res
 		end
