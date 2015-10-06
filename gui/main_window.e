@@ -211,6 +211,7 @@ feature {NONE} -- ToolBar Implementation
 			create toolbar_pixmap
 			toolbar_pixmap.set_with_named_file ("./gui/open.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
+			toolbar_item.select_actions.extend (agent on_open)
 			standard_toolbar.extend (toolbar_item)
 
 			create toolbar_item
@@ -310,6 +311,7 @@ feature {NONE} -- Implementation
 			create microdvd_label.make_with_text ("MicroDVD")
 			create font.default_create
 			font.set_family ({EV_FONT_CONSTANTS}.family_modern)
+			font.set_weight ({EV_FONT_CONSTANTS}.weight_bold)
 			font.set_height_in_points (12)
 			microdvd_label.set_font (font)
 			microdvd_label.set_background_color (a_color)
@@ -373,6 +375,15 @@ feature {NONE} -- Implementation
 
 feature --Implementation, Converter_sub
 
+	on_open
+		local
+			open_dialog: EV_FILE_OPEN_DIALOG
+		do
+			create open_dialog
+			open_dialog.show_modal_to_window (Current)
+			create file_name.make_from_string (open_dialog.file_name)
+		end
+
 	on_convert
 		local
 			msj_error: EV_INFORMATION_DIALOG
@@ -420,5 +431,7 @@ Window_height: INTEGER = 600
 	a_color: EV_COLOR
 
 	system_logic: CONVERTER_LOGIC
+
+	file_name : STRING
 
 end
