@@ -1,8 +1,7 @@
 note
-	description: ""
-	author: ""
-	date: "31/08/2012"
-	revision: "See SVN revision number"
+	date		: "Martes, 6 de octubre de 2015"
+	revision	: "1.0.0"
+	group		: "Astorga, Arangue, Dahue"
 
 deferred class
 	ABSTRACT_OBSERVER
