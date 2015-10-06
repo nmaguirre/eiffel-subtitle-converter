@@ -10,24 +10,30 @@ class
 inherit
 	EQA_TEST_SET
 
-feature
-	test_save_convert_subrip_to_microdvd
-	local
-		subrip: SUBRIP_SUBTITLE
-		subrip_item: SUBRIP_SUBTITLE_ITEM
-		microdvd: MICRODVD_SUBTITLE
-		start_time,stop_time: SUBRIP_SUBTITLE_TIME
-		file: FILE
-	do
-		create subrip.make
-		create microdvd.make
-		--create file.make
-		create start_time.make_with_values (0, 0, 1, 0)
-		create stop_time.make_with_values (0, 0, 2, 0)
-		subrip.add_subtitle_item (start_time,stop_time,"hola")
-		microdvd := subrip.convert_to_microdvd
+feature --test routines
 
-		assert("has been converted", true = true)
-	end
+	test_save_convert_subrip_to_microdvd
+			--	Scenario: save the conversion of subrip to microdvd subtitle in a file with the extension .sub
+			--		Given a file text with the extension .srt with a valid subrip subtitle not empty, containing:
+			--			{1}{10}Hola
+			--          {12}{24}Chau
+   			--		When the file is loaded into the application as subrip subtitle
+    		--		And the subrip is converter to microdvd subtitle successfully
+    		--		Then should save the conversion into a text fil with the extensio .sub
+		local
+			subrip_subtitle: SUBRIP_SUBTITLE
+			file_of_subrip_subtitle: CONVERTER_LOGIC
+		do
+			--		Given a file text with the extension .srt with a valid subrip subtitle not empty, containing:
+			--			{1}{10}Hola
+			--          {12}{24}Chau
+			--		When the file is loaded into the application as subrip subtitle
+			create file_of_subrip_subtitle.make_with_subrip_subtitle("test_file.srt")
+			--		And the subrip is converter to microdvd subtitle successfully
+			file_of_subrip_subtitle.convert_subtitle
+			--		Then should save the conversion into a text fil with the extensio .sub
+			assert("has been converted and saved", save_convert_subrip_to_microdvd)
+			assert("the file is in the directory", existing_file("test_file.sub"))
+		end
 
 end
