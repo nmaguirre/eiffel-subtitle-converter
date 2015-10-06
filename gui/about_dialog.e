@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 		end
 
 	initialize
-			-- Populate the dialog box.
+			-- Populate the dialog box..
 		local
 			main_horizontal_box: EV_HORIZONTAL_BOX
 			left_vertical_box: EV_VERTICAL_BOX
