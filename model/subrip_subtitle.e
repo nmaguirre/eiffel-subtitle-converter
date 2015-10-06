@@ -10,7 +10,7 @@ class
 inherit
 	SUBTITLE
 		redefine
-			out
+			out,save
 		end
 
 create
@@ -233,7 +233,19 @@ feature {CONVERTER_LOGIC,CONVERT_SAVE_SUBRIP_TO_MICRODVD_FEATURE} -- Auxiliary f
 			Result := st_frame
 
 		end
+feature
 
+	save (file_name : STRING)
+			-- this routine save the subrip subtitle
+			-- the routine create a file text with the extension .srt
+			-- and save the subrip_subitle into that file
+		local
+			file : PLAIN_TEXT_FILE
+		do
+			create file.make_with_name (file_name+".srt")
+			file.put_string(out)
+			file.close
+		end
 
 feature {SUBRIP_SUBTITLE_TESTS} -- Implementation
 

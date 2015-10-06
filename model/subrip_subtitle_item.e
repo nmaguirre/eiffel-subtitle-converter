@@ -1,4 +1,4 @@
-\`\note
+note
 	description: "Class that represents the items that conform a subtitle in SubRip format."
 	author: "DOSE 2015, Rio Cuarto Team"
 	date: "September 2015"
