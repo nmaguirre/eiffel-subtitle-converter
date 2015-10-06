@@ -45,10 +45,15 @@ feature {NONE} -- Initialization
 			-- <Precursor>
 		do
 				-- Create main container.
-			create main_container
-			create main_container_two
+			--create main_container
+			--create main_container_two
 			--create main_container_two
 				-- Create the menu bar.
+			create enclosing_box
+			--extend (enclosing_box)
+
+
+
 			create standard_menu_bar
 				-- Create file menu.
 			create file_menu.make_with_text (Menu_file_item)
@@ -82,7 +87,7 @@ feature {NONE} -- Initialization
 			lower_bar.extend (standard_status_bar)
 
 			build_main_container
-			extend (main_container)
+			extend (enclosing_box)
 
 
 				-- Execute `request_close_window' when the user clicks
@@ -293,11 +298,11 @@ feature {NONE} -- Implementation, Close event
 
 feature {NONE} -- Implementation
 
-	main_container: EV_VERTICAL_BOX
+--	main_container: EV_VERTICAL_BOX
 			-- Main container (contains all widgets displayed in this window).
+--	main_container_two: EV_VERTICAL_BOX
 
-	main_container_two: EV_VERTICAL_BOX
-
+	enclosing_box: EV_FIXED
 
 	build_main_container
 			-- Populate `main_container'.
@@ -305,16 +310,26 @@ feature {NONE} -- Implementation
 			microdvd_label: EV_LABEL
 			subrip_label: EV_LABEL
 			pixmap: EV_PIXMAP
-			button_converter: EV_BUTTON
-			enclosing_box: EV_FIXED
+			button_converter_subrip: EV_BUTTON
+			button_converter_microdvd: EV_BUTTON
+
 			font: EV_FONT
 			text_field_number : EV_TEXT_FIELD
 			button_foward : EV_BUTTON
 			button_reward : EV_BUTTON
+			container_microdvd_text: EV_HORIZONTAL_BOX
+			container_microdvd_label: EV_VERTICAL_BOX
+			container_subrip_text: EV_HORIZONTAL_BOX
+			container_subrip_label: EV_VERTICAL_BOX
 
 		do
+				-- ENCLOSING
+			create pixmap.default_create
+			pixmap.set_with_named_file ("./gui/container.png")
+			enclosing_box.set_background_pixmap (pixmap)
+
 			create microdvd_text
-			create a_color.make_with_8_bit_rgb (0,100,0)
+			create a_color.make_with_8_bit_rgb (0,150,0)
 
 			create microdvd_label.make_with_text ("MicroDVD")
 			microdvd_text.set_foreground_color (a_color)
@@ -323,78 +338,138 @@ feature {NONE} -- Implementation
 			microdvd_label.set_font (font)
 			microdvd_label.set_background_color (a_color)
 			microdvd_text.disable_edit
+			microdvd_label.set_minimum_height (35)
+			microdvd_label.set_minimum_width (250)
+			microdvd_text.set_minimum_height (400)
+			microdvd_text.set_minimum_width (250)
 
-
+			enclosing_box.extend (microdvd_label)
+			enclosing_box.extend (microdvd_text)
+			enclosing_box.set_item_x_position (microdvd_label,50)
+			enclosing_box.set_item_y_position (microdvd_label,70)
+			enclosing_box.set_item_x_position (microdvd_text,50)
+			enclosing_box.set_item_y_position (microdvd_text,100)
+			--
 			create subrip_text
 			create subrip_label.make_with_text ("Subrip")
 			subrip_text.set_foreground_color (a_color)
 			subrip_label.set_font (font)
 			subrip_label.set_background_color (a_color)
 			subrip_text.disable_edit
+			subrip_label.set_minimum_height (35)
+			subrip_label.set_minimum_width (250)
+			subrip_text.set_minimum_height (400)
+			subrip_text.set_minimum_width (250)
 
-				-- ENCLOSING
-			create enclosing_box.default_create
-			create pixmap.default_create
-			pixmap.set_with_named_file ("./gui/enclosing.png")
-			enclosing_box.set_background_pixmap (pixmap)
+			enclosing_box.extend (subrip_label)
+			enclosing_box.extend (subrip_text)
+			enclosing_box.set_item_x_position (subrip_label,400)
+			enclosing_box.set_item_y_position (subrip_label,68)
+			enclosing_box.set_item_x_position (subrip_text,400)
+			enclosing_box.set_item_y_position (subrip_text,100)
+
+			pixmap.set_with_named_file ("./gui/right.png")
+			create button_converter_subrip.default_create
+			button_converter_subrip.set_pixmap (pixmap)
+			enclosing_box.extend (button_converter_subrip)
+			enclosing_box.set_item_x_position(button_converter_subrip,315)
+			enclosing_box.set_item_y_position(button_converter_subrip,200)
+			button_converter_subrip.select_actions.extend (agent converter_sub)
+
+			pixmap.set_with_named_file ("./gui/left.png")
+			create button_converter_microdvd.default_create
+			button_converter_microdvd.set_pixmap (pixmap)
+			enclosing_box.extend (button_converter_microdvd)
+			enclosing_box.set_item_x_position(button_converter_microdvd,315)
+			enclosing_box.set_item_y_position(button_converter_microdvd,350)
+			button_converter_microdvd.select_actions.extend (agent converter_sub)
+
+			--create container_microdvd_text.default_create
+		--	container_microdvd_text.extend (microdvd_text)
+		--	create container_microdvd_label.default_create
+		--	container_microdvd_label.extend (microdvd_label)
+
+			--create container_subrip_text.default_create
+			--container_subrip_text.extend (subrip_text)
+			--create container_subrip_label.default_create
+			--container_subrip_label.extend (subrip_label)
+
+
+
+
+			--enclosing_box.set_item_x_position (container_microdvd_text, 10)
+			--enclosing_box.set_item_y_position (container_microdvd_text, 10)
+		--	enclosing_box.set_item_x_position (container_microdvd_label,10)
+		--	enclosing_box.set_item_y_position (container_microdvd_label,10)
+			--enclosing_box.set_item_x_position (container_subrip_text, 30)
+			--enclosing_box.set_item_y_position (container_subrip_text, 30)
+			--enclosing_box.set_item_x_position (container_subrip_label,30)
+			--enclosing_box.set_item_y_position (container_subrip_label,30)
+
+		--	enclosing_box.extend (container_microdvd_text)
+		--	enclosing_box.extend (container_microdvd_label)
+		--	enclosing_box.extend (container_subrip_text)
+		--	enclosing_box.extend (container_subrip_label)
+
+
 
 				--MAIN_CONTAINER
-			pixmap.set_with_named_file ("./gui/container.png")
-			main_container.set_background_pixmap (pixmap)
-			main_container.extend (microdvd_label)
-			main_container.set_padding_width (10)
-			main_container.extend (microdvd_text)
-			main_container.extend (subrip_label)
-			main_container.extend (subrip_text)
-			main_container.set_border_width (100)
-			main_container.extend (enclosing_box)
+		--	pixmap.set_with_named_file ("./gui/container.png")
+		--	main_container.set_background_pixmap (pixmap)
+			--main_container.extend (microdvd_label)
+			--main_container.set_padding_width (10)
+			--main_container.extend (microdvd_text)
+			--main_container.extend (subrip_label)
+			--main_container.extend (subrip_text)
+		--	main_container.set_border_width (100)
+		--	main_container.extend (enclosing_box)
 
 
 				--BUTTON REWARD
-			pixmap.set_with_named_file ("./gui/reward.png")
-			create button_reward.default_create
-			button_reward.set_pixmap (pixmap)
-			button_reward.set_minimum_width (60)
-			enclosing_box.extend (button_reward)
-			enclosing_box.set_item_x_position(button_reward,50)
-			enclosing_box.set_item_y_position(button_reward,80)
+		--	pixmap.set_with_named_file ("./gui/reward.png")
+		--	create button_reward.default_create
+		--	button_reward.set_pixmap (pixmap)
+		--	button_reward.set_minimum_width (60)
+		--	enclosing_box.extend (button_reward)
+		--	enclosing_box.set_item_x_position(button_reward,50)
+		--	enclosing_box.set_item_y_position(button_reward,80)
 
 
 				--NUMBER TEXT FIELD
-			create text_field_number
-			text_field_number.set_minimum_width (60)
-			enclosing_box.extend (text_field_number)
-			enclosing_box.set_item_x_position(text_field_number,120)
-			enclosing_box.set_item_y_position(text_field_number,80)
+	--		create text_field_number
+	--		text_field_number.set_minimum_width (60)
+	--		enclosing_box.extend (text_field_number)
+	---		enclosing_box.set_item_x_position(text_field_number,120)
+	--		enclosing_box.set_item_y_position(text_field_number,80)
 
 
 				--BUTTON FOWARD
-			pixmap.set_with_named_file ("./gui/forward.png")
-			create button_foward.default_create
-			button_foward.set_pixmap (pixmap)
-			button_foward.set_minimum_width (60)
-			enclosing_box.extend (button_foward)
-			enclosing_box.set_item_x_position(button_foward,190)
-			enclosing_box.set_item_y_position(button_foward,80)
+	--		pixmap.set_with_named_file ("./gui/forward.png")
+	--		create button_foward.default_create
+	--		button_foward.set_pixmap (pixmap)
+	--		button_foward.set_minimum_width (60)
+	--		enclosing_box.extend (button_foward)
+	--		enclosing_box.set_item_x_position(button_foward,190)
+	--		enclosing_box.set_item_y_position(button_foward,80)
 
 				--NUMBER TEXT FIELD
-			create text_field_number
-			text_field_number.set_minimum_width (60)
-			enclosing_box.extend (text_field_number)
-			enclosing_box.set_item_x_position(text_field_number,260)
-			enclosing_box.set_item_y_position(text_field_number,80)
+	--		create text_field_number
+	--		text_field_number.set_minimum_width (60)
+	--		enclosing_box.extend (text_field_number)
+	--		enclosing_box.set_item_x_position(text_field_number,260)
+	--		enclosing_box.set_item_y_position(text_field_number,80)
 
 				-- BUTTON CONVERTER
-			create button_converter.make_with_text (button_converter_item)
-			button_converter.set_background_color (a_color)
-			button_converter.set_minimum_width (70)
-			enclosing_box.extend (button_converter)
-			--enclosing_box.set_item_x_position(button_foward,300)
+	--		create button_converter.make_with_text (button_converter_item)
+	--		button_converter.set_background_color (a_color)
+	--		button_converter.set_minimum_width (70)
+	--		enclosing_box.extend (button_converter)
+	--		--enclosing_box.set_item_x_position(button_foward,300)
 			--enclosing_box.set_item_y_position(button_foward,80)
-			button_converter.select_actions.extend (agent converter_sub)
+	--		button_converter.select_actions.extend (agent converter_sub)
 
 		ensure
-			main_container_created: main_container /= Void
+		--	main_container_created: main_container /= Void
 		end
 
 
@@ -447,5 +522,7 @@ Window_height: INTEGER = 800
 	a_color: EV_COLOR
 
 	system_logic: CONVERTER_LOGIC
+
+
 
 end
