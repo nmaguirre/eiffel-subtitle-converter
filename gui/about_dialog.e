@@ -138,10 +138,20 @@ feature {NONE} -- Implementation / Constants
 	Default_title: STRING = "About Dialog"
 			-- Default title for the dialog window.
 
-	Default_message: STRING =
-		"YourCompany (R) eiffel_subtitle_converter%N%
-		%Version 1.0%N%
+	Default_message: STRING =   
+		"Eiffel Subtitle Converter%N%
+		%License%N%
+		%© 2015 AstorgaAragueDahue, Inc.%N%
 		%%N%
-		%Copyright (C) 2013 YourCompany"
+		%THE SOFTWARE IS PROVIDED AS IS, WITHOUT %N%
+		%WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,%N%
+		%INCLUDING BUT NOT LIMITED TO THE WARRANTIES %N%
+		%OF MERCHANTABILITY, FITNESS FOR A PARTICULAR %N%
+		%PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL%N%
+		%THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR %N%
+		%ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER %N%
+		%IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, %N%
+		%ARISING FROM, OUT OF OR IN CONNECTION WITH THE %N%
+		%SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 
 end -- class ABOUT_DIALOG
