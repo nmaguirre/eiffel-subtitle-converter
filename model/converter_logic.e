@@ -143,6 +143,15 @@ feature
 
 		end
 
+	save (file_name: STRING)
+			-- Save in a file text the conversion of the subtitle
+		require
+			valid_file_name: file_name /= Void
+			valid_target: target /= Void
+		do
+			target.save (file_name)
+		end
+
 
 feature
 

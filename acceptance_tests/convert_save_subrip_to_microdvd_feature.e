@@ -32,7 +32,7 @@ feature --test routines
 			subrip_subtitle: SUBRIP_SUBTITLE
 			file_of_subtitle: CONVERTER_LOGIC
 			passed: BOOLEAN
-			file_of_microdvd: FILE
+			file_of_microdvd: PLAIN_TEXT_FILE
 			line_text: STRING
 		do
 			--		Given a file text with the extension .srt with a valid subrip subtitle not empty, containing:
@@ -44,11 +44,11 @@ feature --test routines
 			--            00:00:03,510 --> 00:00:05,154
 			--            Chau
 			--		When the file is loaded into the application as subrip subtitle
-			create file_of_subrip_subtitle.make_with_subrip_subtitle("test_file.srt")
+			create file_of_subtitle.make_with_subrip_subtitle("test_file.srt")
 			--		And the subrip is converter to microdvd subtitle successfully
-			file_of_subrip_subtitle.convert_subtitle
+			file_of_subtitle.convert_subtitle
 			--		Then should save the conversion into a text fil with the extensio .sub
-			file_of_subtitle.save
+			file_of_subtitle.save("test_file")
 			assert("the file is in the directory", true)
 			--		And should containg:
     		--			{1}{10}Hola
