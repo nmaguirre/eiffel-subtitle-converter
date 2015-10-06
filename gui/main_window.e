@@ -313,6 +313,7 @@ feature {NONE} -- Implementation
 			font.set_family ({EV_FONT_CONSTANTS}.family_modern)
 			font.set_weight ({EV_FONT_CONSTANTS}.weight_bold)
 			font.set_height_in_points (12)
+			microdvd_label.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (50, 50, 50))
 			microdvd_label.set_font (font)
 			microdvd_label.set_background_color (a_color)
 
@@ -335,6 +336,7 @@ feature {NONE} -- Implementation
 
 				--BUTTON REWIND
 			create button_rewind.make_with_text (button_rewind_item)
+			button_rewind.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			button_rewind.set_minimum_width (100)
 			enclosing_box.extend (button_rewind)
 			enclosing_box.set_item_x_position(button_rewind,10)
@@ -350,6 +352,7 @@ feature {NONE} -- Implementation
 
 				--BUTTON FORWARD
 			create button_forward.make_with_text (button_forward_item)
+			button_forward.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			button_forward.set_minimum_width (100)
 			enclosing_box.extend (button_forward)
 			enclosing_box.set_item_x_position(button_forward,160)
@@ -357,6 +360,7 @@ feature {NONE} -- Implementation
 
 				-- BUTTON CONVERT
 			create button_convert.make_with_text (button_convert_item)
+			button_convert.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			button_convert.set_minimum_width (200)
 			enclosing_box.extend (button_convert)
 			button_convert.select_actions.extend (agent on_convert)
@@ -368,6 +372,7 @@ feature {NONE} -- Implementation
 			main_container.disable_item_expand (enclosing_box)
 			--SUBRIP LABEL & TEXT BOX
 			create subrip_label.make_with_text ("SubRip")
+			subrip_label.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (50, 50, 50))
 			subrip_label.set_font (font)
 			subrip_label.set_background_color (a_color)
 			main_container.extend (subrip_label)
