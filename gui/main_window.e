@@ -304,8 +304,10 @@ feature {NONE} -- Implementation
 			create subrip_text
 			microdvd_text.disable_edit
 			microdvd_text.set_minimum_height (175)
+			microdvd_text.set_background_color (create {EV_COLOR}.make_with_8_bit_rgb (243, 243, 243))
 			subrip_text.disable_edit
 			subrip_text.set_minimum_height (175)
+			subrip_text.set_background_color (create {EV_COLOR}.make_with_8_bit_rgb (243, 243, 243))
 
 			create a_color.make_with_8_bit_rgb (0, 150,200)
 			create microdvd_label.make_with_text ("MicroDVD")
@@ -315,6 +317,7 @@ feature {NONE} -- Implementation
 			font.set_height_in_points (12)
 			microdvd_label.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (50, 50, 50))
 			microdvd_label.set_font (font)
+			microdvd_label.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			microdvd_label.set_background_color (a_color)
 
 			main_container.extend (microdvd_label)
@@ -374,6 +377,7 @@ feature {NONE} -- Implementation
 			create subrip_label.make_with_text ("SubRip")
 			subrip_label.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (50, 50, 50))
 			subrip_label.set_font (font)
+			subrip_label.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			subrip_label.set_background_color (a_color)
 			main_container.extend (subrip_label)
 			main_container.disable_item_expand (subrip_label)
