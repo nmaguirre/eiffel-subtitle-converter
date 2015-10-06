@@ -141,15 +141,10 @@ feature {NONE} -- Menu Implementation
 			-- Create and populate `file_menu'.
 		local
 			menu_item: EV_MENU_ITEM
-			a:EV_PIXMAP
 		do
 			create menu_item.make_with_text (Menu_file_new_item)
 				--| TODO: Add the action associated with "New" here.
 			file_menu.extend (menu_item)
-			create a.make_with_size (10, 10)
-			create a_color.make_with_8_bit_rgb (0,0,110)
-			a.set_background_color (a_color)
-			file_menu.set_pixmap (a)
 
 			create menu_item.make_with_text (Menu_file_open_item)
 				--| TODO: Add the action associated with "Open" here.
@@ -214,6 +209,8 @@ feature {NONE} -- ToolBar Implementation
 			create toolbar_pixmap
 			toolbar_pixmap.set_with_named_file ("./gui/new.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
+			create a_color.make_with_8_bit_rgb (0,150,0)
+			standard_toolbar.set_background_color (a_color)
 			standard_toolbar.extend (toolbar_item)
 
 			create toolbar_item
@@ -252,13 +249,15 @@ feature {NONE} -- StatusBar Implementation
 	build_standard_status_bar
 			-- Populate the standard toolbar.
 		do
-			create a_color.make_with_8_bit_rgb (200,0,0)
-			standard_status_label.set_foreground_color (a_color)
+			create a_color.make_with_8_bit_rgb (0,0,10)
 				-- Initialize the status bar.
-			standard_status_bar.set_border_width (5)
+			standard_status_bar.set_border_width (1)
+			standard_status_bar.set_background_color (a_color)
 
 				-- Populate the status bar.
+			create a_color.make_with_8_bit_rgb (0,150,0)
 			standard_status_label.align_text_left
+			standard_status_label.set_background_color (a_color)
 			standard_status_bar.extend (standard_status_label)
 		end
 
@@ -336,7 +335,8 @@ feature {NONE} -- Implementation
 			create microdvd_label.make_with_text ("MicroDVD")
 			microdvd_text.set_foreground_color (a_color)
 			create font.default_create
-			font.set_family (3)
+			font.set_family (1)
+			font.set_height_in_points (25)
 			microdvd_label.set_font (font)
 			microdvd_label.set_background_color (a_color)
 			microdvd_text.disable_edit
@@ -564,7 +564,7 @@ feature {NONE} -- Implementation / Constants
 			-- Initial width for this window.
 
 	--Window_height: INTEGER = 800
-Window_height: INTEGER = 800
+Window_height: INTEGER = 700
 			-- Initial height for this window.
 
 	microdvd_text: EV_TEXT
