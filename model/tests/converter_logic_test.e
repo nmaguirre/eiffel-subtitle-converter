@@ -187,6 +187,72 @@ feature -- Test routines
 			assert ("Loaded microdvd subtitle isn´t correct ", passed = False)
 		end
 
+
+	test_has_converted_microdvd_valid
+			--Check target is a microdvd subtitle when the conversion has been performed
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.has_converted_microdvd"
+		local
+			sub: SUBRIP_SUBTITLE
+			logic: CONVERTER_LOGIC
+		do
+			create sub.make
+			create logic.make
+			logic.set_source(sub)
+			logic.convert_subtitle
+			assert("Conversion has been performed and target contains a MicroDvD", logic.has_converted_microdvd)
+		end
+
+
+	test_has_converted_microdvd_invalid
+			--Check target isn't a microdvd subtitle when the conversion has been performed
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.has_converted_microdvd"
+		local
+			sub: MICRODVD_SUBTITLE
+			logic: CONVERTER_LOGIC
+			pass: BOOLEAN
+		do
+			create sub.make
+			create logic.make
+			logic.set_source(sub)
+			logic.convert_subtitle
+			pass:= logic.has_converted_microdvd
+			assert("Conversion has been performed and target doesn't contains a MicroDvD", not pass)
+		end
+
+
+	test_has_converted_subtitle_valid
+			--Check target isn't void when the conversion has been performed
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.has_converted_subtitle"
+		local
+			sub: SUBRIP_SUBTITLE
+			logic: CONVERTER_LOGIC
+		do
+			create sub.make
+			create logic.make
+			logic.set_source(sub)
+			logic.convert_subtitle
+			assert("Conversion has been performed and target contains a subtitle", logic.has_converted_subtitle)
+		end
+
+
+	test_has_converted_subtitle_invalid
+			--Check target is void when the conversion hasn't taken place
+		note
+			testing:  "covers/{CONVERTER_LOGIC}.has_converted_subtitle"
+		local
+			sub: SUBRIP_SUBTITLE
+			logic: CONVERTER_LOGIC
+		do
+			create sub.make
+			create logic.make
+			logic.set_source(sub)
+			assert("Conversion hasn't performed and target is void", not logic.has_converted_subtitle)
+		end
+
+
 	test_set_source_subrip_valid
 			-- Routine 'set_source' sets 'source' with a SUBRIP_SUBTITLE
 		note
@@ -455,7 +521,6 @@ feature -- Test routines
   		converter.convert_subtitle
   		assert("Convert is correct",attached {MICRODVD_SUBTITLE} converter.target)
   end
-
 end
 
 
