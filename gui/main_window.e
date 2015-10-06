@@ -219,12 +219,6 @@ feature {NONE} -- ToolBar Implementation
 			toolbar_item.set_pixmap (toolbar_pixmap)
 			standard_toolbar.extend (toolbar_item)
 
-			create toolbar_item
-			create toolbar_pixmap
-			toolbar_pixmap.set_with_named_file ("./gui/refresh.png")
-			toolbar_item.set_pixmap (toolbar_pixmap)
-			standard_toolbar.extend (toolbar_item)
-
 		ensure
 			toolbar_initialized: not standard_toolbar.is_empty
 		end
@@ -243,8 +237,6 @@ feature {NONE} -- StatusBar Implementation
 	build_standard_status_bar
 			-- Populate the standard toolbar.
 		do
-			create a_color.make_with_8_bit_rgb (200,0,0)
-			standard_status_label.set_foreground_color (a_color)
 				-- Initialize the status bar.
 			standard_status_bar.set_border_width (5)
 
@@ -302,8 +294,8 @@ feature {NONE} -- Implementation
 			enclosing_box: EV_FIXED
 			font: EV_FONT
 			text_field_number : EV_TEXT_FIELD
-			button_foward : EV_BUTTON
-			button_reward : EV_BUTTON
+			button_forward : EV_BUTTON
+			button_rewind : EV_BUTTON
 
 		do
 			create microdvd_text
@@ -312,63 +304,69 @@ feature {NONE} -- Implementation
 			pixmap.set_with_named_file ("./gui/container.png")
 			main_container.set_background_pixmap (pixmap)
 			microdvd_text.disable_edit
+			microdvd_text.set_minimum_height (175)
 			subrip_text.disable_edit
+			subrip_text.set_minimum_height (175)
 
-			create a_color.make_with_8_bit_rgb (0, 150,0)
+
+			create a_color.make_with_8_bit_rgb (0, 150,200)
 			create microdvd_label.make_with_text ("MicroDVD")
 			create font.default_create
-			font.set_family (1)
+			font.set_family ({EV_FONT_CONSTANTS}.family_modern)
+			font.set_height_in_points (14)
 			microdvd_label.set_font (font)
 			microdvd_label.set_background_color (a_color)
 
 			main_container.extend (microdvd_label)
 			main_container.extend (microdvd_text)
 
-			create subrip_label.make_with_text ("Subrip")
-			subrip_label.set_font (font)
-			subrip_label.set_background_color (a_color)
 
 
-			main_container.extend (subrip_label)
-			main_container.extend (subrip_text)
-
-			create a_color.make_with_8_bit_rgb (0,150,0)
+			create a_color.make_with_8_bit_rgb (0,150,200)
 			microdvd_text.set_foreground_color (a_color)
 			subrip_text.set_foreground_color (a_color)
-			main_container.set_border_width (200)
+			--main_container.set_border_width (200)
 
 			create enclosing_box
 
-				--BUTTON FOWARD
-			create button_foward.make_with_text (button_foward_item)
-			button_foward.set_minimum_width (130)
-			enclosing_box.extend (button_foward)
-			enclosing_box.set_item_x_position(button_foward,10)
-			enclosing_box.set_item_y_position(button_foward,20)
+				--BUTTON REWIND
+			create button_rewind.make_with_text (button_rewind_item)
+			button_rewind.set_minimum_width (100)
+			enclosing_box.extend (button_rewind)
+			enclosing_box.set_item_x_position(button_rewind,10)
+			enclosing_box.set_item_y_position(button_rewind,20)
 
 				--NUMBER TEXT FIELD
 			create text_field_number
-			text_field_number.set_minimum_width (120)
+			text_field_number.set_minimum_width (50)
 			enclosing_box.extend (text_field_number)
-			enclosing_box.set_item_x_position(text_field_number,140)
+			enclosing_box.set_item_height (text_field_number, 10)
+			enclosing_box.set_item_x_position(text_field_number,110)
 			enclosing_box.set_item_y_position(text_field_number,20)
 
-				--BUTTON REWARD
-			create button_reward.make_with_text (button_reward_item)
-			button_reward.set_minimum_width (130)
-			enclosing_box.extend (button_reward)
-			enclosing_box.set_item_x_position(button_reward,260)
-			enclosing_box.set_item_y_position(button_reward,20)
+				--BUTTON FORWARD
+			create button_forward.make_with_text (button_forward_item)
+			button_forward.set_minimum_width (100)
+			enclosing_box.extend (button_forward)
+			enclosing_box.set_item_x_position(button_forward,160)
+			enclosing_box.set_item_y_position(button_forward,20)
 
 				-- BUTTON CONVERTER
 			create button_converter.make_with_text (button_converter_item)
 			button_converter.set_minimum_width (200)
 			enclosing_box.extend (button_converter)
 			button_converter.select_actions.extend (agent converter_sub)
-			enclosing_box.set_item_x_position(button_converter,100)
-			enclosing_box.set_item_y_position(button_converter,50)
+			enclosing_box.set_item_height (button_converter, 20)
+			enclosing_box.set_item_x_position(button_converter,500)
+			enclosing_box.set_item_y_position(button_converter,20)
 
 			main_container.extend (enclosing_box)
+			--SUBRIP LABEL & TEXT BOX
+			create subrip_label.make_with_text ("SubRip")
+			subrip_label.set_font (font)
+			subrip_label.set_background_color (a_color)
+			main_container.extend (subrip_label)
+			main_container.extend (subrip_text)
 		ensure
 			main_container_created: main_container /= Void
 		end
@@ -412,7 +410,7 @@ feature {NONE} -- Implementation / Constants
 			-- Initial width for this window.
 
 	--Window_height: INTEGER = 800
-Window_height: INTEGER = 800
+Window_height: INTEGER = 600
 			-- Initial height for this window.
 
 	microdvd_text: EV_TEXT

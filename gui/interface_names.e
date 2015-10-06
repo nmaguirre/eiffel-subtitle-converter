@@ -15,10 +15,10 @@ feature -- Access
 	Button_Converter_item: STRING = "Converter"
 			-- String for "Converter" buttons.
 
-	button_foward_item: STRING = "Foward"
+	button_forward_item: STRING = "Forward"
 			-- String for "Foward" buttons.
 
-	button_reward_item: STRING = "Reward"
+	button_rewind_item: STRING = "Rewind"
 			-- String for "Reward" buttons.
 
 	Menu_file_item: STRING = "&File"
