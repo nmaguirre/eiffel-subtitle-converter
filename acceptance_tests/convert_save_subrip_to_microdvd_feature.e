@@ -48,32 +48,18 @@ feature --test routines
 			--            00:00:03,000 --> 00:00:04,000
 			--            Chau
 			--		When the file is loaded into the application as subrip subtitle
-		--	create file_of_subtitle.make_with_subrip_subtitle("test_file.srt")
-
-
+			--create file_of_subtitle.make_with_subrip_subtitle("test_file.srt")
 
 			create subrip.make
-
-
 			create text.make_from_string ("Hola")
 			create start_time.make_with_values (0, 00,1 , 000)
 			create stop_time.make_with_values (0,0, 2,000)
 			subrip.add_subtitle_item(start_time,stop_time,text)
-
-
 			create text.make_from_string ("Chau")
 			create start_time.make_with_values (0, 00,3 , 000)
 			create stop_time.make_with_values (0,0, 4,000)
 			subrip.add_subtitle_item(start_time,stop_time,text)
 			create file_of_subtitle.make_sub(subrip)
-
-			--create microdvd.make
-		--	microdvd := subrip.convert_to_microdvd
-		--	assert("Conversion",microdvd.items.item.text.is_equal("Hola") and microdvd.items.item.start_frame.is_equal (24) and microdvd.items.item.stop_frame.is_equal (48))
-
-
-
-
 
 			--		And the subrip is converter to microdvd subtitle successfully
 			file_of_subtitle.convert_subtitle

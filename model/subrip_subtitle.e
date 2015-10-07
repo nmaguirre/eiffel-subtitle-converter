@@ -210,10 +210,10 @@ feature {CONVERTER_LOGIC,CONVERT_SAVE_SUBRIP_TO_MICRODVD_FEATURE,SUBRIP_SUBTITLE
 		do
 			from
 			items.start
+			create microdvd_sub.make
 			until
 				items.off
 			loop
-				create microdvd_sub.make
 				start_frame := change_format_to_microdvd(items.item.start_time, microdvd_sub.frames_per_second)
 				stop_frame := change_format_to_microdvd(items.item.stop_time,microdvd_sub.frames_per_second)
 				microdvd_sub.add_subtitle_item (start_frame, stop_frame, items.item.text)
