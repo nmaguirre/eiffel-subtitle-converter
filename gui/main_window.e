@@ -319,10 +319,10 @@ feature {NONE} -- Implementation / Constants
 	Window_title: STRING = "eiffel_subtitle_converter"
 			-- Title of the window.
 
-	Window_width: INTEGER = 600
+	Window_width: INTEGER = 1000
 			-- Initial width for this window.
 
-	Window_height: INTEGER = 800
+	Window_height: INTEGER = 500
 			-- Initial height for this window.
 
 	microdvd_text: EV_TEXT
