@@ -297,6 +297,7 @@ feature {NONE} -- Implementation
 			button_forward : EV_BUTTON
 			button_rewind : EV_BUTTON
 			button_convert: EV_BUTTON
+			button_fps: EV_BUTTON
 			background: EV_PIXMAP
 
 		do
@@ -324,11 +325,6 @@ feature {NONE} -- Implementation
 			main_container.disable_item_expand (microdvd_label)
 
 
-
-			create a_color.make_with_8_bit_rgb (0,150,200)
-			microdvd_text.set_foreground_color (a_color)
-			subrip_text.set_foreground_color (a_color)
-
 			create background
 			background.set_with_named_file ("./gui/background.png")
 			background.stretch (252, 42)
@@ -337,31 +333,51 @@ feature {NONE} -- Implementation
 			enclosing_box.set_background_pixmap (background)
 
 				--BUTTON REWIND
-			create button_rewind.make_with_text (button_rewind_item)
+			create button_rewind.make_with_text (Button_rewind_item)
 			button_rewind.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			button_rewind.set_minimum_width (100)
 			enclosing_box.extend (button_rewind)
 			enclosing_box.set_item_x_position(button_rewind,10)
 			enclosing_box.set_item_y_position(button_rewind,7)
 
-				--NUMBER TEXT FIELD
+				--NUMBER TEXT FIELD FOR OFFSET
 			create text_field_number
 			text_field_number.set_minimum_width (50)
+			text_field_number.align_text_right
 			enclosing_box.extend (text_field_number)
 			enclosing_box.set_item_height (text_field_number, 10)
 			enclosing_box.set_item_x_position(text_field_number,110)
 			enclosing_box.set_item_y_position(text_field_number,8)
 
 				--BUTTON FORWARD
-			create button_forward.make_with_text (button_forward_item)
+			create button_forward.make_with_text (Button_forward_item)
 			button_forward.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			button_forward.set_minimum_width (100)
 			enclosing_box.extend (button_forward)
 			enclosing_box.set_item_x_position(button_forward,160)
 			enclosing_box.set_item_y_position(button_forward,7)
 
+				-- NUMBER TEXT FIELD FOR CHANGE FPS
+			create text_field_number
+			text_field_number.set_minimum_width (50)
+			text_field_number.set_text ({MICRODVD_SUBTITLE}.min_valid_fps.out)
+			text_field_number.align_text_right
+			enclosing_box.extend (text_field_number)
+			enclosing_box.set_item_height (text_field_number, 10)
+			enclosing_box.set_item_x_position(text_field_number,385)
+			enclosing_box.set_item_y_position(text_field_number,8)
+
+				-- BUTTON CHANGE FPS
+			create button_fps.make_with_text(Button_change_fps_item)
+			button_fps.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
+			button_fps.set_minimum_width (100)
+			enclosing_box.extend (button_fps)
+			enclosing_box.set_item_x_position(button_fps,435)
+			enclosing_box.set_item_y_position(button_fps,7)
+
+
 				-- BUTTON CONVERT
-			create button_convert.make_with_text (button_convert_item)
+			create button_convert.make_with_text (Button_convert_item)
 			create pixmap
 			pixmap.set_with_named_file ("./gui/convert.png")
 			pixmap.stretch (24, 18)
@@ -371,11 +387,13 @@ feature {NONE} -- Implementation
 			enclosing_box.extend (button_convert)
 			button_convert.select_actions.extend (agent on_convert)
 			enclosing_box.set_item_height (button_convert, 20)
-			enclosing_box.set_item_x_position(button_convert,575)
+			enclosing_box.set_item_x_position(button_convert,650)
 			enclosing_box.set_item_y_position(button_convert,7)
 
 			main_container.extend (enclosing_box)
 			main_container.disable_item_expand (enclosing_box)
+
+
 				--SUBRIP LABEL & TEXT BOX
 			create subrip_label.make_with_text ("SubRip")
 			subrip_label.set_font (font)

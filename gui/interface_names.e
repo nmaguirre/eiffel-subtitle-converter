@@ -12,14 +12,17 @@ feature -- Access
 	Button_ok_item: STRING = "OK"
 			-- String for "OK" buttons.
 
-	Button_Convert_item: STRING = "Convert"
-			-- String for "Converter" buttons.
+	Button_convert_item: STRING = "Convert"
+			-- String for "Convert" button.
 
-	button_forward_item: STRING = "Forward"
-			-- String for "Foward" buttons.
+	Button_forward_item: STRING = "Forward"
+			-- String for "Forward" button.
 
-	button_rewind_item: STRING = "Rewind"
-			-- String for "Reward" buttons.
+	Button_rewind_item: STRING = "Rewind"
+			-- String for "Rewind" button.
+
+	Button_change_fps_item: STRING = "Change FPS"
+			-- String for "Change FPS" button.
 
 	Menu_file_item: STRING = "&File"
 			-- String for menu "File"
