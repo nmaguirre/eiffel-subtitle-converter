@@ -33,7 +33,7 @@ inherit
 create
 	default_create
 
-feature -- Initialisation
+feature -- Initialization
 
 	set_logic(new_logic: CONVERTER_LOGIC)
 		do
@@ -294,6 +294,7 @@ feature {NONE} -- Implementation
 			main_container.extend (microdvd_text)
 			main_container.extend (create {EV_LABEL}.make_with_text ("SubRip"))
 			main_container.extend (subrip_text)
+
 		ensure
 			main_container_created: main_container /= Void
 		end
