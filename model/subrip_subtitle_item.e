@@ -53,7 +53,7 @@ feature -- Initialisation
 		do
 			create start_time.make_from_string (time_line.substring(1,12))
 			create stop_time.make_from_string (time_line.substring(18,29))
-			text := subtitle_text
+			text.copy (subtitle_text)
 		end
 
 feature -- Status setting
