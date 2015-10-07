@@ -44,16 +44,8 @@ feature {NONE} -- Initialization
 	create_interface_objects
 			-- <Precursor>
 		do
-				-- Create main container.
-			--create main_container
-			--create main_container_two
-			--create main_container_two
-				-- Create the menu bar.
 			create enclosing_box
-			--extend (enclosing_box)
-
-
-
+				-- Create enclosig_box
 			create standard_menu_bar
 				-- Create file menu.
 			create file_menu.make_with_text (Menu_file_item)
@@ -88,7 +80,6 @@ feature {NONE} -- Initialization
 
 			build_main_enclosing_box
 			extend (enclosing_box)
-
 
 				-- Execute `request_close_window' when the user clicks
 				-- on the cross in the title bar.
