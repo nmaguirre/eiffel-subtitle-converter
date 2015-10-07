@@ -197,19 +197,19 @@ feature {NONE} -- ToolBar Implementation
 				-- Initialize the toolbar.
 			create toolbar_item
 			create toolbar_pixmap
-			toolbar_pixmap.set_with_named_file ("./gui/new.png")
+			toolbar_pixmap.set_with_named_file ("./images/new.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
 			standard_toolbar.extend (toolbar_item)
 
 			create toolbar_item
 			create toolbar_pixmap
-			toolbar_pixmap.set_with_named_file ("./gui/open.png")
+			toolbar_pixmap.set_with_named_file ("./images/open.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
 			standard_toolbar.extend (toolbar_item)
 
 			create toolbar_item
 			create toolbar_pixmap
-			toolbar_pixmap.set_with_named_file ("./gui/save.png")
+			toolbar_pixmap.set_with_named_file ("./images/save.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
 			standard_toolbar.extend (toolbar_item)
 		ensure
