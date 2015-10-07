@@ -25,7 +25,7 @@ feature -- Access
 	Menu_file_save_item: STRING = "&Save%TCtrl+S"
 			-- String for menu "File/Save"
 
-	Menu_file_saveas_item: STRING = "Save &As..."
+	Menu_file_saveas_item: STRING = "Save &All...%TCtrl+Shift+S"
 			-- String for menu "File/Save As"
 
 	Menu_file_close_item: STRING = "&Close"

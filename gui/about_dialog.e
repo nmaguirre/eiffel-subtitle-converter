@@ -136,7 +136,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation / Constants
 
-	Default_title: STRING = "About Dialog"
+	Default_title: STRING = "About Eiffel Subtitle Converter"
 			-- Default title for the dialog window.
 
 	Default_message: STRING =
