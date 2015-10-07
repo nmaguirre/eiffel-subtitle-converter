@@ -1,6 +1,6 @@
 note
-	date		: "Martes, 6 de octubre de 2015"
-	revision	: "1.0.0"
+	date			: "Martes, 6 de octubre de 2015"
+	revision		: "1.0.0"
 	group		: "Astorga, Arangue, Dahue"
 
 deferred class
