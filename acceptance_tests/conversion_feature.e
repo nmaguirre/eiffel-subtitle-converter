@@ -73,4 +73,44 @@ feature -- Test routines
 					retry
 				end
 		end
+
+	convert_file_void_microdvd
+			--		Scenario: convert an empty subtitle in microdvd format.
+			--		When an empty microdvd subtitle is loaded and perform the conversion
+			--		Then the system should return an empty subtitle in subrip format
+		local
+			logic: CONVERTER_LOGIC
+			controller: CONTROLLER
+			microdvd_sub: MICRODVD_SUBTITLE
+			subrip_sub: SUBRIP_SUBTITLE
+		do
+			create controller.make_with_microdvd_subtitle ("./acceptance_tests/voidSample.sub")
+			logic := controller.system_logic
+			microdvd_sub := logic.source_as_microdvd
+			logic.convert_subtitle
+			subrip_sub := logic.target_as_subrip
+			assert("source_as_microdvd empty", microdvd_sub.nr_of_items = 0)
+			assert("target_as_subrip empty", subrip_sub.nr_of_items = 0)
+			assert("source and target are both empty", microdvd_sub.nr_of_items = subrip_sub.nr_of_items)
+		end
+
+	convert_file_void_subrip
+			--		Scenario: convert an empty subtitle with subrip format.
+			--		When an empty subrip subtitle is loaded and perform the conversion
+			--		Then the system should return an empty subtitle in microdvd format
+		local
+			logic: CONVERTER_LOGIC
+			controller: CONTROLLER
+			microdvd_sub: MICRODVD_SUBTITLE
+			subrip_sub: SUBRIP_SUBTITLE
+		do
+			create controller.make_with_subrip_subtitle ("./acceptance_tests/voidSample.srt")
+			logic := controller.system_logic
+			subrip_sub := logic.source_as_subrip
+			logic.convert_subtitle
+			microdvd_sub := logic.target_as_microdvd
+			assert("source_as_subrip empty", subrip_sub.nr_of_items = 0)
+			assert("target_as_microdvd empty", microdvd_sub.nr_of_items = 0)
+			assert("source and target are both empty", microdvd_sub.nr_of_items = subrip_sub.nr_of_items)
+		end
 end
