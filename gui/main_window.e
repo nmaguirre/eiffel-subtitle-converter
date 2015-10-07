@@ -86,7 +86,7 @@ feature {NONE} -- Initialization
 			build_standard_status_bar
 			lower_bar.extend (standard_status_bar)
 
-			build_main_container
+			build_main_enclosing_box
 			extend (enclosing_box)
 
 
@@ -297,31 +297,20 @@ feature {NONE} -- Implementation, Close event
 
 feature {NONE} -- Implementation
 
---	main_container: EV_VERTICAL_BOX
-			-- Main container (contains all widgets displayed in this window).
---	main_container_two: EV_VERTICAL_BOX
-
 	enclosing_box: EV_FIXED
 
-	build_main_container
-			-- Populate `main_container'.
+	build_main_enclosing_box
+			-- Populate `enclosing_box'.
 		local
 			microdvd_label: EV_LABEL
 			subrip_label: EV_LABEL
 			pixmap: EV_PIXMAP
 			button_converter_subrip: EV_BUTTON
 			button_converter_microdvd: EV_BUTTON
-			--button_frame: EV_BUTTON
-			button_frame: EV_COMBO_BOX
 			font: EV_FONT
 			text_field_number : EV_TEXT_FIELD
 			button_foward : EV_BUTTON
 			button_rewing : EV_BUTTON
-			container_microdvd_text: EV_HORIZONTAL_BOX
-			container_microdvd_label: EV_VERTICAL_BOX
-			container_subrip_text: EV_HORIZONTAL_BOX
-			container_subrip_label: EV_VERTICAL_BOX
-			enclosing_combo_box: EV_FIXED
 
 		do
 				-- ENCLOSING
@@ -329,9 +318,9 @@ feature {NONE} -- Implementation
 			pixmap.set_with_named_file ("./gui/enclosing.png")
 			enclosing_box.set_background_pixmap (pixmap)
 
+				-- MICRODVD_LABEL AND MICRODVD_TEXT
 			create microdvd_text
 			create a_color.make_with_8_bit_rgb (0,150,0)
-
 			create microdvd_label.make_with_text ("MicroDVD")
 			microdvd_text.set_foreground_color (a_color)
 			create font.default_create
@@ -345,13 +334,15 @@ feature {NONE} -- Implementation
 			microdvd_text.set_minimum_height (400)
 			microdvd_text.set_minimum_width (250)
 
+				-- ENCLOSING MICRODVD_LABEL AND MICRODVD_TEXT
 			enclosing_box.extend (microdvd_label)
 			enclosing_box.extend (microdvd_text)
 			enclosing_box.set_item_x_position (microdvd_label,50)
 			enclosing_box.set_item_y_position (microdvd_label,70)
 			enclosing_box.set_item_x_position (microdvd_text,50)
 			enclosing_box.set_item_y_position (microdvd_text,100)
-			--
+
+				-- SUBRIP_LABEL AND SUBRIP_TEXT
 			create subrip_text
 			create subrip_label.make_with_text ("Subrip")
 			subrip_text.set_foreground_color (a_color)
@@ -363,6 +354,7 @@ feature {NONE} -- Implementation
 			subrip_text.set_minimum_height (400)
 			subrip_text.set_minimum_width (250)
 
+				-- ENCLOSING SUBRIP_LABEL AND SUBRIP_TEXT
 			enclosing_box.extend (subrip_label)
 			enclosing_box.extend (subrip_text)
 			enclosing_box.set_item_x_position (subrip_label,400)
@@ -370,6 +362,7 @@ feature {NONE} -- Implementation
 			enclosing_box.set_item_x_position (subrip_text,400)
 			enclosing_box.set_item_y_position (subrip_text,100)
 
+				-- PIXMAP RIGHT
 			pixmap.set_with_named_file ("./gui/right.png")
 			create button_converter_subrip.default_create
 			button_converter_subrip.set_pixmap (pixmap)
@@ -378,6 +371,7 @@ feature {NONE} -- Implementation
 			enclosing_box.set_item_y_position(button_converter_subrip,200)
 			button_converter_subrip.select_actions.extend (agent converter_sub)
 
+				-- PIXMAP LEFT
 			pixmap.set_with_named_file ("./gui/left.png")
 			create button_converter_microdvd.default_create
 			button_converter_microdvd.set_pixmap (pixmap)
@@ -400,7 +394,6 @@ feature {NONE} -- Implementation
 			enclosing_box.set_item_x_position(text_field_number,160)
 			enclosing_box.set_item_y_position(text_field_number,539)
 
-
 				--BUTTON FOWARD
 			pixmap.set_with_named_file ("./gui/foward.png")
 			create button_foward.default_create
@@ -416,7 +409,7 @@ feature {NONE} -- Implementation
 			enclosing_box.set_item_y_position(text_field_number,539)
 
 		ensure
-		--	main_container_created: main_container /= Void
+			main_enclosing_created: enclosing_box /= Void
 		end
 
 
