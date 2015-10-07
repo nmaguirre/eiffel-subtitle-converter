@@ -362,8 +362,12 @@ feature {NONE} -- Implementation
 
 				-- BUTTON CONVERT
 			create button_convert.make_with_text (button_convert_item)
+			create pixmap
+			pixmap.set_with_named_file ("./gui/convert.png")
+			pixmap.stretch (24, 18)
+			button_convert.set_pixmap (pixmap)
 			button_convert.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
-			button_convert.set_minimum_width (200)
+			button_convert.set_minimum_width (100)
 			enclosing_box.extend (button_convert)
 			button_convert.select_actions.extend (agent on_convert)
 			enclosing_box.set_item_height (button_convert, 20)
@@ -372,7 +376,7 @@ feature {NONE} -- Implementation
 
 			main_container.extend (enclosing_box)
 			main_container.disable_item_expand (enclosing_box)
-			--SUBRIP LABEL & TEXT BOX
+				--SUBRIP LABEL & TEXT BOX
 			create subrip_label.make_with_text ("SubRip")
 			subrip_label.set_font (font)
 			subrip_label.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
