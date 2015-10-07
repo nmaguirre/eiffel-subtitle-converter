@@ -199,10 +199,10 @@ feature -- Status checking
 			Result := res
 		end
 
-feature {CONVERTER_LOGIC} -- Auxiliary functions 		
+feature {CONVERTER_LOGIC,SUBRIP_SUBTITLE_TESTS} -- Auxiliary functions 		
 
 	convert_to_microdvd : MICRODVD_SUBTITLE
-			-- This routine converts a Subrrip subtitle into a Microdvd subtitle
+			-- This routine converts a Subrip subtitle into a Microdvd subtitle
 		local
 			microdvd_sub: MICRODVD_SUBTITLE
 			start_frame: INTEGER

@@ -349,7 +349,7 @@ feature {CONVERTER_LOGIC} -- Auxiliary functions
 
 
 
-feature {MICRODVD_SUBTITLE_TEST} -- Implementation
+feature {MICRODVD_SUBTITLE_TEST,SUBRIP_SUBTITLE_TESTS} -- Implementation
 
 	items: LINKED_LIST[MICRODVD_SUBTITLE_ITEM]
 			-- items that conform the subtitle, in order.
