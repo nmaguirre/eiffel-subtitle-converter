@@ -122,7 +122,6 @@ feature -- Test routines
 
 	test_is_ready_to_convert_valid
 		local
-			passed: BOOLEAN
 			converter : CONVERTER_LOGIC
 			subtitle: MICRODVD_SUBTITLE
 		do
