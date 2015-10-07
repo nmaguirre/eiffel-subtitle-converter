@@ -142,7 +142,7 @@ feature {NONE} -- Implementation / Constants
 	Default_message: STRING =
 		"Eiffel Subtitle Converter%N%
 		%License%N%
-		%Â© 2015 AstorgaAragueDahue, Inc.%N%
+		%© 2015 AstorgaAragueDahue, Inc.%N%
 		%%N%
 		%THE SOFTWARE IS PROVIDED AS IS, WITHOUT %N%
 		%WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,%N%
