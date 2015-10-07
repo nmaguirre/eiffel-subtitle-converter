@@ -136,11 +136,12 @@ feature {NONE} -- Menu Implementation
 		do
 			create menu_item.make_with_text (Menu_file_new_item)
 				--| TODO: Add the action associated with "New" here.
+			menu_item.select_actions.extend (agent request_about_new) --controller
 			file_menu.extend (menu_item)
 
 			create menu_item.make_with_text (Menu_file_open_item)
 				--| TODO: Add the action associated with "Open" here.
-			--menu_item.select_actions.extend (agent request_open_window)
+			menu_item.select_actions.extend (agent request_about_open) --controller
 			file_menu.extend (menu_item)
 
 			file_menu.extend (create {EV_MENU_SEPARATOR})
@@ -152,6 +153,7 @@ feature {NONE} -- Menu Implementation
 
 			create menu_item.make_with_text (Menu_file_saveas_item)
 				--| TODO: Add the action associated with "Save As..." here.
+			menu_item.select_actions.extend (agent request_about_saveas) --controller
 			file_menu.extend (menu_item)
 
 			create menu_item.make_with_text (Menu_file_close_item)
@@ -280,7 +282,34 @@ feature {NONE} -- Implementation, Close event
 		local
 
 		do
-			--| TODO: 
+			--| TODO:
+			--|
+
+		end
+
+	request_about_open
+		local
+
+		do
+			--| TODO:
+			--|
+
+		end
+
+	request_about_saveas
+		local
+
+		do
+			--| TODO:
+			--|
+
+		end
+
+	request_about_new
+		local
+
+		do
+			--| TODO:
 			--|
 
 		end
