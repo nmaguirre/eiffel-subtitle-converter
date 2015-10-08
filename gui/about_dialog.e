@@ -102,6 +102,7 @@ feature {NONE} -- Initialization
 			set_default_push_button (ok_button)
 			set_default_cancel_button (ok_button)
 
+
 			set_title (Default_title)
 			set_message (Default_message)
 			set_size (400, 150)
@@ -134,12 +135,6 @@ feature {NONE} -- Implementation
 	ok_button: EV_BUTTON
 			-- "OK" button.
 
-feature {NONE} -- colors
-
-	color_dialog: EV_COLOR_DIALOG
-
-	color: EV_COLOR
-
 feature {NONE} -- Implementation / Constants
 
 	Default_title: STRING = "About Eiffel Subtitle Converter"
@@ -149,7 +144,7 @@ feature {NONE} -- Implementation / Constants
 	Default_message: STRING =
 		"Eiffel Subtitle Converter%N%
 		%License%N%
-		%© 2015 AstorgaAragueDahue, Inc.%N%
+		%© 2015 AstorgaArangueDahue, Inc.%N%
 		%%N%
 		%THE SOFTWARE IS PROVIDED AS IS, WITHOUT %N%
 		%WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,%N%
