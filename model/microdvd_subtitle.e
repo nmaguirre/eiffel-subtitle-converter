@@ -306,7 +306,7 @@ feature -- Status checking
 			repOk_check: Result /= void
 		end
 
-feature {CONVERTER_LOGIC} -- Auxiliary functions 	
+feature {CONVERTER_LOGIC,MICRODVD_SUBTITLE_TEST} -- Auxiliary functions 	
 
 	convert_to_subrip : SUBRIP_SUBTITLE
 			-- This routine converts a Microdvd subtitle into a Subrip subtitle

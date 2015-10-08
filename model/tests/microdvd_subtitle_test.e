@@ -582,6 +582,56 @@ feature -- Test routines
 		end
 
 
+	test_convert_to_subrip
+			-- Check that converts a subtitle microdvd to subrip
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.convert_to_subrip"
+		local
+			subrip_sub: SUBRIP_SUBTITLE
+			microdvd_sub: MICRODVD_SUBTITLE
+		do
+			create microdvd_sub.make
+			create subrip_sub.make
+
+			microdvd_sub.add_subtitle_item (36693,58750,"Text Subtitle")
+			microdvd_sub.add_subtitle_item (336693,588750,"Text Subtitle")
+			microdvd_sub.add_subtitle_item (9,72,"Text Subtitle")
+
+			subrip_sub := microdvd_sub.convert_to_subrip
+
+			assert("checks conversion start_time",subrip_sub.items.i_th (1).start_time.hours = 0)
+			assert("checks conversion start_time",subrip_sub.items.i_th (1).start_time.minutes = 0)
+			assert("checks conversion start_time",subrip_sub.items.i_th (1).start_time.seconds = 0)
+			assert("checks conversion start_time",subrip_sub.items.i_th (1).start_time.milliseconds = 375)
+
+			assert("checks conversion stop_time",subrip_sub.items.i_th (1).stop_time.hours = 0)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (1).stop_time.minutes = 0)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (1).stop_time.seconds = 3)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (1).stop_time.milliseconds = 4)
+
+			assert("checks conversion start_time",subrip_sub.items.i_th (2).start_time.hours = 0)
+			assert("checks conversion start_time",subrip_sub.items.i_th (2).start_time.minutes = 25)
+			assert("checks conversion start_time",subrip_sub.items.i_th (2).start_time.seconds = 30)
+			assert("checks conversion start_time",subrip_sub.items.i_th (2).start_time.milliseconds = 789)
+
+			assert("checks conversion stop_time",subrip_sub.items.i_th (2).stop_time.hours = 0)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (2).stop_time.minutes = 40)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (2).stop_time.seconds = 50)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (2).stop_time.milliseconds = 980)
+
+			assert("checks conversion start_time",subrip_sub.items.i_th (3).start_time.hours = 3)
+			assert("checks conversion start_time",subrip_sub.items.i_th (3).start_time.minutes = 54)
+			assert("checks conversion start_time",subrip_sub.items.i_th (3).start_time.seconds = 6)
+			assert("checks conversion start_time",subrip_sub.items.i_th (3).start_time.milliseconds = 434)
+
+			assert("checks conversion stop_time",subrip_sub.items.i_th (3).stop_time.hours = 6)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (3).stop_time.minutes = 49)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (3).stop_time.seconds = 21)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (3).stop_time.milliseconds = 953)
+
+
+		end
+
 
 
 end-- class MICRODVD_SUBTITLE_TESTS

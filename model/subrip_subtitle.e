@@ -235,7 +235,7 @@ feature {CONVERTER_LOGIC,SUBRIP_SUBTITLE_TESTS} -- Auxiliary functions
 		end
 
 
-feature {SUBRIP_SUBTITLE_TESTS} -- Implementation
+feature {SUBRIP_SUBTITLE_TESTS,MICRODVD_SUBTITLE_TEST} -- Implementation
 
 	items: LINKED_LIST[SUBRIP_SUBTITLE_ITEM]
 			-- items that conform the subtitle, in order.

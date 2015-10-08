@@ -268,7 +268,7 @@ feature -- Test routines
 		end
 
 	test_convert_to_microdvd
-			-- Check that converts a subtitulo subrip to microdvd
+			-- Check that converts a subtitle subrip to microdvd
 		note
 			testing:  "covers/{SUBRIP_SUBTITLE}.convert_to_microdvd"
 		local
@@ -277,7 +277,7 @@ feature -- Test routines
 			start_time: SUBRIP_SUBTITLE_TIME
 			stop_time: SUBRIP_SUBTITLE_TIME
 			text: STRING
-			do
+		do
 			create subtitle_item.make
 			create microdvd_sub.make
 			text := "Text Subtitle"
