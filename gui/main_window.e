@@ -334,12 +334,16 @@ feature {NONE} -- Implementation
 			fixed_box.set_background_pixmap (background)
 
 				--BUTTON REWIND
-			create button_rewind.make_with_text (Button_rewind_item)
+			create button_rewind
+			create pixmap
+			pixmap.set_with_named_file ("./gui/rewind.png")
+			pixmap.stretch (17, 17)
+			button_rewind.set_pixmap (pixmap)
 			button_rewind.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
-			button_rewind.set_minimum_width (100)
+			button_rewind.set_minimum_width (40)
 			button_rewind.set_tooltip (Button_rewind_tooltip)
 			fixed_box.extend (button_rewind)
-			fixed_box.set_item_x_position(button_rewind,10)
+			fixed_box.set_item_x_position(button_rewind,70)
 			fixed_box.set_item_y_position(button_rewind,7)
 
 				--NUMBER TEXT FIELD FOR OFFSET
@@ -352,9 +356,14 @@ feature {NONE} -- Implementation
 			fixed_box.set_item_y_position(text_field_offset,8)
 
 				--BUTTON FORWARD
-			create button_forward.make_with_text (Button_forward_item)
+			-- create button_forward.make_with_text (Button_forward_item)
+			create button_forward
+			create pixmap
+			pixmap.set_with_named_file ("./gui/forward.png")
+			pixmap.stretch (17, 17)
+			button_forward.set_pixmap (pixmap)
 			button_forward.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
-			button_forward.set_minimum_width (100)
+			button_forward.set_minimum_width (40)
 			button_forward.set_tooltip (Button_forward_tooltip)
 			fixed_box.extend (button_forward)
 			fixed_box.set_item_x_position(button_forward,160)
