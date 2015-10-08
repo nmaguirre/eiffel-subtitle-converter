@@ -134,9 +134,16 @@ feature {NONE} -- Implementation
 	ok_button: EV_BUTTON
 			-- "OK" button.
 
+feature {NONE} -- colors
+
+	color_dialog: EV_COLOR_DIALOG
+
+	color: EV_COLOR
+
 feature {NONE} -- Implementation / Constants
 
 	Default_title: STRING = "About Eiffel Subtitle Converter"
+
 			-- Default title for the dialog window.
 
 	Default_message: STRING =
