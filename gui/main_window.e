@@ -210,6 +210,12 @@ feature {NONE} -- ToolBar Implementation
 			toolbar_pixmap.set_with_named_file ("./gui/save.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
 			standard_toolbar.extend (toolbar_item)
+
+			create toolbar_item
+			create toolbar_pixmap
+			toolbar_pixmap.set_with_named_file ("./gui/clear.png")
+			toolbar_item.set_pixmap (toolbar_pixmap)
+			standard_toolbar.extend (toolbar_item)
 		ensure
 			toolbar_initialized: not standard_toolbar.is_empty
 		end
@@ -278,22 +284,112 @@ feature {NONE} -- Implementation
 	build_main_container
 			-- Populate `main_container'.
 		local
+
 			microdvd_label: EV_LABEL
 			subrip_label: EV_LABEL
+			button_converter: EV_BUTTON
+			reward: EV_BUTTON
+			forward: EV_BUTTON
+			pixmap: EV_PIXMAP
+			enclosing_box: EV_FIXED
+			text_field_number: EV_TEXT_FIELD
+			font: EV_FONT
 		do
+			create enclosing_box
+			create a_color.make_with_8_bit_rgb (255,122,4)
+
+			create pixmap.default_create
+
+			pixmap.set_with_named_file ("./gui/enclosing.png")
+			enclosing_box.set_background_pixmap (pixmap)
+
+
+			--MicroDVD
 			create microdvd_text
-			create subrip_text
-			microdvd_text.disable_edit
-			subrip_text.disable_edit
 			create microdvd_label.make_with_text ("MicroDVD")
-			microdvd_label.set_minimum_size (1, 1)
-			main_container.extend (create {EV_HORIZONTAL_SEPARATOR})
+			microdvd_label.set_background_color (a_color)
+		--	microdvd_label.set_minimum_size (1, 1)
+			microdvd_text.disable_edit
+
+			--SubRip
+			create subrip_text
+			create subrip_label.make_with_text ("SubRip")
+			subrip_label.set_background_color (a_color)
+            subrip_text.disable_edit
+
+
+            microdvd_text.set_minimum_height (175)
+			subrip_text.set_minimum_height (175)
+
+
+
+			--	Button Reward
+			pixmap.set_with_named_file ("./gui/reward.png")
+			create reward.default_create
+			reward.set_pixmap (pixmap)
+			enclosing_box.extend (reward)
+			enclosing_box.set_item_x_position(reward,275)
+			enclosing_box.set_item_y_position(reward,1)
+
+			--	Button Forward
+			pixmap.set_with_named_file ("./gui/forward.png")
+			create forward.default_create
+			forward.set_pixmap (pixmap)
+			enclosing_box.extend (forward)
+			enclosing_box.set_item_x_position(forward,450)
+			enclosing_box.set_item_y_position(forward,1)
+
+
+
+
+			--	Button Converter
+			pixmap.set_with_named_file ("./gui/convert_button.png")
+			create button_converter.default_create
+			button_converter.set_pixmap (pixmap)
+		    button_converter.select_actions.extend (agent converter_sub)
+			enclosing_box.extend (button_converter)
+			enclosing_box.set_item_x_position(button_converter,377)
+			enclosing_box.set_item_y_position(button_converter,40)
+
+
+
+			create text_field_number
+			enclosing_box.extend(text_field_number)
+			enclosing_box.set_item_x_position(text_field_number,375)
+			enclosing_box.set_item_y_position(text_field_number,0)
+
 			main_container.extend (microdvd_label)
+
 			main_container.extend (microdvd_text)
-			main_container.extend (create {EV_LABEL}.make_with_text ("SubRip"))
+
+			main_container.extend(create {EV_HORIZONTAL_SEPARATOR})
+
+			main_container.extend (enclosing_box)
+
+			main_container.extend(create {EV_HORIZONTAL_SEPARATOR})
+
+			main_container.extend (subrip_label)
+
 			main_container.extend (subrip_text)
+
+
+
 		ensure
 			main_container_created: main_container /= Void
+		end
+
+feature --Implementation, Converter_sub
+
+	converter_sub
+		local
+			msj_error: EV_INFORMATION_DIALOG
+		do
+			if microdvd_text.text_length = 0 and subrip_text.text_length = 0 then
+				create msj_error.make_with_text ("There is no subtitle to convert ")
+				msj_error.set_title ("Error")
+				msj_error.set_pixmap (default_pixmaps.error_pixmap)
+				msj_error.show_modal_to_window (Current)
+			end
 		end
 
 feature -- Observer features
@@ -317,11 +413,13 @@ feature {NONE} -- Implementation / Constants
 	Window_title: STRING = "eiffel_subtitle_converter"
 			-- Title of the window.
 
-	Window_width: INTEGER = 600
+	Window_width: INTEGER = 800
 			-- Initial width for this window.
 
-	Window_height: INTEGER = 800
+	Window_height: INTEGER = 600
 			-- Initial height for this window.
+
+	a_color: EV_COLOR
 
 	microdvd_text: EV_TEXT
 
