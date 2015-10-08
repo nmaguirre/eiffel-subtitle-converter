@@ -92,6 +92,9 @@ feature {NONE} -- Initialization
 
 				-- Set the initial size of the window.
 			set_size (Window_width, Window_height)
+			create icon
+			icon.set_with_named_file ("./gui/icon.png")
+			Current.set_icon_pixmap (icon)
 		end
 
 	is_in_default_state: BOOLEAN
@@ -137,13 +140,11 @@ feature {NONE} -- Menu Implementation
 			create menu_item.make_with_text (Menu_file_new_item)
 				--| TODO: Add the action associated with "New" here.
 			file_menu.extend (menu_item)
-			create a.make_with_size (10, 10)
-			create a_color.make_with_8_bit_rgb (0,0,110)
-			a.set_background_color (a_color)
-			file_menu.set_pixmap (a)
+			
 
 			create menu_item.make_with_text (Menu_file_open_item)
 				--| TODO: Add the action associated with "Open" here.
+			menu_item.select_actions.extend (agent on_open)
 			file_menu.extend (menu_item)
 
 			create menu_item.make_with_text (Menu_file_save_item)
@@ -479,5 +480,7 @@ Window_height: INTEGER = 600
 	system_logic: CONVERTER_LOGIC
 
 	file_name : STRING
+
+	icon: EV_PIXMAP
 
 end
