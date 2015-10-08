@@ -280,34 +280,35 @@ feature -- Test routines
 			end
 		end
 
-
 	test_convert_to_microdvd
+			-- Check that converts a subtitulo subrip to microdvd
 		note
 			testing:  "covers/{SUBRIP_SUBTITLE}.convert_to_microdvd"
 		local
-			subrip: SUBRIP_SUBTITLE
+			subtitle_item: SUBRIP_SUBTITLE
+			microdvd_sub: MICRODVD_SUBTITLE
 			start_time: SUBRIP_SUBTITLE_TIME
 			stop_time: SUBRIP_SUBTITLE_TIME
 			text: STRING
-			microdvd: MICRODVD_SUBTITLE
-		do
-			create subrip.make
-			create text.make_from_string ("Hola")
-			create start_time.make_with_values (0, 00,1 , 000)
-			create stop_time.make_with_values (0,0, 2,000)
-			subrip.add_subtitle_item(start_time,stop_time,text)
+			do
+			create subtitle_item.make
+			create microdvd_sub.make
+			text := "Text Subtitle"
+			create start_time.make_with_values (0,25,30 ,800)
+			create stop_time.make_with_values (0, 40, 50,999)
+			subtitle_item.add_subtitle_item(start_time,stop_time,text)
 
+			create start_time.make_with_values (3,54,6 ,434)
+			create stop_time.make_with_values (6, 49, 21,953)
+			subtitle_item.add_subtitle_item(start_time,stop_time,text)
 
-			create text.make_from_string ("Chau")
-			create start_time.make_with_values (0, 00,3 , 000)
-			create stop_time.make_with_values (0,0, 4,000)
-			subrip.add_subtitle_item(start_time,stop_time,text)
+			microdvd_sub := subtitle_item.convert_to_microdvd
 
+			assert("checks conversion",microdvd_sub.items.i_th (1).start_frame = 36693)
+			assert("checks conversion",microdvd_sub.items.i_th (1).stop_frame = 58750)
 
-			create microdvd.make
-			microdvd := subrip.convert_to_microdvd
-			assert("Conversion",microdvd.items.item.text.is_equal("Hola") and microdvd.items.item.start_frame.is_equal (24) and microdvd.items.item.stop_frame.is_equal (48))
-
+			assert("checks conversion",microdvd_sub.items.i_th (2).start_frame = 336693)
+			assert("checks conversion",microdvd_sub.items.i_th (2).stop_frame = 588750)
 		end
 
 end-- class SUBRIP_SUBTITLE_TESTS
