@@ -291,7 +291,7 @@ feature {NONE} -- Implementation
 			microdvd_label: EV_LABEL
 			subrip_label: EV_LABEL
 			pixmap: EV_PIXMAP
-			enclosing_box: EV_FIXED
+			fixed_box: EV_FIXED
 			font: EV_FONT
 			text_field_number : EV_TEXT_FIELD
 			button_forward : EV_BUTTON
@@ -328,52 +328,54 @@ feature {NONE} -- Implementation
 			create background
 			background.set_with_named_file ("./gui/background.png")
 			background.stretch (252, 42)
-			create enclosing_box
-			enclosing_box.set_minimum_height (42)
-			enclosing_box.set_background_pixmap (background)
+			create fixed_box
+			fixed_box.set_minimum_height (42)
+			fixed_box.set_background_pixmap (background)
 
 				--BUTTON REWIND
 			create button_rewind.make_with_text (Button_rewind_item)
 			button_rewind.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			button_rewind.set_minimum_width (100)
-			enclosing_box.extend (button_rewind)
-			enclosing_box.set_item_x_position(button_rewind,10)
-			enclosing_box.set_item_y_position(button_rewind,7)
+			button_rewind.set_tooltip (Button_rewind_tooltip)
+			fixed_box.extend (button_rewind)
+			fixed_box.set_item_x_position(button_rewind,10)
+			fixed_box.set_item_y_position(button_rewind,7)
 
 				--NUMBER TEXT FIELD FOR OFFSET
 			create text_field_number
 			text_field_number.set_minimum_width (50)
 			text_field_number.align_text_right
-			enclosing_box.extend (text_field_number)
-			enclosing_box.set_item_height (text_field_number, 10)
-			enclosing_box.set_item_x_position(text_field_number,110)
-			enclosing_box.set_item_y_position(text_field_number,8)
+			fixed_box.extend (text_field_number)
+			fixed_box.set_item_height (text_field_number, 10)
+			fixed_box.set_item_x_position(text_field_number,110)
+			fixed_box.set_item_y_position(text_field_number,8)
 
 				--BUTTON FORWARD
 			create button_forward.make_with_text (Button_forward_item)
 			button_forward.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			button_forward.set_minimum_width (100)
-			enclosing_box.extend (button_forward)
-			enclosing_box.set_item_x_position(button_forward,160)
-			enclosing_box.set_item_y_position(button_forward,7)
+			button_forward.set_tooltip (Button_forward_tooltip)
+			fixed_box.extend (button_forward)
+			fixed_box.set_item_x_position(button_forward,160)
+			fixed_box.set_item_y_position(button_forward,7)
 
 				-- NUMBER TEXT FIELD FOR CHANGE FPS
 			create text_field_number
 			text_field_number.set_minimum_width (50)
 			text_field_number.set_text ({MICRODVD_SUBTITLE}.min_valid_fps.out)
 			text_field_number.align_text_right
-			enclosing_box.extend (text_field_number)
-			enclosing_box.set_item_height (text_field_number, 10)
-			enclosing_box.set_item_x_position(text_field_number,385)
-			enclosing_box.set_item_y_position(text_field_number,8)
+			fixed_box.extend (text_field_number)
+			fixed_box.set_item_height (text_field_number, 10)
+			fixed_box.set_item_x_position(text_field_number,385)
+			fixed_box.set_item_y_position(text_field_number,8)
 
 				-- BUTTON CHANGE FPS
 			create button_fps.make_with_text(Button_change_fps_item)
 			button_fps.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			button_fps.set_minimum_width (100)
-			enclosing_box.extend (button_fps)
-			enclosing_box.set_item_x_position(button_fps,435)
-			enclosing_box.set_item_y_position(button_fps,7)
+			fixed_box.extend (button_fps)
+			fixed_box.set_item_x_position(button_fps,435)
+			fixed_box.set_item_y_position(button_fps,7)
 
 
 				-- BUTTON CONVERT
@@ -382,16 +384,18 @@ feature {NONE} -- Implementation
 			pixmap.set_with_named_file ("./gui/convert.png")
 			pixmap.stretch (24, 18)
 			button_convert.set_pixmap (pixmap)
+			button_convert.set_font (create {EV_FONT}.make_with_values (5, 9, 10, 12))
 			button_convert.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
+			button_convert.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (21, 21, 255))
 			button_convert.set_minimum_width (100)
-			enclosing_box.extend (button_convert)
+			fixed_box.extend (button_convert)
 			button_convert.select_actions.extend (agent on_convert)
-			enclosing_box.set_item_height (button_convert, 20)
-			enclosing_box.set_item_x_position(button_convert,650)
-			enclosing_box.set_item_y_position(button_convert,7)
+			fixed_box.set_item_height (button_convert, 20)
+			fixed_box.set_item_x_position(button_convert,650)
+			fixed_box.set_item_y_position(button_convert,7)
 
-			main_container.extend (enclosing_box)
-			main_container.disable_item_expand (enclosing_box)
+			main_container.extend (fixed_box)
+			main_container.disable_item_expand (fixed_box)
 
 
 				--SUBRIP LABEL & TEXT BOX

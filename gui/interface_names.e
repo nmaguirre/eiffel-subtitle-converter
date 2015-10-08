@@ -12,14 +12,20 @@ feature -- Access
 	Button_ok_item: STRING = "OK"
 			-- String for "OK" buttons.
 
-	Button_convert_item: STRING = "Convert"
+	Button_convert_item: STRING = "CONVERT"
 			-- String for "Convert" button.
 
 	Button_forward_item: STRING = "Forward"
 			-- String for "Forward" button.
 
+	Button_forward_tooltip: STRING = "Advance the current subtitle the given ms"
+			-- String for the description of rewind button.
+
 	Button_rewind_item: STRING = "Rewind"
 			-- String for "Rewind" button.
+
+	Button_rewind_tooltip: STRING = "Rewind the current subtitle the given ms"
+			-- String for the description of rewind button.
 
 	Button_change_fps_item: STRING = "Change FPS"
 			-- String for "Change FPS" button.
