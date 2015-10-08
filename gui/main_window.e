@@ -328,14 +328,15 @@ feature {NONE} -- Implementation
 		do
 			create microdvd_text
 			create subrip_text
-			create a_colour.make_with_rgb (0.3, 0.9, 0.9)
-			create b_colour.make_with_rgb (0.2, 0.8, 0.8)
+			create a_colour.make_with_rgb (0.0, 0.4, 0.4)
+			create b_colour.make_with_rgb (0.1, 0.5, 0.5)
 
 			microdvd_text.disable_edit
 			subrip_text.disable_edit
 
 			create microdvd_label.make_with_text ("MicroDVD")
 			microdvd_label.set_minimum_size (5, 5)
+			microdvd_label.set_background_color (a_colour)
 
 			main_container.extend (create {EV_HORIZONTAL_SEPARATOR})
 			-- SEPARATOR
@@ -345,7 +346,7 @@ feature {NONE} -- Implementation
 
 			create subrip_label.make_with_text ("SubRip")
 			subrip_label.set_minimum_size (5, 5)
-			subrip_label.set_background_color (b_colour) 
+			subrip_label.set_background_color (b_colour)
 
 			main_container.extend (subrip_label)
 			main_container.extend (subrip_text)
