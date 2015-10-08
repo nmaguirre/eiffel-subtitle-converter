@@ -80,21 +80,24 @@ feature -- Status setting
 			if (items.count = 0) then
 				items.extend(new_frame)
 			else
-				from
-					items.start
-				until
-					new_frame.start_frame > items.item.stop_frame
-				loop
-					items.forth
-				end
-				if items.islast then
-					items.extend(new_frame)
-					items.forth
+				if new_frame.stop_frame < items.item.start_frame then
+					items.put_front (new_frame)
 				else
-					items.put_right(new_frame)
-					items.forth
+					from
+						items.start
+					until
+						new_frame.start_frame > items.item.stop_frame
+					loop
+						items.forth
+					end
+					if items.islast then
+						items.extend(new_frame)
+						items.forth
+					else
+						items.put_right(new_frame)
+						items.forth
+					end
 				end
-
 			 end
 		ensure
 			start_frame_set: items.item.start_frame.is_equal(start_frame)
