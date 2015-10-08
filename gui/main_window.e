@@ -345,7 +345,7 @@ feature {NONE} -- Implementation
 
 			create subrip_label.make_with_text ("SubRip")
 			subrip_label.set_minimum_size (5, 5)
-			subrip_label.set_background_color (b_colour)
+			subrip_label.set_background_color (b_colour) 
 
 			main_container.extend (subrip_label)
 			main_container.extend (subrip_text)
