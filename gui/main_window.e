@@ -293,7 +293,8 @@ feature {NONE} -- Implementation
 			pixmap: EV_PIXMAP
 			fixed_box: EV_FIXED
 			font: EV_FONT
-			text_field_number : EV_TEXT_FIELD
+			text_field_fps : EV_TEXT_FIELD
+			text_field_offset : EV_TEXT_FIELD
 			button_forward : EV_BUTTON
 			button_rewind : EV_BUTTON
 			button_convert: EV_BUTTON
@@ -342,13 +343,13 @@ feature {NONE} -- Implementation
 			fixed_box.set_item_y_position(button_rewind,7)
 
 				--NUMBER TEXT FIELD FOR OFFSET
-			create text_field_number
-			text_field_number.set_minimum_width (50)
-			text_field_number.align_text_right
-			fixed_box.extend (text_field_number)
-			fixed_box.set_item_height (text_field_number, 10)
-			fixed_box.set_item_x_position(text_field_number,110)
-			fixed_box.set_item_y_position(text_field_number,8)
+			create text_field_offset
+			text_field_offset.set_minimum_width (50)
+			text_field_offset.align_text_right
+			fixed_box.extend (text_field_offset)
+			fixed_box.set_item_height (text_field_offset, 10)
+			fixed_box.set_item_x_position(text_field_offset,110)
+			fixed_box.set_item_y_position(text_field_offset,8)
 
 				--BUTTON FORWARD
 			create button_forward.make_with_text (Button_forward_item)
@@ -360,14 +361,14 @@ feature {NONE} -- Implementation
 			fixed_box.set_item_y_position(button_forward,7)
 
 				-- NUMBER TEXT FIELD FOR CHANGE FPS
-			create text_field_number
-			text_field_number.set_minimum_width (50)
-			text_field_number.set_text ({MICRODVD_SUBTITLE}.min_valid_fps.out)
-			text_field_number.align_text_right
-			fixed_box.extend (text_field_number)
-			fixed_box.set_item_height (text_field_number, 10)
-			fixed_box.set_item_x_position(text_field_number,385)
-			fixed_box.set_item_y_position(text_field_number,8)
+			create text_field_fps
+			text_field_fps.set_minimum_width (50)
+			text_field_fps.set_text ({MICRODVD_SUBTITLE}.min_valid_fps.out)
+			text_field_fps.align_text_right
+			fixed_box.extend (text_field_fps)
+			fixed_box.set_item_height (text_field_fps, 10)
+			fixed_box.set_item_x_position(text_field_fps,385)
+			fixed_box.set_item_y_position(text_field_fps,8)
 
 				-- BUTTON CHANGE FPS
 			create button_fps.make_with_text(Button_change_fps_item)
@@ -377,7 +378,6 @@ feature {NONE} -- Implementation
 			fixed_box.set_item_x_position(button_fps,435)
 			fixed_box.set_item_y_position(button_fps,7)
 
-
 				-- BUTTON CONVERT
 			create button_convert.make_with_text (Button_convert_item)
 			create pixmap
@@ -385,7 +385,6 @@ feature {NONE} -- Implementation
 			pixmap.stretch (24, 18)
 			button_convert.set_pixmap (pixmap)
 			button_convert.set_font (create {EV_FONT}.make_with_values (5, 9, 10, 12))
-			button_convert.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			button_convert.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (21, 21, 255))
 			button_convert.set_minimum_width (100)
 			fixed_box.extend (button_convert)
