@@ -251,35 +251,107 @@ feature -- Test routines
 			assert("make from file ",subrip.items.item.text.is_equal("Hola"))
 		end
 
-	test_add_subtitle_item_invalid
-			--add_subtitle_item breaks on invalid paramters
+	test_add_subtitle_item_invalid_overlap_right
+			--add_subtitle_item breaks on invalid paramters overlap_right
 		note
 			testing:  "covers/{SUBRIP_SUBTITLE}.add_subtitle_item"
 		local
 			subtitle_item: SUBRIP_SUBTITLE
-			start_time: SUBRIP_SUBTITLE_TIME
-			stop_time: SUBRIP_SUBTITLE_TIME
+			sub_start_time: SUBRIP_SUBTITLE_TIME
+			sub_stop_time: SUBRIP_SUBTITLE_TIME
+			sub_start1_time: SUBRIP_SUBTITLE_TIME
+			sub_stop1_time:  SUBRIP_SUBTITLE_TIME
 			text: STRING
 			passed: BOOLEAN
 			rescued: BOOLEAN
 		do
 			create subtitle_item.make
 			text := "Test Subtitle"
-			create start_time.make_with_values(2,50,50,950)
-			create stop_time.make_with_values(1,30,30,100)
+			create sub_start_time.make_with_values(2,30,50,750)
+			create sub_stop_time.make_with_values(3,20,30,100)
+			create sub_start1_time.make_with_values(1,0,50,550)
+			create sub_stop1_time.make_with_values(2,50,0,100)
 
 			if (not rescued) then
-				subtitle_item.add_subtitle_item(start_time,stop_time,text)
+				subtitle_item.add_subtitle_item(sub_start_time,sub_stop_time,text)
+				subtitle_item.add_subtitle_item(sub_start1_time,sub_stop1_time,text)
 				passed := True
 			end
 			assert ("add_subtitle_item Invalid", not passed)
-		rescue
+			rescue
 			if (not rescued) then
 				rescued := True
 				retry
 			end
 		end
 
+	test_add_subtitle_item_invalid_overlap
+			--add_subtitle_item breaks on invalid paramters
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.add_subtitle_item"
+		local
+			subtitle_item: SUBRIP_SUBTITLE
+			sub_start_time: SUBRIP_SUBTITLE_TIME
+			sub_stop_time: SUBRIP_SUBTITLE_TIME
+			sub_start1_time: SUBRIP_SUBTITLE_TIME
+			sub_stop1_time:  SUBRIP_SUBTITLE_TIME
+			text: STRING
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create subtitle_item.make
+			text := "Test Subtitle"
+			create sub_start_time.make_with_values(1,30,50,950)
+			create sub_stop_time.make_with_values(3,13,00,100)
+			create sub_start1_time.make_with_values(1,50,00,550)
+			create sub_stop1_time.make_with_values(2,20,30,800)
+
+			if (not rescued) then
+				subtitle_item.add_subtitle_item(sub_start_time,sub_stop_time,text)
+				subtitle_item.add_subtitle_item(sub_start1_time,sub_stop1_time,text)
+				passed := True
+			end
+			assert ("add_subtitle_item Invalid", not passed)
+			rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+	test_add_subtitle_item_invalid_overlap_leght
+			--add_subtitle_item breaks on invalid paramters overlap_leght
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.add_subtitle_item"
+		local
+			subtitle_item: SUBRIP_SUBTITLE
+			sub_start_time: SUBRIP_SUBTITLE_TIME
+			sub_stop_time: SUBRIP_SUBTITLE_TIME
+			sub_start1_time: SUBRIP_SUBTITLE_TIME
+			sub_stop1_time:  SUBRIP_SUBTITLE_TIME
+			text: STRING
+			passed: BOOLEAN
+			rescued: BOOLEAN
+		do
+			create subtitle_item.make
+			text := "Test Subtitle"
+			create sub_start_time.make_with_values(1,30,50,950)
+			create sub_stop_time.make_with_values(2,20,30,100)
+			create sub_start1_time.make_with_values(2,00,50,550)
+			create sub_stop1_time.make_with_values(3,13,00,100)
+
+			if (not rescued) then
+				subtitle_item.add_subtitle_item(sub_start_time,sub_stop_time,text)
+				subtitle_item.add_subtitle_item(sub_start1_time,sub_stop1_time,text)
+				passed := True
+			end
+			assert ("add_subtitle_item Invalid", not passed)
+			rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
 	test_convert_to_microdvd
 			-- Check that converts a subtitulo subrip to microdvd
 		note
