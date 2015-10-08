@@ -324,7 +324,7 @@ feature {NONE} -- Implementation
 		local
 			microdvd_label: EV_LABEL
 			subrip_label: EV_LABEL
-			microDVD_color,subRip_color:EV_COLOR
+			microDVD_color,subRip_color: EV_COLOR
 		do
 			create microdvd_text
 			create subrip_text
