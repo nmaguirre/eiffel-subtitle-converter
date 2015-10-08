@@ -631,8 +631,6 @@ feature -- Test routines
 
 		end
 
-
-
 end-- class MICRODVD_SUBTITLE_TESTS
 
 
