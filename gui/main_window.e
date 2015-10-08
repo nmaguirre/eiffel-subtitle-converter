@@ -279,6 +279,7 @@ feature {NONE} -- Implementation, Close event
 		end
 
 	request_about_save
+			-- Process user request to save.
 		local
 
 		do
@@ -288,6 +289,7 @@ feature {NONE} -- Implementation, Close event
 		end
 
 	request_about_open
+			-- Process user request to open
 		local
 
 		do
@@ -297,6 +299,7 @@ feature {NONE} -- Implementation, Close event
 		end
 
 	request_about_saveas
+			-- Process user request to save as
 		local
 
 		do
@@ -306,6 +309,7 @@ feature {NONE} -- Implementation, Close event
 		end
 
 	request_about_new
+			-- Process user request to new
 		local
 
 		do
@@ -372,8 +376,6 @@ feature -- Observer features
 				end
 			end
 		end
-
-
 
 feature {NONE} -- Implementation / Constants
 
