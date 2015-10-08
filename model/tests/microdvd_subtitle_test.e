@@ -629,7 +629,6 @@ feature -- Test routines
 			assert("checks conversion stop_time",subrip_sub.items.i_th (3).stop_time.seconds = 21)
 			assert("checks conversion stop_time",subrip_sub.items.i_th (3).stop_time.milliseconds = 953)
 
-
 		end
 
 
