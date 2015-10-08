@@ -220,6 +220,8 @@ feature -- Test routines
 
 		end
 
+
+
 	test_add_subtitle_item_valid
 			-- check that add_subtitle_item run correctly
 		note
@@ -236,6 +238,17 @@ feature -- Test routines
 			create stop_time.make_with_values (2, 35, 55,150)
 			subtitle_item.add_subtitle_item(start_time,stop_time,text)
 			assert ("add_subtitle_item correct", true)
+		end
+
+	test_make_from_file
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.make_from_file"
+		local
+			subrip : SUBRIP_SUBTITLE
+		do
+			create subrip.make_from_file ("test_make.srt")
+			subrip.items.start
+			assert("make from file ",subrip.items.item.text.is_equal("Hola"))
 		end
 
 	test_add_subtitle_item_invalid
@@ -265,6 +278,36 @@ feature -- Test routines
 				rescued := True
 				retry
 			end
+		end
+
+
+	test_convert_to_microdvd
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.convert_to_microdvd"
+		local
+			subrip: SUBRIP_SUBTITLE
+			start_time: SUBRIP_SUBTITLE_TIME
+			stop_time: SUBRIP_SUBTITLE_TIME
+			text: STRING
+			microdvd: MICRODVD_SUBTITLE
+		do
+			create subrip.make
+			create text.make_from_string ("Hola")
+			create start_time.make_with_values (0, 00,1 , 000)
+			create stop_time.make_with_values (0,0, 2,000)
+			subrip.add_subtitle_item(start_time,stop_time,text)
+
+
+			create text.make_from_string ("Chau")
+			create start_time.make_with_values (0, 00,3 , 000)
+			create stop_time.make_with_values (0,0, 4,000)
+			subrip.add_subtitle_item(start_time,stop_time,text)
+
+
+			create microdvd.make
+			microdvd := subrip.convert_to_microdvd
+			assert("Conversion",microdvd.items.item.text.is_equal("Hola") and microdvd.items.item.start_frame.is_equal (24) and microdvd.items.item.stop_frame.is_equal (48))
+
 		end
 
 end-- class SUBRIP_SUBTITLE_TESTS

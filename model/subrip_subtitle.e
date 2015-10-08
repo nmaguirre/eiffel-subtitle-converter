@@ -10,7 +10,7 @@ class
 inherit
 	SUBTITLE
 		redefine
-			out
+			out,save
 		end
 
 create
@@ -199,7 +199,7 @@ feature -- Status checking
 			Result := res
 		end
 
-feature {CONVERTER_LOGIC} -- Auxiliary functions 		
+feature {CONVERTER_LOGIC,CONVERT_SAVE_SUBRIP_TO_MICRODVD_FEATURE,SUBRIP_SUBTITLE_TESTS} -- Auxiliary functions 		
 
 	convert_to_microdvd : MICRODVD_SUBTITLE
 			-- This routine converts a Subrrip subtitle into a Microdvd subtitle
@@ -210,7 +210,8 @@ feature {CONVERTER_LOGIC} -- Auxiliary functions
 		do
 			create microdvd_sub.make
 			from
-				items.start
+			items.start
+			create microdvd_sub.make
 			until
 				items.off
 			loop
@@ -228,12 +229,24 @@ feature {CONVERTER_LOGIC} -- Auxiliary functions
 			st_frame: INTEGER
 			time_subrip: DOUBLE
 		do
-			time_subrip := st_time.hours * 3600 + st_time.minutes * 60 + st_time.seconds + st_time.milliseconds / 1000
+			time_subrip := st_time.hours * 3600 + st_time.minutes * 60 + st_time.seconds + (st_time.milliseconds / 1000)
 			st_frame := (time_subrip * fps).rounded
 			Result := st_frame
 
 		end
+feature
 
+	save (file_name : STRING)
+			-- this routine save the subrip subtitle
+			-- the routine create a file text with the extension .srt
+			-- and save the subrip_subitle into that file
+		local
+			file : PLAIN_TEXT_FILE
+		do
+			create file.make_with_name (file_name+".srt")
+			file.put_string(out)
+			file.close
+		end
 
 feature {SUBRIP_SUBTITLE_TESTS} -- Implementation
 
