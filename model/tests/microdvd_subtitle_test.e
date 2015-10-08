@@ -581,9 +581,92 @@ feature -- Test routines
 			assert("The microdvd subtitle item cannot be inserted", not subtitles.checker(sub,fst,snd))
 		end
 
+	test_check_one_valid_subtitle_for_beginning
+			--Checks that the subtitle can be inserted at the beginning
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.check_one"
+		local
+			sub,item: MICRODVD_SUBTITLE_ITEM
+			subtitles: MICRODVD_SUBTITLE
+		do
+			create item.make (0,1)		 -- initial subtitle
+			create sub.make (1,3)		-- subtitle to be inserted
+			create subtitles.make
+			assert("The microdvd subtitle item can be inserted at the beginning", subtitles.check_one(sub,item))
+		end
 
 
+	test_check_one_valid_subtitle_at_the_end
+			--Checks that the subtitle can be inserted at the end
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.check_one"
+		local
+			sub,item: MICRODVD_SUBTITLE_ITEM
+			subtitles: MICRODVD_SUBTITLE
+		do
+			create sub.make (1,3)	  -- subtitle to be inserted
+			create item.make (4,6)    -- initial subtitle
+			create subtitles.make
+			assert("The microdvd subtitle item can be inserted at the end", subtitles.check_one (sub,item))
+		end
 
+
+	test_check_one_invalid_subtitle_for_beginning
+			--Checks that subtitles cannot be inserted at the beginning, because does not meet conditions
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.check_one"
+		local
+			sub, item: MICRODVD_SUBTITLE_ITEM
+			subtitles: MICRODVD_SUBTITLE
+		do
+			create sub.make (0,2)		-- subtitle to be inserted
+			create item.make (1,3)	    -- initial subtitle
+			create subtitles.make
+			assert("The microdvd subtitle item cannot be inserted at the beginning", not subtitles.check_one(sub,item))
+		end
+
+	test_check_one_invalid_subtitle_at_the_end
+			--Checks that subtitles cannot be inserted at the end, because does not meet conditions
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.check_one"
+		local
+			sub, item: MICRODVD_SUBTITLE_ITEM
+			subtitles: MICRODVD_SUBTITLE
+		do
+			create sub.make (4,9)		-- subtitle to be inserted
+			create item.make (1,6)	    -- initial subtitle
+			create subtitles.make
+			assert("The microdvd subtitle item cannot be inserted at the end", not subtitles.check_one(sub,item))
+		end
+
+	test_check_one_invalid_subtitle_within
+			--Checks that subtitles cannot be inserted, because does not meet conditions
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.check_one"
+		local
+			sub, item: MICRODVD_SUBTITLE_ITEM
+			subtitles: MICRODVD_SUBTITLE
+		do
+			create sub.make (2,4)		-- subtitle to be inserted
+			create item.make (1,6)	    -- initial subtitle
+			create subtitles.make
+			assert("The microdvd subtitle item cannot be inserted", not subtitles.check_one(sub,item))
+		end
+
+
+	test_check_one_invalid_subtitle_equal
+			--Checks that subtitles cannot be inserted, because does not meet conditions
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.check_one"
+		local
+			sub, item: MICRODVD_SUBTITLE_ITEM
+			subtitles: MICRODVD_SUBTITLE
+		do
+			create sub.make (0,1)		-- subtitle to be inserted
+			create item.make (0,1)	    -- initial subtitle
+			create subtitles.make
+			assert("The microdvd subtitle item cannot be inserted", not subtitles.check_one(sub,item))
+		end
 end-- class MICRODVD_SUBTITLE_TESTS
 
 
