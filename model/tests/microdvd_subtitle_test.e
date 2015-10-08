@@ -581,6 +581,19 @@ feature -- Test routines
 			assert("The microdvd subtitle item cannot be inserted", not subtitles.checker(sub,fst,snd))
 		end
 
+	test_out
+		note
+			testing: "convers/{MICRODVD_SUBTITLE}.out"
+		local
+			microdvd: MICRODVD_SUBTITLE
+		do
+			create microdvd.make
+			microdvd.add_subtitle_item (24, 48,"Hola")
+			microdvd.add_subtitle_item (72, 96,"Chau")
+			assert("out",microdvd.out.is_equal ("{24}{48}Hola%N{72}{96}Chau%N"))
+		end
+
+
 	test_check_one_valid_subtitle_for_beginning
 			--Checks that the subtitle can be inserted at the beginning
 		note
@@ -594,7 +607,6 @@ feature -- Test routines
 			create subtitles.make
 			assert("The microdvd subtitle item can be inserted at the beginning", subtitles.check_one(sub,item))
 		end
-
 
 	test_check_one_valid_subtitle_at_the_end
 			--Checks that the subtitle can be inserted at the end

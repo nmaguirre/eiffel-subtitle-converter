@@ -12,17 +12,26 @@ inherit
 
 create
 
-	make,make_with_microdvd_subtitle, make_with_subrip_subtitle
+	make,make_with_microdvd_subtitle, make_with_subrip_subtitle,make_sub
 
 feature -- Initialisation
 
 	make
 			-- Default constructor
 		do
-			source := Void
+			source := VOID
 			target := Void
 		ensure
-			valid_source_and_target: source = Void and target = Void
+			valid_source_and_target:source = Void and target = Void
+		end
+
+	make_sub(subrip : SUBRIP_SUBTITLE)
+			-- Default constructor
+		do
+			source := subrip
+			target := Void
+		ensure
+			valid_source_and_target:target = Void
 		end
 
 	make_with_subrip_subtitle (filename: STRING)
@@ -164,6 +173,15 @@ feature
 			end
 		ensure
 			valid_result: has_converted_subtitle
+		end
+
+	save (file_name: STRING)
+			-- Save in a file text the conversion of the subtitle
+		require
+			valid_file_name: file_name /= Void
+			valid_target: target /= Void
+		do
+			target.save (file_name)
 		end
 
 
