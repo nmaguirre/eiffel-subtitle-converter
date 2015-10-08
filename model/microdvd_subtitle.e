@@ -275,11 +275,6 @@ feature
 		do
 			create file.make_with_name (file_name+".sub")
 			create file.make_open_write(file_name+".sub")
---			create items.make
---			add_subtitle_item(24,48,"Hola")
---			add_subtitle_item(72,96,"Chau")
-		--	file.put_string("{24}{48}Hola%N{72}{96}Chau%N")
---			print(out)
 			file.put_string (out)
 			file.close
 		end
