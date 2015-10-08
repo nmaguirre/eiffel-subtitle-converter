@@ -10,7 +10,7 @@ class
 inherit
 	SUBTITLE
 		redefine
-			out
+			out,save
 		end
 
 create
@@ -217,7 +217,7 @@ feature -- Status setting
 		end
 
 
-	free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
+free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
 		require
 			valid_start_frame: start_frame>=0 and start_frame<stop_frame
 			valid_stop_frame: stop_frame>0 and start_frame<stop_frame
@@ -347,7 +347,20 @@ feature {CONVERTER_LOGIC,MICRODVD_SUBTITLE_TEST} -- Auxiliary functions
 
 		end
 
+feature
 
+	save (file_name : STRING)
+			-- this routine save the subrip subtitle
+			-- the routine create a file text with the extension .srt
+			-- and save the subrip_subitle into that file
+		local
+			file : PLAIN_TEXT_FILE
+		do
+			create file.make_with_name (file_name+".sub")
+			create file.make_open_write(file_name+".sub")
+			file.put_string (out)
+			file.close
+		end
 
 feature {MICRODVD_SUBTITLE_TEST,SUBRIP_SUBTITLE_TESTS} -- Implementation
 
@@ -365,3 +378,4 @@ invariant
 	valid_items: items /= Void
 
 end
+
