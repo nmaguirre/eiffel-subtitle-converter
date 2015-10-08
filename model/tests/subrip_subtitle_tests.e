@@ -319,8 +319,8 @@ feature -- Test routines
 			end
 		end
 
-	test_add_subtitle_item_invalid_overlap_leght
-			--add_subtitle_item breaks on invalid paramters overlap_leght
+	test_add_subtitle_item_invalid_overlap_left
+			--add_subtitle_item breaks on invalid paramters overlap_left
 		note
 			testing:  "covers/{SUBRIP_SUBTITLE}.add_subtitle_item"
 		local
