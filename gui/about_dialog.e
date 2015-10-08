@@ -102,6 +102,7 @@ feature {NONE} -- Initialization
 			set_default_push_button (ok_button)
 			set_default_cancel_button (ok_button)
 
+
 			set_title (Default_title)
 			set_message (Default_message)
 			set_size (400, 150)
@@ -133,12 +134,6 @@ feature {NONE} -- Implementation
 
 	ok_button: EV_BUTTON
 			-- "OK" button.
-
-feature {NONE} -- colors
-
-	color_dialog: EV_COLOR_DIALOG
-
-	color: EV_COLOR
 
 feature {NONE} -- Implementation / Constants
 
