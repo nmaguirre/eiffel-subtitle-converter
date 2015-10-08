@@ -425,7 +425,7 @@ feature --Implementation, Converter_sub
 			open_dialog: EV_FILE_OPEN_DIALOG
 		do
 			create open_dialog
-			open_dialog.filters.extend (["*.sub; *.srt","Subtitle Files (.sub,.srt)"])
+			open_dialog.filters.extend (["*.srt;*.sub","Subtitle Files (.sub,.srt)"])
 			open_dialog.show_modal_to_window (Current)
 			create file_name.make_from_string (open_dialog.file_name)
 		end
