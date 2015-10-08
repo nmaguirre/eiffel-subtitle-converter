@@ -80,7 +80,7 @@ feature -- Status setting
 			if (items.count = 0) then
 				items.extend(new_frame)
 			else
-				if new_frame.stop_frame < items.item.start_frame then
+				if new_frame.stop_frame < items.i_th(1).start_frame then
 					items.put_front (new_frame)
 				else
 					from
