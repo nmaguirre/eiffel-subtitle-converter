@@ -366,7 +366,7 @@ feature -- Observer features
 
 feature {NONE} -- Implementation / Constants
 
-	Window_title: STRING = "app"
+	Window_title: STRING = "Eiffel Subtitle Converter"
 			-- Title of the window.
 
 	Window_width: INTEGER = 595
