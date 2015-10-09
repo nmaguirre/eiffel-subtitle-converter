@@ -679,6 +679,53 @@ feature -- Test routines
 			create subtitles.make
 			assert("The microdvd subtitle item cannot be inserted", not subtitles.check_one(sub,item))
 		end
+
+	test_free_time_position_initial_valid
+			-- 	Verifies position free time is zero when subtitle is empty
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.free_time_position"
+		local
+			subtitle: MICRODVD_SUBTITLE
+			sub: MICRODVD_SUBTITLE_ITEM
+			pos : INTEGER
+		do
+			create subtitle.make
+			create sub.make_with_text (0,5,"First subtitle to be inserted")
+			pos:= subtitle.free_time_position(sub)
+			assert("Free time position valid when is the First subtitle to be inserted",pos = 0)
+		end
+
+	test_free_time_position_valid
+			-- 	Verifies position free time when subtitles can be inserted
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.free_time_position"
+		local
+			microdvd: MICRODVD_SUBTITLE
+			sub: MICRODVD_SUBTITLE_ITEM
+		do
+			create microdvd.make
+			create sub.make_with_text (10,19,"First subtitle to be inserted")
+			microdvd.add_subtitle_item(0,5,"Hello")
+			microdvd.add_subtitle_item(6,9,"Welcome!")
+			microdvd.add_subtitle_item(20,25,"Thanks")
+			microdvd.add_subtitle_item(26,35,"Bye")
+			assert("Free time position valid when is the First subtitle to be inserted",microdvd.free_time_position(sub) = 2)
+		end
+
+	test_free_time_position_invalid
+			--  Verifies position free time when subtitles can't be inserted
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.free_time_position"
+		local
+			item: MICRODVD_SUBTITLE
+			sub: MICRODVD_SUBTITLE_ITEM
+		do
+			create item.make
+			create sub.make_with_text(50,120,"text2")
+			item.add_subtitle_item (1,100,"text1")
+			assert ("add_subtitle_items is broke", 	item.free_time_position(sub) = -1)
+		end
+
 end-- class MICRODVD_SUBTITLE_TESTS
 
 
