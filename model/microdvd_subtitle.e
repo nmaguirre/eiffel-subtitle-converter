@@ -225,27 +225,34 @@ free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
 			res: BOOLEAN
 			microdvd: MICRODVD_SUBTITLE_ITEM
 		do
-			create res.default_create
-			res := False
-			if (items.count=0) then
-				res:=True
-			else
+			items.start
+			res := True
+			if (items.count = 1) then
+				res := (stop_frame < items.item.start_frame ) or (start_frame > items.item.stop_frame )
+			end
+
+			if(items.count > 1) then
 				from
 					items.start
 				until
-					items.off or items.item.stop_frame<start_frame
+					items.islast or not res
 				loop
-					items.forth
+					if(items.isfirst and stop_frame >= items.item.start_frame and start_frame < items.item.start_frame)then
+						res := False
+					end
+					if(items.islast and start_frame <= items.item.stop_frame)then
+						res := False
+					else
+						microdvd := items.item
+						items.forth
+						if (not res) then
+							if((start_frame <= microdvd.stop_frame ) or ((microdvd.stop_frame < start_frame and items.item.start_frame > start_frame) and stop_frame >= items.item.start_frame) or (microdvd.stop_frame <= start_frame and stop_frame >= items.item.start_frame))then
+								res := False
+							end
+						end
+					end
 				end
 
-				if(not(items.off)) then
-					items.forth
-				end
-				if (items.off) then
-					res := True
-				else
-					res:=items.item.start_frame>stop_frame
-				end
 			end
 			Result := res
 		end
