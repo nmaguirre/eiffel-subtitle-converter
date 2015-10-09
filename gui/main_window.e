@@ -66,7 +66,8 @@ feature {NONE} -- Initialization
 			create radio_button_subrip.make_with_text ("SubRIP Format")
 			create radio_button_microdvd.make_with_text ("MicroDVD Format")
 
-			create color.make_with_rgb (0.51,0.255,0)
+			create color.make_with_rgb (0,0,0)
+			create color2.make_with_rgb (0,0.710,0)
 
 			create file_name.make_empty
 
@@ -169,7 +170,7 @@ feature {NONE} -- Initialization
 			main_container.extend (button_3)
 			main_container.set_item_x_position (button_3, 488)
 			main_container.set_item_y_position (button_3, 450)
-
+			button_3.select_actions.extend (agent ready)
 
 
 		end
@@ -213,7 +214,7 @@ feature {NONE} -- Implementation
 
 	file_name: STRING
 
-	color:EV_COLOR
+	color, color2:EV_COLOR
 
 	radio_button_subRIP: EV_RADIO_BUTTON
 	radio_button_microDVD: EV_RADIO_BUTTON
@@ -284,6 +285,7 @@ feature {NONE} -- Implementation
 					text_field.set_text (file.full_file_path.out)
 					text_field_2.set_text (file.full_file_path.out.substring (1, file.file_name.count-4)+"Converter.srt")
 					read_file_to_string (file.full_file_path)
+					button_3.set_background_color(color2)
 			else
 				if(file.full_file_path.out.substring (file.full_file_path.out.count-3, file.full_file_path.out.count).is_equal (".sub"))then
 					file_name := file.file_title
@@ -291,6 +293,7 @@ feature {NONE} -- Implementation
 					text_field.set_text (file.full_file_path.out)
 					text_field_2.set_text (file.full_file_path.out.substring (1, file.file_name.count-4)+"Converter.srt")
 					read_file_to_string (file.full_file_path)
+					button_3.set_background_color(color2)
 				else
 					create error.make_with_text ("The file is not correct")
 					error.show
@@ -327,6 +330,25 @@ feature {NONE} -- Implementation
 	converter_accion
 	do
 	end
+
+feature --Implementation, ready
+
+	ready
+		local
+			msj_error: EV_INFORMATION_DIALOG
+		do
+			if text.text_length = 0 and text_2.text_length = 0 then
+				create msj_error.make_with_text ("There is no subtitle to convert ")
+				msj_error.set_title ("Error")
+				msj_error.set_pixmap (default_pixmaps.error_pixmap)
+				msj_error.show_modal_to_window (Current)
+			else
+				create msj_error.make_with_text ("I successfully converted subtitle")
+				msj_error.set_title ("Correct")
+				msj_error.set_pixmap (default_pixmaps.information_pixel_buffer)
+				msj_error.show_modal_to_window (Current)
+			end
+		end
 
 feature -- Observer features
 
