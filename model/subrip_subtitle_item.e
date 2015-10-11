@@ -72,7 +72,7 @@ feature -- Status setting
 	adjust_start_time (new_start_time: SUBRIP_SUBTITLE_TIME)
 			-- Changes the start time to the provided value
 		require
- 			new_start_time_not_void: new_start_time /= Void
+ 			new_start_time_not_void: (new_start_time /= Void) and (new_start_time.time_milliseconds < stop_time.time_milliseconds)
 		do
 			start_time := new_start_time
 		ensure
