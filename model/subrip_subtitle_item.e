@@ -62,7 +62,7 @@ feature -- Status setting
 	adjust_stop_time (new_stop_time: SUBRIP_SUBTITLE_TIME)
 			-- Changes the stop time to the provided value
 		require
-			new_stop_time_not_void: new_stop_time /= Void
+			new_stop_time_not_void: (new_stop_time /= Void) and (start_time.time_milliseconds < new_stop_time.time_milliseconds)
 		do
 			stop_time := new_stop_time
 		ensure
