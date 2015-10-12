@@ -395,6 +395,24 @@ feature -- Test routines
 			and sub.items[3].text.is_equal("text3"))
 		end
 
+	test_add_subtitle_item_valid_alternative
+				-- check that the items are entered correctly
+		note
+			testing:  "covers/{MICRODVD_SUBTITLE}.add_subtitle_item"
+		local
+			sub: MICRODVD_SUBTITLE
+			pass: BOOLEAN
+		do
+			create sub.make
+			sub.add_subtitle_item (0,5,"sub1")
+			sub.add_subtitle_item (6,9,"sub2")
+			sub.add_subtitle_item (10,19,"sub3")
+			pass:= sub.items[1].text.is_equal("sub1")
+			pass:= sub.items[2].text.is_equal("sub2") and pass
+			pass:= sub.items[3].text.is_equal("sub3") and pass
+			assert("Subtitles has been inserted sucessfullsy", pass)
+		end
+
 	test_add_subtitle_item_invalid
 			--  add_subtitle_item breaks on invalid parameters
 		note
