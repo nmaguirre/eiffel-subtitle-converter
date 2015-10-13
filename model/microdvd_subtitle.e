@@ -252,7 +252,7 @@ free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
 					else
 						microdvd := items.item
 						items.forth
-						if (not res) then
+						if (res) then
 							if((start_frame <= microdvd.stop_frame ) or ((microdvd.stop_frame < start_frame and items.item.start_frame > start_frame) and stop_frame >= items.item.start_frame) or (microdvd.stop_frame <= start_frame and stop_frame >= items.item.start_frame))then
 								res := False
 							end
