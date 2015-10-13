@@ -131,7 +131,7 @@ feature -- Status setting
 			from
 				items.start
 			until
-				items.after or items.item.stop_time < stop_time
+				items.after or items.item.stop_time > stop_time
 			loop
 				cond1:= start_time < items.item.start_time or start_time.is_equal(items.item.start_time)
 				cond2:= items.item.stop_time < stop_time or items.item.stop_time.is_equal(stop_time)

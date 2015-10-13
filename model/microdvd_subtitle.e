@@ -204,7 +204,7 @@ feature -- Status setting
 			from
 				items.start
 			until
-				items.after or stop_frame > items.item.stop_frame
+				items.after or stop_frame < items.item.stop_frame
 			loop
 				if (start_frame <= items.item.start_frame) and (items.item.stop_frame <= stop_frame) then
 					items.remove
