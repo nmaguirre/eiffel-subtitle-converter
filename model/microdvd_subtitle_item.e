@@ -36,6 +36,9 @@ feature -- Initialisation
 	make_from_string(line: STRING)
 			-- COnstruct a microDVD from a string rep of asubtible of an archive
 			-- with the extension .sub and the form "{time_init}{time_finish}text"
+		require
+
+			line /= Void
 		local
 			start_frame_string: STRING
 			stop_frame_string: STRING
