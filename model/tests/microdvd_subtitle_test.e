@@ -651,6 +651,7 @@ feature -- Test routines
 			assert("The microdvd subtitle item cannot be inserted at the end", not subtitles.check_one(sub,item))
 		end
 
+
 	test_check_one_invalid_subtitle_within
 			--Checks that subtitles cannot be inserted, because does not meet conditions
 		note
@@ -664,7 +665,6 @@ feature -- Test routines
 			create subtitles.make
 			assert("The microdvd subtitle item cannot be inserted", not subtitles.check_one(sub,item))
 		end
-
 
 	test_check_one_invalid_subtitle_equal
 			--Checks that subtitles cannot be inserted, because does not meet conditions
@@ -680,6 +680,7 @@ feature -- Test routines
 			assert("The microdvd subtitle item cannot be inserted", not subtitles.check_one(sub,item))
 		end
 
+
 	test_free_time_position_initial_valid
 			-- 	Verifies position free time is zero when subtitle is empty
 		note
@@ -687,12 +688,10 @@ feature -- Test routines
 		local
 			subtitle: MICRODVD_SUBTITLE
 			sub: MICRODVD_SUBTITLE_ITEM
-			pos : INTEGER
 		do
 			create subtitle.make
 			create sub.make_with_text (0,5,"First subtitle to be inserted")
-			pos:= subtitle.free_time_position(sub)
-			assert("Free time position valid when is the First subtitle to be inserted",pos = 0)
+			assert("Free time position valid when is the First subtitle to be inserted",subtitle.free_time_position(sub) = 0)
 		end
 
 	test_free_time_position_valid
@@ -705,11 +704,12 @@ feature -- Test routines
 		do
 			create microdvd.make
 			create sub.make_with_text (10,19,"First subtitle to be inserted")
+
 			microdvd.add_subtitle_item(0,5,"Hello")
 			microdvd.add_subtitle_item(6,9,"Welcome!")
 			microdvd.add_subtitle_item(20,25,"Thanks")
-			microdvd.add_subtitle_item(26,35,"Bye")
-			assert("Free time position valid when is the First subtitle to be inserted",microdvd.free_time_position(sub) = 2)
+			microdvd.add_subtitle_item(26,30,"Bye")
+			assert("Free time position valid to be inserted", microdvd.free_time_position(sub) = 2)
 		end
 
 	test_free_time_position_invalid
@@ -717,13 +717,186 @@ feature -- Test routines
 		note
 			testing:  "covers/{MICRODVD_SUBTITLE}.free_time_position"
 		local
-			item: MICRODVD_SUBTITLE
+			microdvd: MICRODVD_SUBTITLE
 			sub: MICRODVD_SUBTITLE_ITEM
 		do
-			create item.make
+			create microdvd.make
 			create sub.make_with_text(50,120,"text2")
-			item.add_subtitle_item (1,100,"text1")
-			assert ("add_subtitle_items is broke", 	item.free_time_position(sub) = -1)
+			microdvd.add_subtitle_item (1,100,"text1")
+			assert ("add_subtitle_items is broke", 	microdvd.free_time_position(sub) = -1)
+		end
+
+	test_add_constructed_subtitle_item_valid_at_the_beginning
+			-- Check that subtitles can be inserted at the beginning
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.add_constructed_subtitle_item"
+		local
+			microdvd: MICRODVD_SUBTITLE
+			sub: MICRODVD_SUBTITLE_ITEM
+			pass: BOOLEAN
+		do
+			create microdvd.make
+			create sub.make_with_text (0,3, "Text1")
+			microdvd.add_subtitle_item (6,8,"Text2")
+			microdvd.add_constructed_subtitle_item (sub)
+			pass := microdvd.items[1].start_frame.is_equal(0) and microdvd.items[1].stop_frame.is_equal(3) and microdvd.items[1].text.is_equal("Text1")
+			assert("The subtitle can be inserted at the beginning",pass)
+		end
+
+	test_add_constructed_subtitle_item_valid_at_the_end
+			-- Check that subtitles can be inserted at the end
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.add_constructed_subtitle_item"
+		local
+			microdvd: MICRODVD_SUBTITLE
+			sub: MICRODVD_SUBTITLE_ITEM
+			pass: BOOLEAN
+		do
+			create microdvd.make
+			create sub.make_with_text (6,10, "Text2")
+
+			microdvd.add_subtitle_item (0,2, "Text0")
+			microdvd.add_subtitle_item (3,5,"Text1")
+			microdvd.add_constructed_subtitle_item (sub)
+			pass := microdvd.items[3].start_frame.is_equal(6) and microdvd.items[3].stop_frame.is_equal(10) and microdvd.items[3].text.is_equal("Text2")
+			assert("The subtitle can be inserted at the end",pass)
+		end
+
+
+	test_add_constructed_subtitle_item_valid_within
+			-- Check that subtitles can be inserted at the within
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.add_constructed_subtitle_item"
+		local
+			microdvd: MICRODVD_SUBTITLE
+			sub: MICRODVD_SUBTITLE_ITEM
+			pass: BOOLEAN
+		do
+			create microdvd.make
+			create sub.make_with_text (4,7, "Text2")
+
+			microdvd.add_subtitle_item (0,2, "Text1")
+			microdvd.add_subtitle_item (9,11,"Text3")
+			microdvd.add_constructed_subtitle_item (sub)
+			pass := microdvd.items[2].start_frame.is_equal(4) and microdvd.items[2].stop_frame.is_equal(7) and microdvd.items[2].text.is_equal("Text2")
+			assert("The subtitle can be inserted at the within",pass)
+		end
+
+	test_add_constructed_subtitle_item_invalid_initial
+			-- Checks that subtitles cannot be inserted at the beginning, because does not meet conditions
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.add_construted_subtitle_item"
+		local
+			microdvd: MICRODVD_SUBTITLE
+			sub: MICRODVD_SUBTITLE_ITEM
+			i: INTEGER
+		do
+			create microdvd.make
+			create sub.make_with_text (0,5,"First Error")
+			microdvd.add_subtitle_item (0,9,"First subtitle")
+			i:= microdvd.items.count
+			microdvd.add_constructed_subtitle_item (sub)
+			assert("Item can't be inserted at beginning",microdvd.items.count.is_equal (i))
+		end
+
+	test_add_constructed_subtitle_item_invalid_within
+			-- Checks that subtitles cannot be inserted at the within, because does not meet conditions
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.add_construted_subtitle_item"
+		local
+			microdvd: MICRODVD_SUBTITLE
+			sub: MICRODVD_SUBTITLE_ITEM
+			i: INTEGER
+		do
+			create microdvd.make
+			create sub.make_with_text (1,5,"First Error")
+			microdvd.add_subtitle_item (0,9,"First subtitle")
+			i:= microdvd.items.count
+			microdvd.add_constructed_subtitle_item (sub)
+			assert("Item can't be inserted at the within",microdvd.items.count.is_equal (i))
+		end
+
+	test_add_constructed_subtitle_item_invalid_at_the_end
+			-- Checks that subtitles cannot be inserted at the end, because does not meet conditions
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.add_construted_subtitle_item"
+		local
+			microdvd: MICRODVD_SUBTITLE
+			sub: MICRODVD_SUBTITLE_ITEM
+			i: INTEGER
+		do
+			create microdvd.make
+			create sub.make_with_text (6,14,"First Error")
+			microdvd.add_subtitle_item (0,9,"First subtitle")
+			i:= microdvd.items.count
+			microdvd.add_constructed_subtitle_item (sub)
+			assert("Item can't be inserted at the end",microdvd.items.count.is_equal (i))
+		end
+
+	test_add_constructed_subtitle_item_invalid_equal
+		-- Checks that subtitles cannot be inserted, because does not meet conditions
+		note
+			testing: "covers/{MICRODVD_SUBTITLE}.add_construted_subtitle_item"
+		local
+			microdvd: MICRODVD_SUBTITLE
+			sub: MICRODVD_SUBTITLE_ITEM
+			i: INTEGER
+		do
+			create microdvd.make
+			create sub.make_with_text (0,9,"First Error")
+			microdvd.add_subtitle_item (0,9,"First subtitle")
+			i:= microdvd.items.count
+			microdvd.add_constructed_subtitle_item (sub)
+			assert("Item can't be inserted because time is invalid",microdvd.items.count.is_equal (i))
+		end
+
+	test_convert_to_subrip
+			-- Check that converts a subtitle microdvd to subrip
+		note
+			testing:  "covers/{SUBRIP_SUBTITLE}.convert_to_subrip"
+		local
+			subrip_sub: SUBRIP_SUBTITLE
+			microdvd_sub: MICRODVD_SUBTITLE
+		do
+			create microdvd_sub.make
+			create subrip_sub.make
+
+			microdvd_sub.add_subtitle_item (36693,58750,"Text Subtitle")
+			microdvd_sub.add_subtitle_item (336693,588750,"Text Subtitle")
+			microdvd_sub.add_subtitle_item (9,72,"Text Subtitle")
+
+			subrip_sub := microdvd_sub.convert_to_subrip
+
+			assert("checks conversion start_time",subrip_sub.items.i_th (1).start_time.hours = 0)
+			assert("checks conversion start_time",subrip_sub.items.i_th (1).start_time.minutes = 0)
+			assert("checks conversion start_time",subrip_sub.items.i_th (1).start_time.seconds = 0)
+			assert("checks conversion start_time",subrip_sub.items.i_th (1).start_time.milliseconds = 375)
+
+			assert("checks conversion stop_time",subrip_sub.items.i_th (1).stop_time.hours = 0)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (1).stop_time.minutes = 0)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (1).stop_time.seconds = 3)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (1).stop_time.milliseconds = 4)
+
+			assert("checks conversion start_time",subrip_sub.items.i_th (2).start_time.hours = 0)
+			assert("checks conversion start_time",subrip_sub.items.i_th (2).start_time.minutes = 25)
+			assert("checks conversion start_time",subrip_sub.items.i_th (2).start_time.seconds = 30)
+			assert("checks conversion start_time",subrip_sub.items.i_th (2).start_time.milliseconds = 789)
+
+			assert("checks conversion stop_time",subrip_sub.items.i_th (2).stop_time.hours = 0)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (2).stop_time.minutes = 40)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (2).stop_time.seconds = 50)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (2).stop_time.milliseconds = 980)
+
+			assert("checks conversion start_time",subrip_sub.items.i_th (3).start_time.hours = 3)
+			assert("checks conversion start_time",subrip_sub.items.i_th (3).start_time.minutes = 54)
+			assert("checks conversion start_time",subrip_sub.items.i_th (3).start_time.seconds = 6)
+			assert("checks conversion start_time",subrip_sub.items.i_th (3).start_time.milliseconds = 434)
+
+			assert("checks conversion stop_time",subrip_sub.items.i_th (3).stop_time.hours = 6)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (3).stop_time.minutes = 49)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (3).stop_time.seconds = 21)
+			assert("checks conversion stop_time",subrip_sub.items.i_th (3).stop_time.milliseconds = 953)
+
 		end
 
 end-- class MICRODVD_SUBTITLE_TESTS

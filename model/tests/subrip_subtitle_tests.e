@@ -319,8 +319,8 @@ feature -- Test routines
 			end
 		end
 
-	test_add_subtitle_item_invalid_overlap_leght
-			--add_subtitle_item breaks on invalid paramters overlap_leght
+	test_add_subtitle_item_invalid_overlap_left
+			--add_subtitle_item breaks on invalid paramters overlap_left
 		note
 			testing:  "covers/{SUBRIP_SUBTITLE}.add_subtitle_item"
 		local
@@ -353,7 +353,7 @@ feature -- Test routines
 			end
 		end
 	test_convert_to_microdvd
-			-- Check that converts a subtitulo subrip to microdvd
+			-- Check that converts a subtitle subrip to microdvd
 		note
 			testing:  "covers/{SUBRIP_SUBTITLE}.convert_to_microdvd"
 		local
@@ -362,7 +362,7 @@ feature -- Test routines
 			start_time: SUBRIP_SUBTITLE_TIME
 			stop_time: SUBRIP_SUBTITLE_TIME
 			text: STRING
-			do
+		do
 			create subtitle_item.make
 			create microdvd_sub.make
 			text := "Text Subtitle"

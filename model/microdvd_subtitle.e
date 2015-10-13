@@ -80,21 +80,24 @@ feature -- Status setting
 			if (items.count = 0) then
 				items.extend(new_frame)
 			else
-				from
-					items.start
-				until
-					new_frame.start_frame > items.item.stop_frame
-				loop
-					items.forth
-				end
-				if items.islast then
-					items.extend(new_frame)
-					items.forth
+				if new_frame.stop_frame < items.i_th(1).start_frame then
+					items.put_front (new_frame)
 				else
-					items.put_right(new_frame)
-					items.forth
+					from
+						items.start
+					until
+						new_frame.start_frame > items.item.stop_frame
+					loop
+						items.forth
+					end
+					if items.islast then
+						items.extend(new_frame)
+						items.forth
+					else
+						items.put_right(new_frame)
+						items.forth
+					end
 				end
-
 			 end
 		ensure
 			start_frame_set: items.item.start_frame.is_equal(start_frame)
@@ -152,9 +155,9 @@ feature -- Status setting
 						if check_one(sub,prev) then
 
 							if (sub.stop_frame <= prev.start_frame) then
-								Result:= items.index
+								Result:= items.index -2
 							else
-								Result:= items.index - 1
+								Result:= items.index -1
 							end
 						else
 							Result:= -1
@@ -173,13 +176,10 @@ feature -- Status setting
 			i: INTEGER
 		do
 			i:= free_time_position(sub)
-			if (i = 0) then
-				items.extend(sub)
-			else
-				if (i /= -1) then
-					items.go_i_th (i)
-					items.put_right (sub)
-				end
+			print(i)
+			if (i /= -1) then
+				items.go_i_th (i)
+				items.put_right (sub)
 			end
 		ensure
 			valid_items_count: items.count >= old items.count
@@ -306,7 +306,7 @@ feature -- Status checking
 			repOk_check: Result /= void
 		end
 
-feature {CONVERTER_LOGIC} -- Auxiliary functions 	
+feature {CONVERTER_LOGIC,MICRODVD_SUBTITLE_TEST} -- Auxiliary functions 	
 
 	convert_to_subrip : SUBRIP_SUBTITLE
 			-- This routine converts a Microdvd subtitle into a Subrip subtitle
