@@ -18,7 +18,9 @@
 				<tests name="tests" location=".\model\tests\"/>
 			</cluster>
 			<cluster name="gui" location=".\gui\"/>
-			<cluster name="controller" location=".\controller\"/>
+			<cluster name="controller" location=".\controller\">
+				<tests name="controller_tests" location=".\controller\tests\"/>
+			</cluster>
 			<cluster name="acceptance_tests" location=".\acceptance_tests\"/>
 		</cluster>
 	</target>

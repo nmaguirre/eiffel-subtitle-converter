@@ -12,17 +12,26 @@ inherit
 
 create
 
-	make,make_with_microdvd_subtitle, make_with_subrip_subtitle
+	make,make_with_microdvd_subtitle, make_with_subrip_subtitle,make_sub
 
 feature -- Initialisation
 
 	make
 			-- Default constructor
 		do
-			source := Void
+			source := VOID
 			target := Void
 		ensure
-			valid_source_and_target: source = Void and target = Void
+			valid_source_and_target:source = Void and target = Void
+		end
+
+	make_sub(subrip : SUBRIP_SUBTITLE)
+			-- Default constructor
+		do
+			source := subrip
+			target := Void
+		ensure
+			valid_source_and_target:target = Void
 		end
 
 	make_with_subrip_subtitle (filename: STRING)
@@ -76,6 +85,14 @@ feature
 			Result := source /= Void
 		end
 
+
+	has_converted_subtitle: BOOLEAN
+			--conversion has taken place?
+		do
+			Result := target /= Void
+		end
+
+
 	has_loaded_microdvd_subtitle: BOOLEAN
 			-- Is the loaded subtitle a MicroDVD one?
 		require
@@ -102,11 +119,23 @@ feature
 		end
 
 
+	has_converted_microdvd: BOOLEAN
+			--Is the converted subtitle a MicroDVD one?
+		require
+			has_converted_subtitle
+		do
+			if attached {MICRODVD_SUBTITLE} target as microdvd_sub then
+				Result := True
+			else
+				Result := False
+			end
+		end
+
+
 	is_ready_to_convert: BOOLEAN
 			-- System is ready to convert: source is loaded, and
 			-- conversion hasn't taken place yet
 		require
-			has_loaded_subtitle /= Void
 		do
 			Result := has_loaded_subtitle and target = Void
 		end
@@ -131,6 +160,8 @@ feature
 			-- Converts the contents of 'source' and set 'target'.
 			-- If 'source' is a microdvd subtitle, 'target' will be a subrip subtitle.
 			-- In the other hand, if 'source' is a subrip subtitle, 'target' will be a microdvd subtitle.
+		require
+			is_ready_to_convert
 		do
 			if attached {MICRODVD_SUBTITLE} source as microdvd_sub
 			then
@@ -140,7 +171,17 @@ feature
 			then
 				target := subrip_sub.convert_to_microdvd
 			end
+		ensure
+			valid_result: has_converted_subtitle
+		end
 
+	save (file_name: STRING)
+			-- Save in a file text the conversion of the subtitle
+		require
+			valid_file_name: file_name /= Void
+			valid_target: target /= Void
+		do
+			target.save (file_name)
 		end
 
 
@@ -154,6 +195,9 @@ feature
 			if attached {MICRODVD_SUBTITLE} source as microdvd_sub then
 				Result := microdvd_sub
 			end
+
+		ensure
+			valid_source: attached {MICRODVD_SUBTITLE} Result
 		end
 
 	source_as_subrip: SUBRIP_SUBTITLE
@@ -169,6 +213,27 @@ feature
 	    	valid_source: attached {SUBRIP_SUBTITLE} Result
 		end
 
+	target_as_subrip: SUBRIP_SUBTITLE
+			-- Return the target as a SUBRIP_SUBTITLE object
+		do
+			if attached {SUBRIP_SUBTITLE} target as subrip_sub then
+				Result := subrip_sub
+			end
+		ensure
+	    	valid_target: attached {SUBRIP_SUBTITLE} Result
+		end
+
+	target_as_microdvd: MICRODVD_SUBTITLE
+			-- Return the target as a MICRODVD_SUBTITLE object
+		require
+			has_converted_microdvd
+		do
+			if attached {MICRODVD_SUBTITLE} target as microdvd_sub then
+				Result := microdvd_sub
+			end
+		ensure
+	    	valid_target: attached {MICRODVD_SUBTITLE} Result
+		end
 
 	source: detachable SUBTITLE
 

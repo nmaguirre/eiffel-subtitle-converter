@@ -84,7 +84,8 @@ feature -- Status setting
 
 	set_minute (new_minute: INTEGER)
 			-- sets minutes to provided value
-		require (new_minute < 60) and (new_minute >= 0)
+		require
+			valid_minutes: (new_minute < 60) and (new_minute >= 0)
 		do
 			minutes:= new_minute
 		ensure
@@ -223,7 +224,7 @@ feature -- Status report
 			-- milliseconds of the time
 
 invariant
-	valid_hours: hours >= 0 and hours < 24
+	valid_hours: hours >= 0
 	valid_minutes: minutes >= 0 and minutes < 60
 	valid_seconds: seconds >= 0 and seconds < 60
 	valid_milliseconds: milliseconds >= 0 and milliseconds < 1000
