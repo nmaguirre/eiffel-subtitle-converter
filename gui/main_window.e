@@ -140,7 +140,7 @@ feature {NONE} -- Menu Implementation
 			create menu_item.make_with_text (Menu_file_new_item)
 				--| TODO: Add the action associated with "New" here.
 			file_menu.extend (menu_item)
-			
+
 
 			create menu_item.make_with_text (Menu_file_open_item)
 				--| TODO: Add the action associated with "Open" here.
@@ -424,11 +424,22 @@ feature --Implementation, Converter_sub
 	on_open
 		local
 			open_dialog: EV_FILE_OPEN_DIALOG
+			file_extension: STRING
 		do
 			create open_dialog
 			open_dialog.filters.extend (["*.srt;*.sub","Subtitle Files (.sub,.srt)"])
 			open_dialog.show_modal_to_window (Current)
-			create file_name.make_from_string (open_dialog.file_name)
+			if not(open_dialog.file_name.is_empty) then
+				create file_name.make_from_string (open_dialog.file_name)
+				create file_extension.make_from_string (file_name.substring (file_name.count-3, file_name.count))
+				if (file_extension.is_equal ("srt"))
+				then
+					create system_logic.make_with_subrip_subtitle (file_name)
+				else
+					create system_logic.make_with_microdvd_subtitle (file_name)
+				end
+			end
+			on_update
 		end
 
 	on_convert
@@ -453,6 +464,12 @@ feature -- Observer features
 				if attached {SUBRIP_SUBTITLE} system_logic.target as subrip_sub then
 					subrip_text.remove_text
 					subrip_text.append_text (subrip_sub.out)
+				end
+			end
+			if system_logic.has_loaded_subrip_subtitle then
+				subrip_text.set_text (system_logic.source_as_subrip.out)
+				if attached {MICRODVD_SUBTITLE} system_logic.target as microdvd_sub then
+					microdvd_text.set_text (microdvd_sub.out)
 				end
 			end
 		end
