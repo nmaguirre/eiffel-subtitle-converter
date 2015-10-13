@@ -75,30 +75,37 @@ feature -- Status setting
 			free_time_frame(start_frame,stop_frame)
 		local
 			new_frame: MICRODVD_SUBTITLE_ITEM
+			condition: BOOLEAN
 		do
+			condition := true
 			create new_frame.make_with_text(start_frame, stop_frame, text)
-			if (items.count = 0) then
+			if items.count = 0 then
 				items.extend(new_frame)
-			else
-				if new_frame.stop_frame < items.i_th(1).start_frame then
-					items.put_front (new_frame)
-				else
-					from
-						items.start
-					until
-						new_frame.start_frame > items.item.stop_frame
-					loop
-						items.forth
-					end
-					if items.islast then
-						items.extend(new_frame)
-						items.forth
-					else
-						items.put_right(new_frame)
-						items.forth
-					end
+				condition := false
+			end
+			items.start
+			if items.item.start_frame > new_frame.stop_frame and condition then
+				items.put_left (new_frame)
+				condition := false
+				items.back
+			end
+			items.finish
+			if items.item.stop_frame < new_frame.start_frame and condition then
+				items.put_right (new_frame)
+				condition := false
+				items.forth
+			end
+			if condition then
+				from
+					items.start
+				until
+					new_frame.start_frame <= items.item.stop_frame
+				loop
+					items.forth
 				end
-			 end
+				items.put_left (new_frame)
+				items.back
+			end
 		ensure
 			start_frame_set: items.item.start_frame.is_equal(start_frame)
 			stop_frame_set: items.item.stop_frame.is_equal(stop_frame)
