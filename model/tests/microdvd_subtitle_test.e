@@ -410,7 +410,7 @@ feature -- Test routines
 			pass:= sub.items[1].text.is_equal("sub1")
 			pass:= sub.items[2].text.is_equal("sub2") and pass
 			pass:= sub.items[3].text.is_equal("sub3") and pass
-			assert("Subtitles has been inserted sucessfullsy", pass)
+			assert("Subtitles has been inserted sucessfully", pass)
 		end
 
 	test_add_subtitle_item_invalid
