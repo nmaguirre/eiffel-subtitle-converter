@@ -432,14 +432,18 @@ feature --Implementation, Converter_sub
 			if not(open_dialog.file_name.is_empty) then
 				create file_name.make_from_string (open_dialog.file_name)
 				create file_extension.make_from_string (file_name.substring (file_name.count-3, file_name.count))
-				if (file_extension.is_equal ("srt"))
+				if (file_extension.is_equal (".srt"))
 				then
 					create system_logic.make_with_subrip_subtitle (file_name)
-				else
-					create system_logic.make_with_microdvd_subtitle (file_name)
+					on_update
 				end
+				if (file_extension.is_equal (".sub"))
+				then
+					create system_logic.make_with_microdvd_subtitle (file_name)
+					on_update
+				end
+
 			end
-			on_update
 		end
 
 	on_convert
@@ -451,6 +455,9 @@ feature --Implementation, Converter_sub
 				msj_error.set_title ("Error")
 				msj_error.set_pixmap (default_pixmaps.error_pixmap)
 				msj_error.show_modal_to_window (Current)
+			else
+				system_logic.convert_subtitle
+				on_update
 			end
 		end
 
@@ -461,6 +468,7 @@ feature -- Observer features
 			if system_logic.has_loaded_microdvd_subtitle then
 				microdvd_text.remove_text
 				microdvd_text.append_text (system_logic.source_as_microdvd.out)
+				subrip_text.remove_text
 				if attached {SUBRIP_SUBTITLE} system_logic.target as subrip_sub then
 					subrip_text.remove_text
 					subrip_text.append_text (subrip_sub.out)
@@ -468,6 +476,7 @@ feature -- Observer features
 			end
 			if system_logic.has_loaded_subrip_subtitle then
 				subrip_text.set_text (system_logic.source_as_subrip.out)
+				microdvd_text.remove_text
 				if attached {MICRODVD_SUBTITLE} system_logic.target as microdvd_sub then
 					microdvd_text.set_text (microdvd_sub.out)
 				end
