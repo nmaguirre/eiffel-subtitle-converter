@@ -59,6 +59,8 @@ feature {NONE} -- Initialization
 			create label_2.make_with_text ("Format :")
 			create label_4.make_with_text ("Output File :")
 			create label_5.make_with_text ("Convert : MicroDVD to SubRIP")
+			create label_3.make_with_text("Adjust Time :")
+			create label_6.make_with_text("Milliseconds")
 
 			create text_field.default_create
 			create text_field_2.default_create
@@ -66,12 +68,29 @@ feature {NONE} -- Initialization
 			create radio_button_subrip.make_with_text ("SubRIP Format")
 			create radio_button_microdvd.make_with_text ("MicroDVD Format")
 
-			create color.make_with_rgb (0,0,0)
+			create color.make_with_rgb (0.710,0,0)
 			create color2.make_with_rgb (0,0.710,0)
 
 			create file_name.make_empty
 
 			create notebook
+
+			create interval.make (-300000,300000)
+			create spin_button.make_with_value_range (interval)
+
+			create string_array.make_filled ("8", 1, 11)
+			string_array.enter ("12",2)
+			string_array.enter ("15",3)
+			string_array.enter ("23.973",4)
+			string_array.enter ("24",5)
+			string_array.enter ("25",6)
+			string_array.enter ("29.97",7)
+			string_array.enter ("30",8)
+			string_array.enter ("50",9)
+			string_array.enter ("59.94",10)
+			string_array.enter ("60",11)
+
+			create combo_box.make_with_strings (string_array)
 		end
 
 	initialize
@@ -116,13 +135,11 @@ feature {NONE} -- Initialization
 			main_container.set_item_y_position (label_2, 60)
 
 			radio_button_microdvd.select_actions.extend (agent event)
-			radio_button_microdvd.disable_sensitive
 			main_container.extend (radio_button_microdvd)
 			main_container.set_item_x_position (radio_button_microdvd, 100)
 			main_container.set_item_y_position (radio_button_microdvd, 58)
 
 			radio_button_subrip.select_actions.extend (agent event_2)
-			radio_button_subrip.disable_sensitive
 			main_container.extend (radio_button_subrip)
 			main_container.set_item_x_position (radio_button_subrip, 225)
 			main_container.set_item_y_position (radio_button_subrip, 58)
@@ -131,46 +148,56 @@ feature {NONE} -- Initialization
 			text_2.disable_edit
 
 			notebook.set_minimum_size (557, 300)
+			notebook.selection_actions.extend (agent actions_tab)
 			main_container.extend (notebook)
 			main_container.set_item_x_position (notebook, 10)
-			main_container.set_item_y_position (notebook, 90)
+			main_container.set_item_y_position (notebook, 120)
 			notebook.extend (text)
 			notebook.set_item_text (text, "Input")
 
 			notebook.extend (text_2)
 			notebook.set_item_text (text_2, "Output")
 
-
-
 			main_container.extend (label_4)
 			main_container.set_item_x_position (label_4, 10)
-			main_container.set_item_y_position (label_4, 403)
+			main_container.set_item_y_position (label_4, 433)
 
 			text_field_2.set_minimum_height (24)
 			text_field_2.set_minimum_width (453)
 			main_container.extend (text_field_2)
 			main_container.set_item_x_position (text_field_2, 80)
-			main_container.set_item_y_position (text_field_2, 400)
+			main_container.set_item_y_position (text_field_2, 430)
 
 			button_2.select_actions.extend (agent File_save_dialog.show_modal_to_window (first_window))
 			button_2.set_minimum_height (22)
 			button_2.set_minimum_width (35)
 			main_container.extend (button_2)
 			main_container.set_item_x_position (button_2, 533)
-			main_container.set_item_y_position (button_2, 400)
+			main_container.set_item_y_position (button_2, 430)
 
 			main_container.extend (label_5)
 			main_container.set_item_x_position (label_5, 300)
-			main_container.set_item_y_position (label_5, 455)
+			main_container.set_item_y_position (label_5, 475)
 
-			button_3.select_actions.extend (agent converter_accion)
-			button_3.set_foreground_color(color)
+			button_3.set_background_color(color)
 			button_3.set_minimum_height (22)
 			button_3.set_minimum_width (80)
 			main_container.extend (button_3)
 			main_container.set_item_x_position (button_3, 488)
-			main_container.set_item_y_position (button_3, 450)
+			main_container.set_item_y_position (button_3, 470)
 			button_3.select_actions.extend (agent ready)
+			button_3.disable_sensitive
+
+			main_container.extend (label_3)
+			main_container.set_item_x_position (label_3, 24)
+			main_container.set_item_y_position (label_3, 90)
+
+			spin_button.set_step (100)
+			spin_button.disable_edit
+			spin_button.set_minimum_width (80)
+
+			combo_box.set_minimum_width (60)
+			combo_box.disable_edit
 
 
 		end
@@ -221,7 +248,7 @@ feature {NONE} -- Implementation
 
 	text_field,text_field_2: EV_TEXT_FIELD
 
-	label,label_2,label_4,label_5: EV_LABEL
+	label,label_2,label_3,label_4,label_5,label_6: EV_LABEL
 
 	button,button_2,button_3:EV_BUTTON
 
@@ -229,8 +256,27 @@ feature {NONE} -- Implementation
 
 	text,text_2: EV_TEXT
 
+	spin_button: EV_SPIN_BUTTON
+
+	interval:INTEGER_INTERVAL
+
+	combo_box: EV_COMBO_BOX
+
+	string_array: ARRAY[STRING]
+
 	main_container: EV_FIXED
 			-- Main container (contains all widgets displayed in this window).
+
+	actions_tab
+	do
+		if(notebook.selected_item_index = 1 and text.text_length >0)then
+			button_3.set_background_color(color2)
+			button_3.enable_sensitive
+		else
+			button_3.set_background_color(color)
+			button_3.disable_sensitive
+		end
+	end
 
 	build_main_container
 			-- Populate `main_container'.
@@ -242,12 +288,45 @@ feature {NONE} -- Implementation
 
 	event
 		do
-			label_5.set_text ("Convert : MicroDVD to SubRIP")
+			if(not main_container.has (spin_button))then
+				label_5.set_text ("Convert : MicroDVD to SubRIP")
+				if(main_container.has (combo_box))then
+					main_container.prune (combo_box)
+					main_container.prune (label_6)
+				end
+				spin_button.set_value (0)
+				main_container.extend (spin_button)
+				main_container.set_item_x_position (spin_button, 100)
+				main_container.set_item_y_position (spin_button, 86)
+				label_6.destroy
+				create label_6.make_with_text ("Milliseconds")
+				main_container.extend (label_6)
+				main_container.set_item_x_position (label_6, 185)
+				main_container.set_item_y_position (label_6, 90)
+			end
+
 		end
 
 	event_2
 		do
-			label_5.set_text ("Convert : SubRIP to MicroDVD")
+			if(not main_container.has (combo_box))then
+				label_5.set_text ("Convert : SubRIP to MicroDVD")
+				if(main_container.has (spin_button))then
+					main_container.prune (spin_button)
+					main_container.prune (label_6)
+				end
+				combo_box.set_text ("25")
+				main_container.extend (combo_box)
+				main_container.set_item_x_position (combo_box, 100)
+				main_container.set_item_y_position (combo_box, 86)
+				label_6.destroy
+				create label_6.make_with_text ("FPS")
+				main_container.extend (label_6)
+				main_container.set_item_x_position (label_6, 160)
+				main_container.set_item_y_position (label_6, 90)
+			end
+
+
 		end
 
 	File_open_dialog: EV_FILE_OPEN_DIALOG
@@ -280,16 +359,20 @@ feature {NONE} -- Implementation
 
 		do
 			if(file.full_file_path.out.substring (file.full_file_path.out.count-3, file.full_file_path.out.count).is_equal (".srt"))then
+					notebook.select_item (text)
 					file_name := file.file_title
 					radio_button_subrip.enable_select
+					select_radio_button
 					text_field.set_text (file.full_file_path.out)
 					text_field_2.set_text (file.full_file_path.out.substring (1, file.file_name.count-4)+"Converter.srt")
 					read_file_to_string (file.full_file_path)
 					button_3.set_background_color(color2)
 			else
 				if(file.full_file_path.out.substring (file.full_file_path.out.count-3, file.full_file_path.out.count).is_equal (".sub"))then
+					notebook.select_item (text)
 					file_name := file.file_title
 					radio_button_microdvd.enable_select
+					select_radio_button
 					text_field.set_text (file.full_file_path.out)
 					text_field_2.set_text (file.full_file_path.out.substring (1, file.file_name.count-4)+"Converter.srt")
 					read_file_to_string (file.full_file_path)
@@ -316,6 +399,9 @@ feature {NONE} -- Implementation
                 l_content := l_file.last_string
                 text.set_text (l_content)
                 l_file.close
+                if(text.text_length>1)then
+                	button_3.enable_sensitive
+                end
             else
                 io.error.put_string ("Could not read, the file:[" + a_path.name + " ] does not exist")
                 io.put_new_line
@@ -327,8 +413,16 @@ feature {NONE} -- Implementation
 			text_field_2.set_text (file.file_name)
 		end
 
-	converter_accion
+
+	select_radio_button
 	do
+		if(radio_button_microdvd.is_selected)then
+			radio_button_microdvd.enable_sensitive
+			radio_button_subrip.disable_sensitive
+		else
+			radio_button_subrip.enable_sensitive
+			radio_button_microdvd.disable_sensitive
+		end
 	end
 
 feature --Implementation, ready
@@ -337,17 +431,12 @@ feature --Implementation, ready
 		local
 			msj_error: EV_INFORMATION_DIALOG
 		do
-			if text.text_length = 0 and text_2.text_length = 0 then
-				create msj_error.make_with_text ("There is no subtitle to convert ")
-				msj_error.set_title ("Error")
-				msj_error.set_pixmap (default_pixmaps.error_pixmap)
-				msj_error.show_modal_to_window (Current)
-			else
-				create msj_error.make_with_text ("I successfully converted subtitle")
-				msj_error.set_title ("Correct")
-				msj_error.set_pixmap (default_pixmaps.information_pixel_buffer)
-				msj_error.show_modal_to_window (Current)
-			end
+			create msj_error.make_with_text ("I successfully converted subtitle")
+			notebook.select_item (text_2)
+			msj_error.set_title ("Correct")
+			msj_error.set_pixmap (default_pixmaps.information_pixel_buffer)
+			msj_error.show_modal_to_window (Current)
+			notebook.select_item (text_2)
 		end
 
 feature -- Observer features
