@@ -10,7 +10,7 @@ class
 inherit
 	SUBTITLE
 		redefine
-			out
+			out,save
 		end
 
 create
@@ -47,7 +47,7 @@ feature -- Initialisation
 			loop
 				create current_line.make_from_string(microdvd_file.last_string)
 				create microdvd_item.make_from_string(current_line)
-				add_subtitle_item(microdvd_item.start_frame,microdvd_item.stop_frame,microdvd_item.text)
+				add_constructed_subtitle_item(microdvd_item)
 				microdvd_file.read_line
 			end
 
@@ -75,27 +75,37 @@ feature -- Status setting
 			free_time_frame(start_frame,stop_frame)
 		local
 			new_frame: MICRODVD_SUBTITLE_ITEM
+			condition: BOOLEAN
 		do
+			condition := true
 			create new_frame.make_with_text(start_frame, stop_frame, text)
-			if (items.count = 0) then
+			if items.count = 0 then
 				items.extend(new_frame)
-			else
+				condition := false
+			end
+			items.start
+			if items.item.start_frame > new_frame.stop_frame and condition then
+				items.put_left (new_frame)
+				condition := false
+				items.back
+			end
+			items.finish
+			if items.item.stop_frame < new_frame.start_frame and condition then
+				items.put_right (new_frame)
+				condition := false
+				items.forth
+			end
+			if condition then
 				from
 					items.start
 				until
-					new_frame.start_frame > items.item.stop_frame
+					new_frame.start_frame <= items.item.stop_frame
 				loop
 					items.forth
 				end
-				if items.islast then
-					items.extend(new_frame)
-					items.forth
-				else
-					items.put_right(new_frame)
-					items.forth
-				end
-
-			 end
+				items.put_left (new_frame)
+				items.back
+			end
 		ensure
 			start_frame_set: items.item.start_frame.is_equal(start_frame)
 			stop_frame_set: items.item.stop_frame.is_equal(stop_frame)
@@ -118,7 +128,7 @@ feature -- Status setting
 	checker(sub, prev, item: MICRODVD_SUBTITLE_ITEM): BOOLEAN
 			--Verifies that subtitle can be inserted between two subtitles.
 		do
-			Result:= (prev.start_frame <= sub.start_frame) and (sub.stop_frame <= item.stop_frame)
+			Result:= (prev.stop_frame <= sub.start_frame) and (sub.stop_frame <= item.start_frame)
 		end
 
 
@@ -152,9 +162,9 @@ feature -- Status setting
 						if check_one(sub,prev) then
 
 							if (sub.stop_frame <= prev.start_frame) then
-								Result:= items.index
+								Result:= items.index -2
 							else
-								Result:= items.index - 1
+								Result:= items.index -1
 							end
 						else
 							Result:= -1
@@ -173,13 +183,10 @@ feature -- Status setting
 			i: INTEGER
 		do
 			i:= free_time_position(sub)
-			if (i = 0) then
-				items.extend(sub)
-			else
-				if (i /= -1) then
-					items.go_i_th (i)
-					items.put_right (sub)
-				end
+			print(i)
+			if (i /= -1) then
+				items.go_i_th (i)
+				items.put_right (sub)
 			end
 		ensure
 			valid_items_count: items.count >= old items.count
@@ -204,7 +211,7 @@ feature -- Status setting
 			from
 				items.start
 			until
-				items.after or stop_frame > items.item.stop_frame
+				items.after or stop_frame < items.item.stop_frame
 			loop
 				if (start_frame <= items.item.start_frame) and (items.item.stop_frame <= stop_frame) then
 					items.remove
@@ -217,7 +224,7 @@ feature -- Status setting
 		end
 
 
-	free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
+free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
 		require
 			valid_start_frame: start_frame>=0 and start_frame<stop_frame
 			valid_stop_frame: stop_frame>0 and start_frame<stop_frame
@@ -225,48 +232,34 @@ feature -- Status setting
 			res: BOOLEAN
 			microdvd: MICRODVD_SUBTITLE_ITEM
 		do
-			create res.default_create
-			res := False
---			from
---				items.start
---			until
---				items.off or res
---			loop
---				microdvd := items.item
+			items.start
+			res := True
+			if (items.count = 1) then
+				res := (stop_frame < items.item.start_frame ) or (start_frame > items.item.stop_frame )
+			end
 
---				if(microdvd.stop_frame < start_frame or microdvd.start_frame > stop_frame) then
---					res := True
---				end
-
---				items.forth
---				if(items.item /= Void) then
---					if (items.item.start_frame <= stop_frame)then
---						res := False
---					end
---				end
---			end
---			if(items.count = 0)then
---				res := True
---			end
-			if (items.count=0) then
-				res:=True
-			else
+			if(items.count > 1) then
 				from
 					items.start
 				until
-					items.off or items.item.stop_frame<start_frame
+					items.islast or not res
 				loop
-					items.forth
+					if(items.isfirst and stop_frame >= items.item.start_frame and start_frame < items.item.start_frame)then
+						res := False
+					end
+					if(items.islast and start_frame <= items.item.stop_frame)then
+						res := False
+					else
+						microdvd := items.item
+						items.forth
+						if (res) then
+							if((start_frame <= microdvd.stop_frame ) or ((microdvd.stop_frame < start_frame and items.item.start_frame > start_frame) and stop_frame >= items.item.start_frame) or (microdvd.stop_frame <= start_frame and stop_frame >= items.item.start_frame))then
+								res := False
+							end
+						end
+					end
 				end
 
-				if(not(items.off)) then
-					items.forth
-				end
-				if (items.off) then
-					res := True
-				else
-					res:=items.item.start_frame>stop_frame
-				end
 			end
 			Result := res
 		end
@@ -327,7 +320,7 @@ feature -- Status checking
 			repOk_check: Result /= void
 		end
 
-feature {CONVERTER_LOGIC} -- Auxiliary functions 	
+feature {CONVERTER_LOGIC,MICRODVD_SUBTITLE_TEST} -- Auxiliary functions 	
 
 	convert_to_subrip : SUBRIP_SUBTITLE
 			-- This routine converts a Microdvd subtitle into a Subrip subtitle
@@ -368,9 +361,22 @@ feature {CONVERTER_LOGIC} -- Auxiliary functions
 
 		end
 
+feature
 
+	save (file_name : STRING)
+			-- this routine save the subrip subtitle
+			-- the routine create a file text with the extension .srt
+			-- and save the subrip_subitle into that file
+		local
+			file : PLAIN_TEXT_FILE
+		do
+			create file.make_with_name (file_name+".sub")
+			create file.make_open_write(file_name+".sub")
+			file.put_string (out)
+			file.close
+		end
 
-feature {MICRODVD_SUBTITLE_TEST} -- Implementation
+feature {MICRODVD_SUBTITLE_TEST,SUBRIP_SUBTITLE_TESTS} -- Implementation
 
 	items: LINKED_LIST[MICRODVD_SUBTITLE_ITEM]
 			-- items that conform the subtitle, in order.
@@ -386,3 +392,4 @@ invariant
 	valid_items: items /= Void
 
 end
+
