@@ -63,6 +63,15 @@ feature -- Inicialization
 		end
 feature
 
+	forward (milliseconds: INTEGER)
+		require
+			milliseconds >= 0
+		do
+			system_logic.forward (milliseconds)
+		end
+
+feature
+
 	system_logic: CONVERTER_LOGIC
 
 	window: MAIN_WINDOW
