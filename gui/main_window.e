@@ -464,8 +464,7 @@ feature --Implementation, Converter_sub
 				msj_error.set_pixmap (default_pixmaps.error_pixmap)
 				msj_error.show_modal_to_window (Current)
 			else
-				system_logic.convert_subtitle
-				on_update
+				controller.convert_subtitle
 			end
 		end
 

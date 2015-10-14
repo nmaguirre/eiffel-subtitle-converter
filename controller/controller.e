@@ -44,7 +44,7 @@ feature --Loading Files
 			valid_filename: filename /= Void
 		do
 			system_logic.make_with_microdvd_subtitle(filename)
-			window.on_update
+			system_logic.update
 		end
 
 	load_subrip_subtitle (filename: STRING)
@@ -52,15 +52,16 @@ feature --Loading Files
 			valid_filename: filename /= Void
 		do
 			system_logic.make_with_subrip_subtitle (filename)
-			window.on_update
+			system_logic.update
 		end
 
-
-feature -- Inicialization
-	set_window(new_window: MAIN_WINDOW)
+feature --Conversion
+	convert_subtitle
 		do
-			window:= new_window
+			system_logic.convert_subtitle
+			system_logic.update
 		end
+
 feature
 
 	forward (milliseconds: INTEGER)
@@ -73,7 +74,5 @@ feature
 feature
 
 	system_logic: CONVERTER_LOGIC
-
-	window: MAIN_WINDOW
 
 end

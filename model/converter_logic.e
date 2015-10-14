@@ -21,6 +21,7 @@ feature -- Initialisation
 		do
 			source := VOID
 			target := Void
+			make_subject
 		ensure
 			valid_source_and_target:source = Void and target = Void
 		end

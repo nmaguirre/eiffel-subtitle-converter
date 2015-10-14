@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 			create controller.make_with_no_subtitle
 			system_logic := controller.system_logic
 			create first_window
-			controller.set_window (first_window)
+			system_logic.subscribe (first_window)
 			first_window.set_logic (system_logic)
 			first_window.set_controller (controller)
 				-- Show the first window..
