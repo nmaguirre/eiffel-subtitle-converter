@@ -147,6 +147,7 @@ feature {NONE} -- Menu Implementation
 			menu_item.select_actions.extend (agent on_open)
 			file_menu.extend (menu_item)
 
+
 			create menu_item.make_with_text (Menu_file_save_item)
 				--| TODO: Add the action associated with "Save" here.
 			file_menu.extend (menu_item)
@@ -387,6 +388,8 @@ feature {NONE} -- Implementation
 			fixed_box.extend (button_fps)
 			fixed_box.set_item_x_position(button_fps,435)
 			fixed_box.set_item_y_position(button_fps,7)
+			button_fps.select_actions.extend (agent on_changeFPS)
+
 
 				-- BUTTON CONVERT
 			create button_convert.make_with_text (Button_convert_item)
@@ -458,6 +461,28 @@ feature --Implementation, Converter_sub
 			else
 				system_logic.convert_subtitle
 				on_update
+			end
+		end
+
+
+
+	on_changeFPS
+		local
+			msj_error: EV_INFORMATION_DIALOG
+
+		do
+			if microdvd_text.text_length = 0 and subrip_text.text_length = 0 then
+				create msj_error.make_with_text ("There is no subtitle to change FPS ")
+				msj_error.set_title ("Error")
+				msj_error.set_pixmap (default_pixmaps.error_pixmap)
+				msj_error.show_modal_to_window (Current)
+			else
+				if microdvd_text.text_length /= 0 then
+					system_logic.source_as_microdvd.change_fps (25)
+					system_logic.convert_subtitle
+					on_update
+				end
+
 			end
 		end
 
