@@ -37,8 +37,15 @@ feature
 			create system_logic.make_with_subrip_subtitle (filename)
 		end
 
+feature -- Inicialization
+	set_window(new_window: MAIN_WINDOW)
+		do
+			window:= new_window
+		end
 feature
 
 	system_logic: CONVERTER_LOGIC
+
+	window: MAIN_WINDOW
 
 end

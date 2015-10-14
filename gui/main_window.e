@@ -39,6 +39,11 @@ feature -- Initialisation
 			system_logic := new_logic
 		end
 
+	set_controller(new_controller: CONTROLLER)
+		do
+			controller := new_controller
+		end
+
 feature {NONE} -- Initialization
 
 	create_interface_objects
@@ -529,6 +534,8 @@ Window_height: INTEGER = 600
 	a_color: EV_COLOR
 
 	system_logic: CONVERTER_LOGIC
+
+	controller: CONTROLLER
 
 	file_name : STRING
 
