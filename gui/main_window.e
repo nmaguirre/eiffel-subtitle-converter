@@ -493,18 +493,34 @@ feature --Implementation, Converter_sub
 
 	on_forward (text_field: EV_TEXT_FIELD)
 		local
+			msj_error: EV_INFORMATION_DIALOG
 			milliseconds: INTEGER
 		do
-			milliseconds := text_field.text.to_integer
-			controller.forward (milliseconds)
+			if not text_field.text.is_integer_32 then
+				create msj_error.make_with_text ("The input value must be an integer")
+				msj_error.set_title ("Error")
+				msj_error.set_pixmap (default_pixmaps.error_pixmap)
+				msj_error.show_modal_to_window (Current)
+			else
+				milliseconds := text_field.text.to_integer
+				controller.forward (milliseconds)
+			end
 		end
 
 	on_rewind (text_field: EV_TEXT_FIELD)
 		local
+			msj_error: EV_INFORMATION_DIALOG
 			milliseconds: INTEGER
 		do
-			milliseconds := text_field.text.to_integer
-			controller.rewind(milliseconds)
+			if not text_field.text.is_integer_32 then
+				create msj_error.make_with_text ("The input value must be an integer")
+				msj_error.set_title ("Error")
+				msj_error.set_pixmap (default_pixmaps.error_pixmap)
+				msj_error.show_modal_to_window (Current)
+			else
+				milliseconds := text_field.text.to_integer
+				controller.rewind(milliseconds)
+			end
 		end
 
 	on_changeFPS

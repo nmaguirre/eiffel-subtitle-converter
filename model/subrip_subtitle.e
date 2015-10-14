@@ -155,8 +155,8 @@ feature -- Status setting
 			until
 				items.off
 			loop
-				items.item.start_time.move_forward (milliseconds)
 				items.item.stop_time.move_forward (milliseconds)
+				items.item.start_time.move_forward (milliseconds)
 				items.forth
 			end
 		end
