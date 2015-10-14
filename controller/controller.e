@@ -62,13 +62,20 @@ feature --Conversion
 			system_logic.update
 		end
 
-feature
-
 	forward (milliseconds: INTEGER)
 		require
-			milliseconds >= 0
+			milliseconds > 0
 		do
 			system_logic.forward (milliseconds)
+			system_logic.update
+		end
+
+	rewind (milliseconds: INTEGER)
+		require
+			milliseconds > 0
+		do
+			system_logic.rewind (milliseconds)
+			system_logic.update
 		end
 
 feature
