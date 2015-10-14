@@ -276,6 +276,7 @@ feature
 			file : PLAIN_TEXT_FILE
 		do
 			create file.make_with_name (file_name+".srt")
+			create file.make_open_write(file_name+".srt")
 			file.put_string(out)
 			file.close
 		end

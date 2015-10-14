@@ -55,6 +55,11 @@ feature --Loading Files
 			system_logic.update
 		end
 
+	save(filename: STRING)
+		do
+			system_logic.save (filename)
+		end
+
 feature --Conversion
 	convert_subtitle
 		do
