@@ -155,6 +155,7 @@ feature {NONE} -- Menu Implementation
 
 			create menu_item.make_with_text (Menu_file_save_item)
 				--| TODO: Add the action associated with "Save" here.
+			menu_item.select_actions.extend (agent on_save)
 			file_menu.extend (menu_item)
 
 			create menu_item.make_with_text (Menu_file_saveas_item)
@@ -225,6 +226,7 @@ feature {NONE} -- ToolBar Implementation
 			create toolbar_pixmap
 			toolbar_pixmap.set_with_named_file ("./gui/save.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
+			toolbar_item.select_actions.extend (agent on_save)
 			standard_toolbar.extend (toolbar_item)
 
 		ensure
@@ -451,6 +453,26 @@ feature --Implementation, Converter_sub
 					controller.load_microdvd_subtile (file_name)
 				end
 
+			end
+		end
+
+	on_save
+		local
+			save_dialog: EV_FILE_SAVE_DIALOG
+			msj_error: EV_INFORMATION_DIALOG
+		do
+			if not(system_logic.has_converted_subtitle) then
+				create msj_error.make_with_text ("No subtile has been converted")
+				msj_error.set_title ("Error")
+				msj_error.set_pixmap (default_pixmaps.error_pixmap)
+				msj_error.show_modal_to_window (Current)
+			else
+				create save_dialog.make_with_title ("Save File")
+--				save_dialog.save_actions.extend (agent controller.save(save_dialog.file_name))
+				save_dialog.show_modal_to_window (Current)
+				if save_dialog.file_name.count>0 then
+					controller.save(save_dialog.file_name)
+				end
 			end
 		end
 
