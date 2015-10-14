@@ -138,7 +138,7 @@ feature
 			-- conversion hasn't taken place yet
 		require
 		do
-			Result := has_loaded_subtitle and target = Void
+			Result := has_loaded_subtitle--and target = Void
 		end
 
 	set_source(new_source: SUBTITLE)
