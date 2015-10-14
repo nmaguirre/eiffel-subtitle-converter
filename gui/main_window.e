@@ -136,6 +136,7 @@ feature {NONE} -- Menu Implementation
 			file_menu.extend (menu_item)
 
 			create menu_item.make_with_text (Menu_file_open_item)
+			menu_item.select_actions.extend (agent request_about_open.show_modal_to_window(Current)) --controller for click in new
 				--| TODO: Add the action associated with "Open" here.
 			file_menu.extend (menu_item)
 
@@ -144,6 +145,7 @@ feature {NONE} -- Menu Implementation
 			file_menu.extend (menu_item)
 
 			create menu_item.make_with_text (Menu_file_saveas_item)
+
 				--| TODO: Add the action associated with "Save As..." here.
 			file_menu.extend (menu_item)
 
@@ -206,6 +208,7 @@ feature {NONE} -- ToolBar Implementation
 			create toolbar_pixmap
 			toolbar_pixmap.set_with_named_file ("./gui/open.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
+			toolbar_item.select_actions.extend (agent request_about_open.show_modal_to_window(Current))
 			standard_toolbar.extend (toolbar_item)
 
 			create toolbar_item
@@ -218,6 +221,7 @@ feature {NONE} -- ToolBar Implementation
 			create toolbar_pixmap
 			toolbar_pixmap.set_with_named_file ("./gui/clear.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
+			toolbar_item.select_actions.extend (agent clear)
 			standard_toolbar.extend (toolbar_item)
 
 		ensure
@@ -284,7 +288,70 @@ feature {NONE} -- Implementation, Close event
 			end
 		end
 
-feature {NONE} -- Implementation
+	request_about_open: EV_FILE_OPEN_DIALOG
+		do
+			create Result
+			Result.open_actions.extend (agent open_path(Result))
+		end
+
+	open_path(file: EV_FILE_OPEN_DIALOG)
+		local
+			error: EV_INFORMATION_DIALOG
+
+		do
+			create file_name.make_from_string (file.file_title)
+
+			if(file.full_file_path.out.substring (file.full_file_path.out.count-3, file.full_file_path.out.count).is_equal (".srt"))then
+					--file_name:=file.file_title
+					--file_path:= file.full_file_path.out
+					read_file (file.full_file_path, "srt")
+					subrip_text.disable_edit
+			else
+				if(file.full_file_path.out.substring (file.full_file_path.out.count-3, file.full_file_path.out.count).is_equal (".sub"))then
+					--file_name:= file.file_title
+					--file_path:= file.full_file_path.out
+					read_file (file.full_file_path, "sub")
+					microdvd_text.disable_edit
+				else
+					create error.make_with_text ("The file is not correct")
+					error.show
+				end
+			end
+		end
+
+	read_file (a_path: PATH; sub_type: STRING)
+            -- Show how to read a file into a string
+            -- For binary files you can use {RAW_FILE}.
+        local
+            file_open: FILE
+            content_file: STRING
+        do
+            create path.make_empty
+            create {PLAIN_TEXT_FILE} file_open.make_with_path (a_path)
+            if file_open.exists and then file_open.is_readable and sub_type.is_equal("srt") then
+                file_open.open_read
+                file_open.read_stream (file_open.count)
+                content_file := file_open.last_string
+                subrip_text.set_text (content_file)
+                path:= a_path.out
+                file_open.close
+            else
+            	if file_open.exists and then file_open.is_readable and sub_type.is_equal("sub") then
+            		file_open.open_read
+                	file_open.read_stream (file_open.count)
+                	content_file := file_open.last_string
+                	microdvd_text.set_text (content_file)
+                	path:= a_path.out
+                	file_open.close
+            	else
+                	io.error.put_string ("Could not read, the file:[" + a_path.name + " ] does not exist")
+                	io.put_new_line
+                end
+            end
+        end
+
+
+	feature {NONE} -- Implementation
 
 	enclosing_box: EV_FIXED
 
@@ -297,9 +364,9 @@ feature {NONE} -- Implementation
 			button_converter_subrip: EV_BUTTON
 			button_converter_microdvd: EV_BUTTON
 			font: EV_FONT
-			text_field_number : EV_TEXT_FIELD
-			button_foward : EV_BUTTON
-			button_rewing : EV_BUTTON
+			--text_field_number : EV_TEXT_FIELD
+			button_forward : EV_BUTTON
+			button_rewind : EV_BUTTON
 
 		do
 				-- ENCLOSING
@@ -370,29 +437,36 @@ feature {NONE} -- Implementation
 			button_converter_microdvd.select_actions.extend (agent converter_sub)
 
 				--BUTTON REWING
-			pixmap.set_with_named_file ("./gui/rewing.png")
-			create button_rewing.default_create
-			button_rewing.set_pixmap (pixmap)
-			enclosing_box.extend (button_rewing)
-			enclosing_box.set_item_x_position(button_rewing,115)
-			enclosing_box.set_item_y_position(button_rewing,520)
+			pixmap.set_with_named_file ("./gui/rewind.png")
+			create button_rewind.default_create
+			button_rewind.set_pixmap (pixmap)
+			button_rewind.select_actions.extend (agent rewind_subtitle_main_window)
+			enclosing_box.extend (button_rewind)
+			enclosing_box.set_item_x_position(button_rewind,115)
+			enclosing_box.set_item_y_position(button_rewind,520)
 
 				-- TEXTFIELD
 			create text_field_number
+			text_field_number.set_capacity (12)
 			enclosing_box.extend (text_field_number)
+			--rewind_subtitle:= text_field_number.selected_text
 			enclosing_box.set_item_x_position(text_field_number,160)
 			enclosing_box.set_item_y_position(text_field_number,539)
 
 				--BUTTON FOWARD
-			pixmap.set_with_named_file ("./gui/foward.png")
-			create button_foward.default_create
-			button_foward.set_pixmap (pixmap)
-			enclosing_box.extend (button_foward)
-			enclosing_box.set_item_x_position(button_foward,480)
-			enclosing_box.set_item_y_position(button_foward,520)
+			pixmap.set_with_named_file ("./gui/forward.png")
+			create button_forward.default_create
+			button_forward.set_pixmap (pixmap)
+			button_forward.select_actions.extend (agent forward_subtitle_main_window)
+			enclosing_box.extend (button_forward)
+			enclosing_box.set_item_x_position(button_forward,480)
+			enclosing_box.set_item_y_position(button_forward,520)
 
 				--NUMBER TEXT FIELD
 			create text_field_number
+			--forward_subtitle:= text_field_number.selected_text
+			text_field_number.set_capacity (12)
+			text_field_number.set_minimum_width_in_characters (12)
 			enclosing_box.extend (text_field_number)
 			enclosing_box.set_item_x_position(text_field_number,525)
 			enclosing_box.set_item_y_position(text_field_number,539)
@@ -407,6 +481,7 @@ feature {NONE} -- Implementation
 	converter_sub
 		local
 			msj_error: EV_INFORMATION_DIALOG
+			msg_box: EV_INFORMATION_DIALOG
 		do
 			if microdvd_text.text_length = 0 and subrip_text.text_length = 0 then
 				create msj_error.make_with_text ("There is no subtitle to convert ")
@@ -414,7 +489,51 @@ feature {NONE} -- Implementation
 				msj_error.set_pixmap (default_pixmaps.error_pixmap)
 				msj_error.show_modal_to_window (Current)
 			end
+			if (microdvd_text.text_length /= 0) and (subrip_text.text_length = 0) then
+				create controller.make_with_microdvd_subtitle (path, Current)
+				set_logic (controller.system_logic)
+				controller.convert_sub
+				create msg_box.make_with_text ("Conversion exitosa.")
+				msg_box.set_title ("Mensaje")
+				msg_box.show_modal_to_window (Current)
+			end
+			if (subrip_text.text_length /= 0) and (microdvd_text.text_length = 0)then
+				create controller.make_with_subrip_subtitle (path, Current)
+				set_logic (controller.system_logic)
+				controller.convert_sub
+				create msg_box.make_with_text ("Conversion exitosa.")
+				msg_box.set_title ("Mensaje")
+				msg_box.show_modal_to_window (Current)
+			end
 		end
+
+	clear
+		local
+			do
+				if (subrip_text.text_length /= 0 and microdvd_text.text_length /= 0) then
+					microdvd_text.remove_text
+					subrip_text.remove_text
+					controller.flush_items
+				end
+
+			end
+
+	forward_subtitle_main_window
+
+			do
+
+				-- text_field_number.is_sensitive
+			--	controller.forward_subtitle_controller (current.selected_text)
+			end
+
+	rewind_subtitle_main_window
+		local
+		--	i:INTEGER
+		do
+
+			controller.rewind_subtitle_controller (text_field_number.selected_text)
+		end
+
 
 feature -- Observer features
 
@@ -428,13 +547,21 @@ feature -- Observer features
 					subrip_text.append_text (subrip_sub.out)
 				end
 			end
+			if system_logic.has_loaded_subrip_subtitle then
+				subrip_text.remove_text
+				subrip_text.append_text (system_logic.source_as_subrip.out)
+				if attached {MICRODVD_SUBTITLE} system_logic.target as microdvd_sub then
+					microdvd_text.remove_text
+					microdvd_text.append_text (microdvd_sub.out)
+				end
+			end
 		end
 
 
 
 feature {NONE} -- Implementation / Constants
 
-	Window_title: STRING = "eiffel_subtitle_converter"
+	Window_title: STRING = "Subtitle Converter"
 			-- Title of the window.
 
 	Window_width: INTEGER = 800
@@ -451,6 +578,11 @@ feature {NONE} -- Implementation / Constants
 
 	system_logic: CONVERTER_LOGIC
 
+	path: STRING
 
+	controller: CONTROLLER
 
+	file_name: STRING
+
+	text_field_number : EV_TEXT_FIELD
 end

@@ -51,7 +51,7 @@ feature -- Test routines
 			--            {1}{10}Hola
 			--            {12}{24}Chau
 			--        When the system is started with the name of the file as a parameter
-			create controller.make_with_microdvd_subtitle ("./acceptance_tests/sample.sub")
+			create controller.make_with_microdvd_subtitle ("./acceptance_tests/sample.sub",create {MAIN_WINDOW}.default_create)
 			--        Then the system state should be initialised loading the provided subtitle
 			logic := controller.system_logic
 			assert ("loaded subtitle is microdvd", logic.has_loaded_microdvd_subtitle)
@@ -89,7 +89,7 @@ feature -- Test routines
 			--            00:00:03,510 --> 00:00:05,154
 			--            Chau
 			--        When the system is started with the name of the file as a parameter
-			create controller.make_with_subrip_subtitle ("./acceptance_tests/sample.srt")
+			create controller.make_with_subrip_subtitle ("./acceptance_tests/sample.srt",create {MAIN_WINDOW}.default_create)
 			--        Then the system state should be initialised loading the provided subtitle
 			logic := controller.system_logic
 			assert ("loaded subtitle is microdvd", logic.has_loaded_subrip_subtitle)
@@ -113,7 +113,7 @@ feature -- Test routines
 --            {10}{0}Hola
 --        When the system is started with the name of the file as a parameter
 
-			create controller.make_with_microdvd_subtitle ("./acceptance_tests/invalidSample.sub")
+			create controller.make_with_microdvd_subtitle ("./acceptance_tests/invalidSample.sub",create {MAIN_WINDOW}.default_create)
 --        Then the system state should be initialised with no loaded subtitles
 --        And the user should be informed that the attempted load has failed
 			logic := controller.system_logic

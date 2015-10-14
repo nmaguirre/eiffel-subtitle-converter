@@ -170,6 +170,41 @@ feature
 		end
 
 
+	flush_target_source
+		do
+			if attached {SUBRIP_SUBTITLE} source as subrip and
+			   attached {MICRODVD_SUBTITLE} target as microdvd
+			then
+				subrip.flush
+				microdvd.flush
+			end
+			if attached {MICRODVD_SUBTITLE} source as microdvd and
+			   attached {SUBRIP_SUBTITLE} target as subrip
+			then
+				microdvd.flush
+				subrip.flush
+			end
+		end
+
+	forward_subtitle_conver_logic(for_sub:STRING)
+		local
+			subrip_sub_time: SUBRIP_SUBTITLE_TIME
+			time_milliseconds:INTEGER
+		do
+			create subrip_sub_time.make_from_string (for_sub)
+			time_milliseconds:= subrip_sub_time.time_milliseconds
+			subrip_sub_time.move_forward (time_milliseconds)
+		end
+
+	rewind_subtitle_conver_logic(rew_sub: STRING)
+		local
+			subrip_sub_time: SUBRIP_SUBTITLE_TIME
+			time_milliseconds:INTEGER
+		do
+			create subrip_sub_time.make_from_string (rew_sub)
+			time_milliseconds:= subrip_sub_time.time_milliseconds
+			subrip_sub_time.rewind (time_milliseconds)
+		end
 	source: detachable SUBTITLE
 
 	target: detachable SUBTITLE
