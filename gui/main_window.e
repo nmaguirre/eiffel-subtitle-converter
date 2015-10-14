@@ -342,19 +342,6 @@ feature {NONE} -- Implementation
 			fixed_box.set_minimum_height (42)
 			fixed_box.set_background_pixmap (background)
 
-				--BUTTON REWIND
-			create button_rewind
-			create pixmap
-			pixmap.set_with_named_file ("./gui/rewind.png")
-			pixmap.stretch (17, 17)
-			button_rewind.set_pixmap (pixmap)
-			button_rewind.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
-			button_rewind.set_minimum_width (40)
-			button_rewind.set_tooltip (Button_rewind_tooltip)
-			fixed_box.extend (button_rewind)
-			fixed_box.set_item_x_position(button_rewind,70)
-			fixed_box.set_item_y_position(button_rewind,7)
-
 				--NUMBER TEXT FIELD FOR OFFSET
 			create text_field_offset
 			text_field_offset.set_minimum_width (50)
@@ -364,8 +351,21 @@ feature {NONE} -- Implementation
 			fixed_box.set_item_x_position(text_field_offset,110)
 			fixed_box.set_item_y_position(text_field_offset,8)
 
+				--BUTTON REWIND
+			create button_rewind
+			create pixmap
+			pixmap.set_with_named_file ("./gui/rewind.png")
+			pixmap.stretch (17, 17)
+			button_rewind.set_pixmap (pixmap)
+			button_rewind.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
+			button_rewind.set_minimum_width (40)
+			button_rewind.set_tooltip (Button_rewind_tooltip)
+			button_rewind.select_actions.extend (agent on_rewind (text_field_offset))
+			fixed_box.extend (button_rewind)
+			fixed_box.set_item_x_position(button_rewind,70)
+			fixed_box.set_item_y_position(button_rewind,7)
+
 				--BUTTON FORWARD
-			-- create button_forward.make_with_text (Button_forward_item)
 			create button_forward
 			create pixmap
 			pixmap.set_with_named_file ("./gui/forward.png")
@@ -374,6 +374,7 @@ feature {NONE} -- Implementation
 			button_forward.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			button_forward.set_minimum_width (40)
 			button_forward.set_tooltip (Button_forward_tooltip)
+			button_forward.select_actions.extend (agent on_forward (text_field_offset))
 			fixed_box.extend (button_forward)
 			fixed_box.set_item_x_position(button_forward,160)
 			fixed_box.set_item_y_position(button_forward,7)
@@ -490,7 +491,21 @@ feature --Implementation, Converter_sub
 			end
 		end
 
+	on_forward (text_field: EV_TEXT_FIELD)
+		local
+			milliseconds: INTEGER
+		do
+			milliseconds := text_field.text.to_integer
+			controller.forward (milliseconds)
+		end
 
+	on_rewind (text_field: EV_TEXT_FIELD)
+		local
+			milliseconds: INTEGER
+		do
+			milliseconds := text_field.text.to_integer
+			controller.rewind(milliseconds)
+		end
 
 	on_changeFPS
 		local

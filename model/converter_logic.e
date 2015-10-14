@@ -192,6 +192,12 @@ feature
 			source_as_subrip.forward (milliseconds)
 		end
 
+	rewind (milliseconds: INTEGER)
+		require
+			has_loaded_subrip_subtitle
+		do
+			source_as_subrip.rewind (milliseconds)
+		end
 
 feature
 
