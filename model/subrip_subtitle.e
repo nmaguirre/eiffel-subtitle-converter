@@ -147,6 +147,8 @@ feature -- Status setting
 
 	forward (milliseconds: INTEGER)
 			-- Add time to all subrip subtitle time elements
+		require
+			milliseconds >= 0
 		do
 			from
 				items.start
@@ -160,6 +162,8 @@ feature -- Status setting
 
 	rewind (milliseconds: INTEGER)
 			-- Subtract time to all subrip subtitle time elements
+		require
+			milliseconds >= 0
 		do
 			from
 				items.start
