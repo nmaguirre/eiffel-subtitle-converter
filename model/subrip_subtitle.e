@@ -145,6 +145,32 @@ feature -- Status setting
 			valid_items_count: items.count <= old items.count
 		end
 
+	forward (milliseconds: INTEGER)
+			-- Add time to all subrip subtitle time elements
+		do
+			from
+				items.start
+			until
+				items.off
+			loop
+				items.item.start_time.move_forward (milliseconds)
+				items.item.stop_time.move_forward (milliseconds)
+			end
+		end
+
+	rewind (milliseconds: INTEGER)
+			-- Subtract time to all subrip subtitle time elements
+		do
+			from
+				items.start
+			until
+				items.off
+			loop
+				items.item.start_time.rewind (milliseconds)
+				items.item.stop_time.rewind (milliseconds)
+			end
+		end
+
 feature -- Status checking
 
 	nr_of_items: INTEGER
