@@ -437,18 +437,18 @@ feature --Implementation, Converter_sub
 			create open_dialog
 			open_dialog.filters.extend (["*.srt;*.sub","Subtitle Files (.sub,.srt)"])
 			open_dialog.show_modal_to_window (Current)
+
 			if not(open_dialog.file_name.is_empty) then
 				create file_name.make_from_string (open_dialog.file_name)
 				create file_extension.make_from_string (file_name.substring (file_name.count-3, file_name.count))
 				if (file_extension.is_equal (".srt"))
 				then
-					create system_logic.make_with_subrip_subtitle (file_name)
+					controller.load_subrip_subtitle (file_name)
 					on_update
 				end
 				if (file_extension.is_equal (".sub"))
 				then
-					create system_logic.make_with_microdvd_subtitle (file_name)
-					on_update
+					controller.load_microdvd_subtile (file_name)
 				end
 
 			end

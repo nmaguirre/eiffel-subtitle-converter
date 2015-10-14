@@ -27,7 +27,7 @@ feature
 		do
 			create system_logic.make_with_microdvd_subtitle(filename)
 		ensure
-			microdvd_check: system_logic = filename
+	--		microdvd_check: system_logic = filename
 		end
 
 	make_with_subrip_subtitle (filename: STRING)
@@ -36,6 +36,25 @@ feature
 		do
 			create system_logic.make_with_subrip_subtitle (filename)
 		end
+
+feature --Loading Files
+
+	load_microdvd_subtile(filename: STRING)
+		require
+			valid_filename: filename /= Void
+		do
+			system_logic.make_with_microdvd_subtitle(filename)
+			window.on_update
+		end
+
+	load_subrip_subtitle (filename: STRING)
+		require
+			valid_filename: filename /= Void
+		do
+			system_logic.make_with_subrip_subtitle (filename)
+			window.on_update
+		end
+
 
 feature -- Inicialization
 	set_window(new_window: MAIN_WINDOW)
