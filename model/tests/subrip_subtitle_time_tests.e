@@ -296,6 +296,18 @@ feature -- Test routines
 			assert ("hours set", subtitle_time.hours=23)
 		end
 
+	test_move_forward
+		local
+		subtitle_time: SUBRIP_SUBTITLE_TIME
+			do
+				create subtitle_time.make_from_string("00:00:02,000")
+				subtitle_time.move_forward (100)
+				assert ("milliseconds set", subtitle_time.milliseconds = 100 )
+				assert ("seconds set", subtitle_time.seconds=2)
+				assert ("minutes set", subtitle_time.minutes=0)
+				assert ("hours set", subtitle_time.hours=0)
+			end
+
 	test_set_move_forward_invalid_negative_value
 			-- method move_forward breaks on negative value
 		note
