@@ -184,6 +184,13 @@ feature
 			target.save (file_name)
 		end
 
+	forward (milliseconds: INTEGER)
+		require
+			has_loaded_subrip_subtitle
+		do
+			source_as_subrip.forward (milliseconds)
+		end
+
 
 feature
 

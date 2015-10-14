@@ -530,6 +530,8 @@ Window_height: INTEGER = 600
 
 	system_logic: CONVERTER_LOGIC
 
+	controller: CONTROLLER
+
 	file_name : STRING
 
 	icon: EV_PIXMAP
