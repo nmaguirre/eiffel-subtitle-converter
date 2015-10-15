@@ -496,8 +496,8 @@ feature --Implementation, Converter_sub
 			msj_error: EV_INFORMATION_DIALOG
 			milliseconds: INTEGER
 		do
-			if not text_field.text.is_integer_32 then
-				create msj_error.make_with_text ("The input value must be an integer")
+			if not text_field.text.is_integer_32 or text_field.text.to_integer <= 0 then
+				create msj_error.make_with_text ("The input value must be a positive integer")
 				msj_error.set_title ("Error")
 				msj_error.set_pixmap (default_pixmaps.error_pixmap)
 				msj_error.show_modal_to_window (Current)
@@ -512,8 +512,8 @@ feature --Implementation, Converter_sub
 			msj_error: EV_INFORMATION_DIALOG
 			milliseconds: INTEGER
 		do
-			if not text_field.text.is_integer_32 then
-				create msj_error.make_with_text ("The input value must be an integer")
+			if not text_field.text.is_integer_32 or text_field.text.to_integer <= 0 then
+				create msj_error.make_with_text ("The input value must be a positive integer")
 				msj_error.set_title ("Error")
 				msj_error.set_pixmap (default_pixmaps.error_pixmap)
 				msj_error.show_modal_to_window (Current)

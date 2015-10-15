@@ -300,10 +300,10 @@ feature -- Test routines
 		local
 		subtitle_time: SUBRIP_SUBTITLE_TIME
 			do
-				create subtitle_time.make_from_string("00:00:02,000")
-				subtitle_time.move_forward (100)
-				assert ("milliseconds set", subtitle_time.milliseconds = 100 )
-				assert ("seconds set", subtitle_time.seconds=2)
+				create subtitle_time.make_from_string("00:00:02,999")
+				subtitle_time.move_forward (1)
+				assert ("milliseconds set", subtitle_time.milliseconds = 0 )
+				assert ("seconds set", subtitle_time.seconds=3)
 				assert ("minutes set", subtitle_time.minutes=0)
 				assert ("hours set", subtitle_time.hours=0)
 			end
