@@ -40,20 +40,30 @@ feature -- Initialisation
 			-- subrip subtitle file, setting source with it.
 		local
 			subrip_subtitle: SUBRIP_SUBTITLE
+			rescued: BOOLEAN
 		do
-			create subrip_subtitle.make_from_file (filename)
-			if subrip_subtitle.repok then
-				source := subrip_subtitle
-				target := Void
-				last_load_succeeded := True
-			else
+			if rescued then
 				source := Void
 				target := Void
 				last_load_succeeded := False
+			else
+				create subrip_subtitle.make_from_file (filename)
+				if subrip_subtitle.repok then
+					source := subrip_subtitle
+					target := Void
+					last_load_succeeded := True
+				else
+					source := Void
+					target := Void
+					last_load_succeeded := False
+				end
 			end
 		ensure
 			valid_source: (source /= Void and last_load_succeeded = true) or (source = Void and last_load_succeeded = false)
 			valid_target: target = Void
+		rescue
+			rescued := True
+			retry
 		end
 
 	make_with_microdvd_subtitle(file_name: STRING)
