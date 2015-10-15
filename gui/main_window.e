@@ -139,6 +139,8 @@ feature {NONE} -- Menu Implementation
 
 			create menu_item.make_with_text (Menu_file_open_item)
 				--| TODO: Add the action associated with "Open" here.
+
+			menu_item.select_actions.extend (agent request_open_file.show_modal_to_window(Current))
 			file_menu.extend (menu_item)
 
 			create menu_item.make_with_text (Menu_file_save_item)
@@ -203,6 +205,7 @@ feature {NONE} -- ToolBar Implementation
 			create toolbar_pixmap
 			toolbar_pixmap.set_with_named_file ("./gui/open.png")
 			toolbar_item.set_pixmap (toolbar_pixmap)
+			toolbar_item.select_actions.extend (agent request_open_file.show_modal_to_window(Current))
 			standard_toolbar.extend (toolbar_item)
 
 			create toolbar_item
@@ -255,7 +258,7 @@ feature {NONE} -- About Dialog Implementation
 
 feature {NONE} -- Implementation, Close event
 
-	request_close_window
+	 	request_close_window
 			-- Process user request to close the window.
 		local
 			question_dialog: EV_CONFIRMATION_DIALOG
@@ -379,6 +382,79 @@ feature {NONE} -- Implementation
 		end
 
 feature --Implementation, Converter_sub
+
+	 -- Open a text file
+ 	request_open_file: EV_FILE_OPEN_DIALOG
+		do
+			create Result
+			Result.open_actions.extend (agent open_path(Result))
+		end
+
+	open_Path(file: EV_FILE_OPEN_DIALOG)
+		local
+			error:EV_INFORMATION_DIALOG
+		do
+			if(file.full_file_path.out.substring (file.full_file_path.out.count-3, file.full_file_path.out.count).is_equal (".srt"))then
+				read_file_to_string_Subrip(file.full_file_path)
+			else
+				if(file.full_file_path.out.substring (file.full_file_path.out.count-3, file.full_file_path.out.count).is_equal (".sub"))then
+					read_file_to_string_Microdvd(file.full_file_path)
+				else
+					create error.make_with_text ("The file is not correct")
+					error.show
+				end
+			end
+
+		end
+
+
+	read_file_to_string_Subrip (a_path: PATH)
+            -- Show how to read a file into a string
+            -- For binary files you can use {RAW_FILE}.
+        local
+            l_file: FILE
+            l_content: STRING
+        do
+
+            create {PLAIN_TEXT_FILE} l_file.make_with_path (a_path)
+            if l_file.exists and then l_file.is_readable then
+                l_file.open_read
+                l_file.read_stream (l_file.count)
+                l_content := l_file.last_string
+                subrip_text.set_text (l_content)
+                l_file.close
+            else
+                io.error.put_string ("Could not read, the file:[" + a_path.name + " ] does not exist")
+                io.put_new_line
+            end
+        end
+
+	read_file_to_string_Microdvd (a_path: PATH)
+            -- Show how to read a file into a string
+            -- For binary files you can use {RAW_FILE}.
+        local
+            l_file: FILE
+            l_content: STRING
+        do
+
+            create {PLAIN_TEXT_FILE} l_file.make_with_path (a_path)
+            if l_file.exists and then l_file.is_readable then
+                l_file.open_read
+                l_file.read_stream (l_file.count)
+                l_content := l_file.last_string
+                microdvd_text.set_text (l_content)
+                l_file.close
+            else
+                io.error.put_string ("Could not read, the file:[" + a_path.name + " ] does not exist")
+                io.put_new_line
+            end
+        end
+
+
+
+
+
+
 
 	converter_sub
 		local
