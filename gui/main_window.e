@@ -370,6 +370,11 @@ feature {NONE} -- Implementation, Close event
 			button_rewind : EV_BUTTON
 
 		do
+			create text_field_rw
+			text_field_rw.set_capacity (12)
+			create text_field_fw
+			text_field_fw.set_capacity (12)
+
 			-- ENCLOSING
 			create pixmap.default_create
 			pixmap.set_with_named_file ("./gui/enclosing.png")
@@ -447,10 +452,7 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.set_item_y_position(button_rewind,520)
 
 			-- TEXTFIELD REWIND
-			create text_field_rw
-			text_field_rw.set_capacity (12)
 			enclosing_box.extend (text_field_rw)
-			--rewind_subtitle:= text_field_number.selected_text
 			enclosing_box.set_item_x_position(text_field_rw,160)
 			enclosing_box.set_item_y_position(text_field_rw,539)
 
@@ -464,9 +466,6 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.set_item_y_position(button_forward,520)
 
 				-- TEXTFIELD FORWARD
-			create text_field_fw
-			text_field_fw.set_capacity (12)
-			--text_field_number.set_minimum_width_in_characters (12)
 			enclosing_box.extend (text_field_fw)
 			enclosing_box.set_item_x_position(text_field_fw,525)
 			enclosing_box.set_item_y_position(text_field_fw,539)
@@ -511,32 +510,23 @@ feature {NONE} -- Implementation, Close event
 
 
 	forward_subtitle_main_window (text_field_fw: EV_TEXT_FIELD)
-			local
-				i:INTEGER
-			do
-				i:=text_field_fw.text_length
-				controller.forward_subtitle_controller (text_field_fw.text)
-			end
+		do
+			controller.forward_subtitle_controller (text_field_fw.text)
+		end
 
 	rewind_subtitle_main_window (text_field_rw: EV_TEXT_FIELD)
-			local
-				i:INTEGER
-			do
-				i:= text_field_rw.text_length
-				controller.rewind_subtitle_controller (text_field_rw.text)
-			end
+		do
+			controller.rewind_subtitle_controller (text_field_rw.text)
+		end
 
 	clear
-		local
-			do
-				if (subrip_text.text_length /= 0 and microdvd_text.text_length /= 0) then
-					microdvd_text.remove_text
-					subrip_text.remove_text
-					controller.flush_items
-				end
-
+		do
+			if (subrip_text.text_length /= 0 and microdvd_text.text_length /= 0) then
+				microdvd_text.remove_text
+				subrip_text.remove_text
+				controller.flush_items
 			end
-
+		end
 
 feature -- Observer features
 

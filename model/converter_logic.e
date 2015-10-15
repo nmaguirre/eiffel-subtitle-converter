@@ -204,7 +204,9 @@ feature
 			create subrip_sub_time.make_from_string (rew_sub)
 			time_milliseconds:= subrip_sub_time.time_milliseconds
 			subrip_sub_time.rewind (time_milliseconds)
+
 		end
+
 	source: detachable SUBTITLE
 
 	target: detachable SUBTITLE

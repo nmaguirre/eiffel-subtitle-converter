@@ -52,11 +52,15 @@ feature
 	forward_subtitle_controller (fs:STRING)
 		do
 			system_logic.forward_subtitle_conver_logic(fs)
+			gui.set_logic(system_logic)
+			gui.on_update
 		end
 
 	rewind_subtitle_controller(rs:STRING)
 		do
 			system_logic.rewind_subtitle_conver_logic(rs)
+			gui.set_logic(system_logic)
+			gui.on_update
 		end
 
 feature
