@@ -544,11 +544,15 @@ feature -- Observer features
 		do
 			if system_logic.has_loaded_microdvd_subtitle then
 				microdvd_text.remove_text
-				microdvd_text.append_text (system_logic.source_as_microdvd.out)
+				create text.make_from_string (system_logic.source_as_microdvd.out)
+				text.replace_substring_all ("%R", "%N")
+				microdvd_text.append_text (text)
 				subrip_text.remove_text
 				if attached {SUBRIP_SUBTITLE} system_logic.target as subrip_sub then
 					subrip_text.remove_text
-					subrip_text.append_text (subrip_sub.out)
+					create text.make_from_string (subrip_sub.out)
+					text.replace_substring_all ("%R", "%N")
+					subrip_text.append_text (text)
 				end
 			end
 			if system_logic.has_loaded_subrip_subtitle then
