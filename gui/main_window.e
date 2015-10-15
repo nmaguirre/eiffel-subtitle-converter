@@ -391,12 +391,12 @@ feature {NONE} -- Implementation, Close event
 			button_rewind : EV_BUTTON
 
 		do
-				-- ENCLOSING
+			-- ENCLOSING
 			create pixmap.default_create
 			pixmap.set_with_named_file ("./gui/enclosing.png")
 			enclosing_box.set_background_pixmap (pixmap)
 
-				-- MICRODVD_LABEL AND MICRODVD_TEXT
+			-- MICRODVD_LABEL AND MICRODVD_TEXT
 			create microdvd_text
 			create a_color.make_with_8_bit_rgb (0,150,0)
 			create microdvd_label.make_with_text ("MicroDVD")
@@ -412,7 +412,7 @@ feature {NONE} -- Implementation, Close event
 			microdvd_text.set_minimum_height (400)
 			microdvd_text.set_minimum_width (250)
 
-				-- ENCLOSING MICRODVD_LABEL AND MICRODVD_TEXT
+			-- ENCLOSING MICRODVD_LABEL AND MICRODVD_TEXT
 			enclosing_box.extend (microdvd_label)
 			enclosing_box.extend (microdvd_text)
 			enclosing_box.set_item_x_position (microdvd_label,50)
@@ -420,7 +420,7 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.set_item_x_position (microdvd_text,50)
 			enclosing_box.set_item_y_position (microdvd_text,100)
 
-				-- SUBRIP_LABEL AND SUBRIP_TEXT
+			-- SUBRIP_LABEL AND SUBRIP_TEXT
 			create subrip_text
 			create subrip_label.make_with_text ("Subrip")
 			subrip_text.set_foreground_color (a_color)
@@ -432,7 +432,7 @@ feature {NONE} -- Implementation, Close event
 			subrip_text.set_minimum_height (400)
 			subrip_text.set_minimum_width (250)
 
-				-- ENCLOSING SUBRIP_LABEL AND SUBRIP_TEXT
+			-- ENCLOSING SUBRIP_LABEL AND SUBRIP_TEXT
 			enclosing_box.extend (subrip_label)
 			enclosing_box.extend (subrip_text)
 			enclosing_box.set_item_x_position (subrip_label,400)
@@ -440,7 +440,7 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.set_item_x_position (subrip_text,400)
 			enclosing_box.set_item_y_position (subrip_text,100)
 
-				-- PIXMAP RIGHT
+			-- PIXMAP RIGHT
 			pixmap.set_with_named_file ("./gui/right.png")
 			create button_converter_subrip.default_create
 			button_converter_subrip.set_pixmap (pixmap)
@@ -449,7 +449,7 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.set_item_y_position(button_converter_subrip,200)
 			button_converter_subrip.select_actions.extend (agent converter_sub)
 
-				-- PIXMAP LEFT
+			-- PIXMAP LEFT
 			pixmap.set_with_named_file ("./gui/left.png")
 			create button_converter_microdvd.default_create
 			button_converter_microdvd.set_pixmap (pixmap)
@@ -458,7 +458,7 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.set_item_y_position(button_converter_microdvd,350)
 			button_converter_microdvd.select_actions.extend (agent converter_sub)
 
-				--BUTTON REWING
+			--BUTTON REWING
 			pixmap.set_with_named_file ("./gui/rewind.png")
 			create button_rewind.default_create
 			button_rewind.set_pixmap (pixmap)
@@ -467,8 +467,7 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.set_item_x_position(button_rewind,115)
 			enclosing_box.set_item_y_position(button_rewind,520)
 
-
-				-- TEXTFIELD REWIND
+			-- TEXTFIELD REWIND
 			create text_field_rw
 			text_field_rw.set_capacity (12)
 			enclosing_box.extend (text_field_rw)
@@ -476,8 +475,7 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.set_item_x_position(text_field_rw,160)
 			enclosing_box.set_item_y_position(text_field_rw,539)
 
-
-				--BUTTON FOWARD
+			--BUTTON FOWARD
 			pixmap.set_with_named_file ("./gui/forward.png")
 			create button_forward.default_create
 			button_forward.set_pixmap (pixmap)
@@ -534,12 +532,18 @@ feature {NONE} -- Implementation, Close event
 
 
 	forward_subtitle_main_window (text_field_fw: EV_TEXT_FIELD)
+			local
+				i:INTEGER
 			do
+				i:=text_field_fw.text_length
 				controller.forward_subtitle_controller (text_field_fw.text)
 			end
 
 	rewind_subtitle_main_window (text_field_rw: EV_TEXT_FIELD)
+			local
+				i:INTEGER
 			do
+				i:= text_field_rw.text_length
 				controller.rewind_subtitle_controller (text_field_rw.text)
 			end
 
