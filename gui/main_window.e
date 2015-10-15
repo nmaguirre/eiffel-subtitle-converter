@@ -132,6 +132,7 @@ feature {NONE} -- Menu Implementation
 			menu_item: EV_MENU_ITEM
 		do
 			create menu_item.make_with_text (Menu_file_new_item)
+			menu_item.select_actions.extend (agent request_new_file)
 				--| TODO: Add the action associated with "New" here.
 			file_menu.extend (menu_item)
 
@@ -350,6 +351,26 @@ feature {NONE} -- Implementation, Close event
             end
         end
 
+
+	feature --Implementation new file
+
+	request_new_file
+	  local
+	  	dialog: EV_NEW_MESSAGE
+
+	  do
+	  	create dialog.make_with_text (Label_confirm_new_file)
+	  	dialog.show_modal_to_window (Current)
+
+	   if dialog.selected_button.is_greater_equal ("MICRODVD")   then
+			microdvd_text.enable_edit
+			new_load := true
+			if dialog.selected_button.is_greater_equal ("SUBRIP") then
+				microdvd_text.disable_edit
+				subrip_text.enable_edit
+			end
+	  	end
+	  end
 
 	feature {NONE} -- Implementation
 
@@ -578,4 +599,6 @@ feature {NONE} -- Implementation / Constants
 	file_name: STRING
 
 	text_field_number : EV_TEXT_FIELD
+
+	new_load : BOOLEAN
 end
