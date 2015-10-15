@@ -289,6 +289,8 @@ feature {NONE} -- Implementation, Close event
 			end
 		end
 
+features -- Implementation agent open and new
+
 	request_about_open: EV_FILE_OPEN_DIALOG
 		do
 			create Result
@@ -351,28 +353,47 @@ feature {NONE} -- Implementation, Close event
             end
         end
 
+feature -- Implementation rewind, forward and clear
 
-	feature --Implementation new file
+	forward_subtitle_main_window (text_field_fw: EV_TEXT_FIELD)
+		local
+			start_time: STRING
+			stop_time: STRING
+			str_subrip:STRING
+			subtitle:STRING
+		do
+			str_subrip := subrip_text.text
+			subtitle:= str_subrip.substring (str_subrip.count - 3, str_subrip.count)
+			start_time := str_subrip.substring (str_subrip.count - 35, str_subrip.count - 24)
+			stop_time:= str_subrip.substring (str_subrip.count - 18, str_subrip.count - 7)
+			controller.forward_subtitle_controller (text_field_fw.text,start_time,stop_time,subtitle)
+		end
 
-	request_new_file
-	  local
-	  	dialog: EV_NEW_MESSAGE
+	rewind_subtitle_main_window (text_field_rw: EV_TEXT_FIELD)
+		local
+			start_time: STRING
+			stop_time: STRING
+			str_subrip:STRING
+			subtitle:STRING
+		do
+			str_subrip := subrip_text.text
+			subtitle:= str_subrip.substring (str_subrip.count - 3, str_subrip.count)
+			start_time := str_subrip.substring (str_subrip.count - 35, str_subrip.count - 24)
+			stop_time:= str_subrip.substring (str_subrip.count - 18, str_subrip.count - 7)
+			controller.rewind_subtitle_controller (text_field_rw.text,start_time,stop_time,subtitle)
+		end
 
-	  do
-	  	create dialog.make_with_text (Label_confirm_new_file)
-	  	dialog.show_modal_to_window (Current)
-
-	   if dialog.selected_button.is_greater_equal ("MICRODVD")   then
-			microdvd_text.enable_edit
-			new_load := true
-			if dialog.selected_button.is_greater_equal ("SUBRIP") then
-				microdvd_text.disable_edit
-				subrip_text.enable_edit
+	clear
+		do
+			if (subrip_text.text_length /= 0 and microdvd_text.text_length /= 0) then
+				microdvd_text.remove_text
+				subrip_text.remove_text
+				controller.flush_items
 			end
-	  	end
-	  end
+		end
 
-	feature {NONE} -- Implementation
+
+feature {NONE} -- Implementation
 
 	enclosing_box: EV_FIXED
 
@@ -486,18 +507,16 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.set_item_x_position(button_forward,480)
 			enclosing_box.set_item_y_position(button_forward,520)
 
-				-- TEXTFIELD FORWARD
+			-- TEXTFIELD FORWARD
 			enclosing_box.extend (text_field_fw)
 			enclosing_box.set_item_x_position(text_field_fw,525)
 			enclosing_box.set_item_y_position(text_field_fw,539)
-
-
 		ensure
 			main_enclosing_created: enclosing_box /= Void
 		end
 
 
-	feature --Implementation, Converter_sub
+feature --Implementation, Converter_sub
 
 	converter_sub
 		local
@@ -530,53 +549,7 @@ feature {NONE} -- Implementation, Close event
 		end
 
 
-	forward_subtitle_main_window (text_field_fw: EV_TEXT_FIELD)
-		local
-			start_time: STRING
-			stop_time: STRING
-			str_subrip:STRING
-			subtitle:STRING
-		do
-			str_subrip := subrip_text.text
-			subtitle:= str_subrip.substring (str_subrip.count - 3, str_subrip.count)
-			start_time := str_subrip.substring (str_subrip.count - 35, str_subrip.count - 24)
-			stop_time:= str_subrip.substring (str_subrip.count - 18, str_subrip.count - 7)
-			controller.forward_subtitle_controller (text_field_fw.text,start_time,stop_time,subtitle)
-		end
-
-	rewind_subtitle_main_window (text_field_rw: EV_TEXT_FIELD)
-		local
-			start_time: STRING
-			stop_time: STRING
-			str_subrip:STRING
-			subtitle:STRING
-		do
-			str_subrip := subrip_text.text
-			subtitle:= str_subrip.substring (str_subrip.count - 3, str_subrip.count)
-			start_time := str_subrip.substring (str_subrip.count - 35, str_subrip.count - 24)
-			stop_time:= str_subrip.substring (str_subrip.count - 18, str_subrip.count - 7)
-			controller.rewind_subtitle_controller (text_field_rw.text,start_time,stop_time,subtitle)
-		end
-
-	clear
-		do
-			if (subrip_text.text_length /= 0 and microdvd_text.text_length /= 0) then
-				microdvd_text.remove_text
-				subrip_text.remove_text
-				controller.flush_items
-			end
-		end
-
 feature -- Observer features
-
-	update_subrip
-		do
-			set_logic(controller.system_logic)
-			if attached {SUBRIP_SUBTITLE} system_logic.target as subrip_sub then
-					subrip_text.remove_text
-					subrip_text.append_text (subrip_sub.out)
-			end
-		end
 
 	on_update
 		do
@@ -598,6 +571,14 @@ feature -- Observer features
 			end
 		end
 
+	update_subrip
+		do
+			set_logic(controller.system_logic)
+			if attached {SUBRIP_SUBTITLE} system_logic.target as subrip_sub then
+					subrip_text.remove_text
+					subrip_text.append_text (subrip_sub.out)
+			end
+		end
 
 
 feature {NONE} -- Implementation / Constants
