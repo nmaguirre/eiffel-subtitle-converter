@@ -33,6 +33,7 @@ feature -- Initialisation
 			file: PLAIN_TEXT_FILE
 			time_line: STRING
 			text_line: STRING
+			prev: STRING
 			item: SUBRIP_SUBTITLE_ITEM
 			read_mode: INTEGER
 		do
@@ -60,10 +61,14 @@ feature -- Initialisation
 						time_line.wipe_out	-- remove all characters from time_line
 						text_line.wipe_out	-- remove all characters from subtitle_text
 						read_mode := 0		-- next line is a number
+					else
+						if not prev.is_equal (time_line) then
+							text_line.append (" ")
+						end
 					end
 					text_line.append (file.last_string)
 				end
-
+				create prev.make_from_string (file.last_string)
 			end
 		end
 
@@ -244,8 +249,32 @@ feature
 			file : PLAIN_TEXT_FILE
 		do
 			create file.make_with_name (file_name+".srt")
+			create file.make_open_write(file_name+".srt")
 			file.put_string(out)
 			file.close
+		end
+
+	adjust_time(milliseconds: INTEGER;option:STRING)
+			-- Add time to all subrip subtitle time elements
+		require
+			milliseconds /= 0
+		do
+			from
+				items.start
+			until
+				items.off
+			loop
+				if(option.is_equal("forward"))then
+					items.item.stop_time.move_forward (milliseconds)
+					items.item.start_time.move_forward (milliseconds)
+					items.forth
+				end
+				if(option.is_equal("rewind"))then
+					items.item.start_time.rewind (milliseconds)
+					items.item.stop_time.rewind (milliseconds)
+					items.forth
+				end
+			end
 		end
 
 feature {SUBRIP_SUBTITLE_TESTS,MICRODVD_SUBTITLE_TEST} -- Implementation

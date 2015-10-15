@@ -35,9 +35,9 @@ create
 
 feature -- Initialization
 
-	set_logic(new_logic: CONVERTER_LOGIC)
+	set_controller(new_controller: CONTROLLER)
 		do
-			system_logic := new_logic
+			controller := new_controller
 		end
 
 feature {NONE} -- Initialization
@@ -48,6 +48,7 @@ feature {NONE} -- Initialization
 				-- Create main container.
 			create main_container
 
+			create controller.make_with_no_subtitle
 			create button.make_with_text("...")
 			create button_2.make_with_text("...")
 			create button_3.make_with_text("Ready")
@@ -71,26 +72,26 @@ feature {NONE} -- Initialization
 			create color.make_with_rgb (0.710,0,0)
 			create color2.make_with_rgb (0,0.710,0)
 
-			create file_name.make_empty
-
 			create notebook
 
 			create interval.make (-300000,300000)
 			create spin_button.make_with_value_range (interval)
 
-			create string_array.make_filled ("8", 1, 11)
-			string_array.enter ("12",2)
-			string_array.enter ("15",3)
-			string_array.enter ("23.973",4)
-			string_array.enter ("24",5)
-			string_array.enter ("25",6)
-			string_array.enter ("29.97",7)
-			string_array.enter ("30",8)
-			string_array.enter ("50",9)
-			string_array.enter ("59.94",10)
-			string_array.enter ("60",11)
+			create string_array.make_filled ("12", 1, 10)
+			string_array.enter ("15",2)
+			string_array.enter ("23.97",3)
+			string_array.enter ("24",4)
+			string_array.enter ("25",5)
+			string_array.enter ("29.97",6)
+			string_array.enter ("30",7)
+			string_array.enter ("50",8)
+			string_array.enter ("59.94",9)
+			string_array.enter ("60",10)
 
 			create combo_box.make_with_strings (string_array)
+
+			create file_name.make_empty
+
 		end
 
 	initialize
@@ -269,12 +270,10 @@ feature {NONE} -- Implementation
 
 	actions_tab
 	do
-		if(notebook.selected_item_index = 1 and text.text_length >0)then
-			button_3.set_background_color(color2)
-			button_3.enable_sensitive
+		if(notebook.selected_item_index = 1 )then
+			enable_disable_button()
 		else
-			button_3.set_background_color(color)
-			button_3.disable_sensitive
+			enable_disable_button()
 		end
 	end
 
@@ -315,7 +314,7 @@ feature {NONE} -- Implementation
 					main_container.prune (spin_button)
 					main_container.prune (label_6)
 				end
-				combo_box.set_text ("25")
+				combo_box.set_text ("23.97")
 				main_container.extend (combo_box)
 				main_container.set_item_x_position (combo_box, 100)
 				main_container.set_item_y_position (combo_box, 86)
@@ -340,8 +339,6 @@ feature {NONE} -- Implementation
 			-- 	EV_FILE_SAVE_DIALOG for test.
 		once
 			create Result
-			Result.set_start_directory (text_field.text)
-			Result.set_file_name (file_name)
 			Result.save_actions.extend (agent save_Path(Result))
 		end
 
@@ -358,55 +355,49 @@ feature {NONE} -- Implementation
 			error:EV_INFORMATION_DIALOG
 
 		do
+			text_2.remove_text
 			if(file.full_file_path.out.substring (file.full_file_path.out.count-3, file.full_file_path.out.count).is_equal (".srt"))then
-					notebook.select_item (text)
-					file_name := file.file_title
-					radio_button_subrip.enable_select
-					select_radio_button
-					text_field.set_text (file.full_file_path.out)
-					text_field_2.set_text (file.full_file_path.out.substring (1, file.file_name.count-4)+"Converter.srt")
-					read_file_to_string (file.full_file_path)
-					button_3.set_background_color(color2)
+				combo_box.set_text ("23.97")
+				controller.system_logic.make_with_subrip_subtitle (file.full_file_path.out)
+				text.set_text (controller.system_logic.source_as_subrip.out)
+				notebook.select_item (text)
+				select_radio_button
+				text_field.set_text (file.full_file_path.out.substring (1, file.file_name.count-4))
+				text_field_2.set_text (file.full_file_path.out.substring (1, file.file_name.count-4)+"Converted")
+
+				file_name := file.file_title.out
+				enable_disable_button()
+
 			else
 				if(file.full_file_path.out.substring (file.full_file_path.out.count-3, file.full_file_path.out.count).is_equal (".sub"))then
+					spin_button.set_value (0)
+					controller.system_logic.make_with_microdvd_subtitle (file.full_file_path.out)
+					text.set_text (controller.system_logic.source_as_microdvd.out)
 					notebook.select_item (text)
-					file_name := file.file_title
-					radio_button_microdvd.enable_select
 					select_radio_button
-					text_field.set_text (file.full_file_path.out)
-					text_field_2.set_text (file.full_file_path.out.substring (1, file.file_name.count-4)+"Converter.srt")
-					read_file_to_string (file.full_file_path)
-					button_3.set_background_color(color2)
+					text_field.set_text (file.full_file_path.out.substring (1, file.file_name.count-4))
+					text_field_2.set_text (file.full_file_path.out.substring (1, file.file_name.count-4)+"Converted")
+
+					enable_disable_button()
+
 				else
 					create error.make_with_text ("The file is not correct")
 					error.show
+					enable_disable_button()
 				end
 			end
 
 		end
-
-	read_file_to_string (a_path: PATH)
-            -- Show how to read a file into a string
-            -- For binary files you can use {RAW_FILE}.
-        local
-            l_file: FILE
-            l_content: STRING
-        do
-            create {PLAIN_TEXT_FILE} l_file.make_with_path (a_path)
-            if l_file.exists and then l_file.is_readable then
-                l_file.open_read
-                l_file.read_stream (l_file.count)
-                l_content := l_file.last_string
-                text.set_text (l_content)
-                l_file.close
-                if(text.text_length>1)then
-                	button_3.enable_sensitive
-                end
-            else
-                io.error.put_string ("Could not read, the file:[" + a_path.name + " ] does not exist")
-                io.put_new_line
-            end
-        end
+	enable_disable_button
+	do
+		if(controller.system_logic.is_ready_to_convert)then
+			button_3.set_background_color(color2)
+			button_3.enable_sensitive
+		else
+			button_3.set_background_color(color)
+			button_3.disable_sensitive
+		end
+	end
 
 	save_Path(file: EV_FILE_SAVE_DIALOG)
 		do
@@ -416,11 +407,13 @@ feature {NONE} -- Implementation
 
 	select_radio_button
 	do
-		if(radio_button_microdvd.is_selected)then
+		if(controller.system_logic.has_loaded_microdvd_subtitle)then
 			radio_button_microdvd.enable_sensitive
+			radio_button_microdvd.enable_select
 			radio_button_subrip.disable_sensitive
 		else
 			radio_button_subrip.enable_sensitive
+			radio_button_subrip.enable_select
 			radio_button_microdvd.disable_sensitive
 		end
 	end
@@ -430,25 +423,73 @@ feature --Implementation, ready
 	ready
 		local
 			msj_error: EV_INFORMATION_DIALOG
+			fps_real:REAL
+			millisecods:INTEGER
+
+
 		do
-			create msj_error.make_with_text ("I successfully converted subtitle")
-			notebook.select_item (text_2)
-			msj_error.set_title ("Correct")
-			msj_error.set_pixmap (default_pixmaps.information_pixel_buffer)
-			msj_error.show_modal_to_window (Current)
-			notebook.select_item (text_2)
+			if(controller.system_logic.is_ready_to_convert)then
+				button_3.disable_sensitive
+
+				controller.system_logic.convert_subtitle
+
+				if (controller.system_logic.has_loaded_microdvd_subtitle)then
+					if(spin_button.value>0)then
+						millisecods:=spin_button.value
+						controller.system_logic.target_as_subrip.adjust_time (millisecods,"forward")
+					else
+						if(spin_button.value<0)then
+							millisecods:=spin_button.value
+							controller.system_logic.target_as_subrip.adjust_time (millisecods.abs,"rewind")
+						end
+					end
+					text_2.set_text (controller.system_logic.target_as_subrip.out)
+
+				else
+					fps_real:=combo_box.text.to_real
+					controller.system_logic.target_as_microdvd.change_fps (fps_real)
+					text_2.set_text (controller.system_logic.target_as_microdvd.out)
+				end
+
+				controller.system_logic.save (text_field_2.text)
+				notebook.select_item (text_2)
+				create msj_error.make_with_text ("I successfully converted subtitle")
+				msj_error.set_title ("Correct")
+				msj_error.set_pixmap (default_pixmaps.information_pixel_buffer)
+				msj_error.show_modal_to_window (Current)
+				enable_disable_button ()
+
+			else
+				create msj_error.make_with_text ("System is not ready to convert")
+				enable_disable_button ()
+			end
+
 		end
 
 feature -- Observer features
 
 	on_update
+		local
+			text_subtitle:STRING
 		do
-			if system_logic.has_loaded_microdvd_subtitle then
+			if controller.system_logic.has_loaded_microdvd_subtitle then
 				text.remove_text
-				text.append_text (system_logic.source_as_microdvd.out)
-				if attached {SUBRIP_SUBTITLE} system_logic.target as subrip_sub then
-					text.remove_text
-					text.append_text (subrip_sub.out)
+				create text_subtitle.make_from_string (controller.system_logic.source_as_microdvd.out)
+				text.set_text (text_subtitle)
+				if attached {SUBRIP_SUBTITLE} controller.system_logic.target as subrip_sub then
+					text_2.remove_text
+					create text_subtitle.make_from_string (subrip_sub.out)
+					text_2.set_text (text_subtitle)
+				end
+			end
+			if controller.system_logic.has_loaded_subrip_subtitle then
+				text.remove_text
+				create text_subtitle.make_from_string (controller.system_logic.source_as_subrip.out)
+				text.set_text (text_subtitle)
+				if attached {MICRODVD_SUBTITLE} controller.system_logic.target as microdvd_sub then
+					text_2.remove_text
+					create text_subtitle.make_from_string (microdvd_sub.out)
+					text_2.set_text (text_subtitle)
 				end
 			end
 		end
@@ -464,6 +505,6 @@ feature {NONE} -- Implementation / Constants
 	Window_height: INTEGER = 550
 			-- Initial height for this window.
 
-	system_logic: CONVERTER_LOGIC
+	controller: CONTROLLER
 
 end

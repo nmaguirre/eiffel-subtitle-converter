@@ -183,7 +183,6 @@ feature -- Status setting
 			i: INTEGER
 		do
 			i:= free_time_position(sub)
-			print(i)
 			if (i /= -1) then
 				items.go_i_th (i)
 				items.put_right (sub)
@@ -224,7 +223,7 @@ feature -- Status setting
 		end
 
 
-free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
+	free_time_frame(start_frame: INTEGER; stop_frame: INTEGER): BOOLEAN
 		require
 			valid_start_frame: start_frame>=0 and start_frame<stop_frame
 			valid_stop_frame: stop_frame>0 and start_frame<stop_frame
