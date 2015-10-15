@@ -364,7 +364,7 @@ feature {NONE} -- Implementation, Close event
 			button_converter_subrip: EV_BUTTON
 			button_converter_microdvd: EV_BUTTON
 			font: EV_FONT
-			text_field_fw : EV_TEXT_FIELD
+  		    text_field_fw : EV_TEXT_FIELD
 			text_field_rw : EV_TEXT_FIELD
 			button_forward : EV_BUTTON
 			button_rewind : EV_BUTTON
@@ -441,10 +441,14 @@ feature {NONE} -- Implementation, Close event
 			pixmap.set_with_named_file ("./gui/rewind.png")
 			create button_rewind.default_create
 			button_rewind.set_pixmap (pixmap)
+
 			button_rewind.select_actions.extend (agent rewind_subtitle_main_window(text_field_rw))
+
+			button_rewind.select_actions.extend (agent rewind_subtitle_main_window)
 			enclosing_box.extend (button_rewind)
 			enclosing_box.set_item_x_position(button_rewind,115)
 			enclosing_box.set_item_y_position(button_rewind,520)
+
 
 				-- TEXTFIELD REWIND
 			create text_field_rw
@@ -453,17 +457,29 @@ feature {NONE} -- Implementation, Close event
 			--rewind_subtitle:= text_field_number.selected_text
 			enclosing_box.set_item_x_position(text_field_rw,160)
 			enclosing_box.set_item_y_position(text_field_rw,539)
+=======
+				-- TEXTFIELD
+			create text_field_number
+			text_field_number.set_capacity (12)
+			enclosing_box.extend (text_field_number)
+			--rewind_subtitle:= text_field_number.selected_text
+			enclosing_box.set_item_x_position(text_field_number,160)
+			enclosing_box.set_item_y_position(text_field_number,539)
+
 
 				--BUTTON FOWARD
 			pixmap.set_with_named_file ("./gui/forward.png")
 			create button_forward.default_create
 			button_forward.set_pixmap (pixmap)
+
 			button_forward.select_actions.extend (agent forward_subtitle_main_window(text_field_fw))
+			button_forward.select_actions.extend (agent forward_subtitle_main_window)
 			enclosing_box.extend (button_forward)
 			enclosing_box.set_item_x_position(button_forward,480)
 			enclosing_box.set_item_y_position(button_forward,520)
 
 				--NUMBER TEXT FIELD
+
 			create text_field_fw
 			--forward_subtitle:= text_field_number.selected_text
 			text_field_fw.set_capacity (12)
@@ -471,6 +487,15 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.extend (text_field_fw)
 			enclosing_box.set_item_x_position(text_field_fw,525)
 			enclosing_box.set_item_y_position(text_field_fw,539)
+=======
+			create text_field_number
+			--forward_subtitle:= text_field_number.selected_text
+			text_field_number.set_capacity (12)
+			text_field_number.set_minimum_width_in_characters (12)
+			enclosing_box.extend (text_field_number)
+			enclosing_box.set_item_x_position(text_field_number,525)
+			enclosing_box.set_item_y_position(text_field_number,539)
+>>>>>>> ebc25b9214212037eff018b505add4e4927bb843
 
 		ensure
 			main_enclosing_created: enclosing_box /= Void
@@ -506,6 +531,7 @@ feature {NONE} -- Implementation, Close event
 				msg_box.set_title ("Mensaje")
 				msg_box.show_modal_to_window (Current)
 			end
+
 		end
 
 	clear
@@ -528,6 +554,37 @@ feature {NONE} -- Implementation, Close event
 			do
 				controller.rewind_subtitle_controller (text_field_rw.text)
 			end
+
+
+		end
+
+	clear
+		local
+			do
+				if (subrip_text.text_length /= 0 and microdvd_text.text_length /= 0) then
+					microdvd_text.remove_text
+					subrip_text.remove_text
+					controller.flush_items
+				end
+
+			end
+
+	forward_subtitle_main_window
+
+			do
+
+				-- text_field_number.is_sensitive
+			--	controller.forward_subtitle_controller (current.selected_text)
+			end
+
+	rewind_subtitle_main_window
+		local
+		--	i:INTEGER
+		do
+
+			controller.rewind_subtitle_controller (text_field_number.selected_text)
+		end
+
 
 
 feature -- Observer features
@@ -576,8 +633,13 @@ feature {NONE} -- Implementation / Constants
 	path: STRING
 
 	controller: CONTROLLER
+<<<<<<< HEAD
+
+	file_name: STRING
+=======
+>>>>>>> ebc25b9214212037eff018b505add4e4927bb843
 
 	file_name: STRING
 
-
+	text_field_number : EV_TEXT_FIELD
 end
