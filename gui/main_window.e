@@ -142,11 +142,6 @@ feature {NONE} -- Menu Implementation
 			menu_item: EV_MENU_ITEM
 			a:EV_PIXMAP
 		do
-			create menu_item.make_with_text (Menu_file_new_item)
-				--| TODO: Add the action associated with "New" here.
-			file_menu.extend (menu_item)
-
-
 			create menu_item.make_with_text (Menu_file_open_item)
 				--| TODO: Add the action associated with "Open" here.
 			menu_item.select_actions.extend (agent on_open)
@@ -159,12 +154,9 @@ feature {NONE} -- Menu Implementation
 			file_menu.extend (menu_item)
 
 			create menu_item.make_with_text (Menu_file_saveas_item)
-				--| TODO: Add the action associated with "Save As..." here.
+			menu_item.select_actions.extend (agent on_save)
 			file_menu.extend (menu_item)
 
-			create menu_item.make_with_text (Menu_file_close_item)
-				--| TODO: Add the action associated with "Close" here.
-			file_menu.extend (menu_item)
 
 			file_menu.extend (create {EV_MENU_SEPARATOR})
 
@@ -183,11 +175,6 @@ feature {NONE} -- Menu Implementation
 			menu_item: EV_MENU_ITEM
 
 		do
-			create menu_item.make_with_text (Menu_help_contents_item)
-				--| TODO: Add the action associated with "Contents and Index" here.
-			help_menu.extend (menu_item)
-
-
 			create menu_item.make_with_text (Menu_help_about_item)
 			menu_item.select_actions.extend (agent on_about)
 			help_menu.extend (menu_item)
@@ -209,11 +196,6 @@ feature {NONE} -- ToolBar Implementation
 			toolbar_pixmap: EV_PIXMAP
 		do
 				-- Initialize the toolbar.
-			create toolbar_item
-			create toolbar_pixmap
-			toolbar_pixmap.set_with_named_file ("./gui/new.png")
-			toolbar_item.set_pixmap (toolbar_pixmap)
-			standard_toolbar.extend (toolbar_item)
 
 			create toolbar_item
 			create toolbar_pixmap
