@@ -511,12 +511,18 @@ feature {NONE} -- Implementation, Close event
 
 
 	forward_subtitle_main_window (text_field_fw: EV_TEXT_FIELD)
+			local
+				i:INTEGER
 			do
+				i:=text_field_fw.text_length
 				controller.forward_subtitle_controller (text_field_fw.text)
 			end
 
 	rewind_subtitle_main_window (text_field_rw: EV_TEXT_FIELD)
+			local
+				i:INTEGER
 			do
+				i:= text_field_rw.text_length
 				controller.rewind_subtitle_controller (text_field_rw.text)
 			end
 
