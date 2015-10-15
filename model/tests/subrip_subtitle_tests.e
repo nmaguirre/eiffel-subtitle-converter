@@ -251,6 +251,29 @@ feature -- Test routines
 			assert("make from file ",subrip.items.item.text.is_equal("Hola"))
 		end
 
+	test_make_from_file_invalid_values
+			--make_from_file breaks on invalid values
+		note
+			testing: "covers/{SUBRIP_SUBTITLE}.make_from_file"
+		local
+			subrip: SUBRIP_SUBTITLE
+			pass: BOOLEAN
+			rescued: BOOLEAN
+		do
+
+			if (not rescued) then
+				create subrip.make_from_file ("invalidSample.srt")
+				pass := true
+ 			end
+ 			assert ("Make subrip from file with invalid value is broke", not pass)
+			rescue
+			if (not rescued) then
+				rescued := True
+				retry
+			end
+		end
+
+
 	test_add_subtitle_item_invalid_overlap_right
 			--add_subtitle_item breaks on invalid paramters overlap_right
 		note
