@@ -45,6 +45,8 @@ feature -- Access
 			-- String for the confirmation dialog box that appears
 			-- when the user try to close the first window.
 
+	Label_confirm_new_file: STRING = "Click on the button with the subtitle format to create."
+
 	text_field_number_item: STRING = "number"
 			-- String for "Number" text field.
 end -- class INTERFACE_NAMES
