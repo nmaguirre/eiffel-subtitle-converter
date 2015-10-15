@@ -72,7 +72,7 @@ feature -- Status setting
 			valid_item: start_frame < stop_frame
 			valid_start_frame: start_frame >= 0
 			text_not_void : text /= Void
-			free_time_frame(start_frame,stop_frame)
+			free_time_frame(start_frame, stop_frame)
 		local
 			new_frame: MICRODVD_SUBTITLE_ITEM
 			condition: BOOLEAN
@@ -237,11 +237,11 @@ feature -- Status setting
 				res := (stop_frame < items.item.start_frame ) or (start_frame > items.item.stop_frame )
 			end
 
-			if(items.count > 1) then
+			if(items.count >= 1) then
 				from
 					items.start
 				until
-					items.islast or not res
+					items.islast or res
 				loop
 					if(items.isfirst and stop_frame >= items.item.start_frame and start_frame < items.item.start_frame)then
 						res := False
