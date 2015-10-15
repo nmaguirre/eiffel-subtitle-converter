@@ -44,7 +44,9 @@ feature --Loading Files
 			valid_filename: filename /= Void
 		do
 			system_logic.make_with_microdvd_subtitle(filename)
-			system_logic.update
+			if system_logic.last_load_succeeded then
+				system_logic.update
+			end
 		end
 
 	load_subrip_subtitle (filename: STRING)
@@ -52,7 +54,9 @@ feature --Loading Files
 			valid_filename: filename /= Void
 		do
 			system_logic.make_with_subrip_subtitle (filename)
-			system_logic.update
+			if system_logic.last_load_succeeded then
+				system_logic.update
+			end
 		end
 
 	save(filename: STRING)
