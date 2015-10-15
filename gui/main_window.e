@@ -531,13 +531,31 @@ feature {NONE} -- Implementation, Close event
 
 
 	forward_subtitle_main_window (text_field_fw: EV_TEXT_FIELD)
+		local
+			start_time: STRING
+			stop_time: STRING
+			str_subrip:STRING
+			subtitle:STRING
 		do
-			controller.forward_subtitle_controller (text_field_fw.text)
+			str_subrip := subrip_text.text
+			subtitle:= str_subrip.substring (str_subrip.count - 3, str_subrip.count)
+			start_time := str_subrip.substring (str_subrip.count - 35, str_subrip.count - 24)
+			stop_time:= str_subrip.substring (str_subrip.count - 18, str_subrip.count - 7)
+			controller.forward_subtitle_controller (text_field_fw.text,start_time,stop_time,subtitle)
 		end
 
 	rewind_subtitle_main_window (text_field_rw: EV_TEXT_FIELD)
+		local
+			start_time: STRING
+			stop_time: STRING
+			str_subrip:STRING
+			subtitle:STRING
 		do
-			controller.rewind_subtitle_controller (text_field_rw.text)
+			str_subrip := subrip_text.text
+			subtitle:= str_subrip.substring (str_subrip.count - 3, str_subrip.count)
+			start_time := str_subrip.substring (str_subrip.count - 35, str_subrip.count - 24)
+			stop_time:= str_subrip.substring (str_subrip.count - 18, str_subrip.count - 7)
+			controller.rewind_subtitle_controller (text_field_rw.text,start_time,stop_time,subtitle)
 		end
 
 	clear
@@ -550,6 +568,15 @@ feature {NONE} -- Implementation, Close event
 		end
 
 feature -- Observer features
+
+	update_subrip
+		do
+			set_logic(controller.system_logic)
+			if attached {SUBRIP_SUBTITLE} system_logic.target as subrip_sub then
+					subrip_text.remove_text
+					subrip_text.append_text (subrip_sub.out)
+			end
+		end
 
 	on_update
 		do
@@ -597,8 +624,6 @@ feature {NONE} -- Implementation / Constants
 	controller: CONTROLLER
 
 	file_name: STRING
-
-	text_field_number : EV_TEXT_FIELD
 
 	new_load : BOOLEAN
 end

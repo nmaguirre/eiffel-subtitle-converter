@@ -49,18 +49,16 @@ feature
 			system_logic.flush_target_source
 		end
 
-	forward_subtitle_controller (fs:STRING)
+	forward_subtitle_controller (fs:STRING;start_time,stop_time,text:STRING)
 		do
-			system_logic.forward_subtitle_conver_logic(fs)
-			gui.set_logic(system_logic)
-			gui.on_update
+			system_logic.forward_subtitle_conver_logic(fs,start_time,stop_time,text)
+			gui.update_subrip
 		end
 
-	rewind_subtitle_controller(rs:STRING)
+	rewind_subtitle_controller(rs:STRING;start_time,stop_time,text:STRING)
 		do
-			system_logic.rewind_subtitle_conver_logic(rs)
-			gui.set_logic(system_logic)
-			gui.on_update
+			system_logic.rewind_subtitle_conver_logic(rs,start_time,stop_time,text)
+			gui.update_subrip
 		end
 
 feature

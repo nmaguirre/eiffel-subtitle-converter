@@ -186,25 +186,45 @@ feature
 			end
 		end
 
-	forward_subtitle_conver_logic(for_sub:STRING)
+	forward_subtitle_conver_logic(for_sub:STRING;start_time,stop_time,text:STRING)
 		local
-			subrip_sub_time: SUBRIP_SUBTITLE_TIME
-			time_milliseconds:INTEGER
+			subrip_sub_start_time: SUBRIP_SUBTITLE_TIME
+			subrip_sub_stop_time: SUBRIP_SUBTITLE_TIME
+			subrip_sub_for_sub: SUBRIP_SUBTITLE_TIME
+			time_milliseconds: INTEGER
+			item: SUBRIP_SUBTITLE_ITEM
 		do
-			create subrip_sub_time.make_from_string (for_sub)
-			time_milliseconds:= subrip_sub_time.time_milliseconds
-			subrip_sub_time.move_forward (time_milliseconds)
+			create subrip_sub_for_sub.make_from_string (for_sub)
+			create subrip_sub_start_time.make_from_string (start_time)
+			create subrip_sub_stop_time.make_from_string (stop_time)
+			time_milliseconds:= subrip_sub_for_sub.time_milliseconds
+			subrip_sub_start_time.move_forward (time_milliseconds)
+			subrip_sub_stop_time.move_forward(time_milliseconds)
+			create item.make(subrip_sub_start_time,subrip_sub_stop_time)
+			if attached {SUBRIP_SUBTITLE} target  as subrip then
+				subrip.add_subtitle_item (subrip_sub_start_time, subrip_sub_stop_time, text)
+			end
 		end
 
-	rewind_subtitle_conver_logic(rew_sub: STRING)
+	rewind_subtitle_conver_logic(rew_sub: STRING;start_time,stop_time,text:STRING)
 		local
-			subrip_sub_time: SUBRIP_SUBTITLE_TIME
-			time_milliseconds:INTEGER
-		do
-			create subrip_sub_time.make_from_string (rew_sub)
-			time_milliseconds:= subrip_sub_time.time_milliseconds
-			subrip_sub_time.rewind (time_milliseconds)
+			subrip_sub_start_time: SUBRIP_SUBTITLE_TIME
+			subrip_sub_stop_time: SUBRIP_SUBTITLE_TIME
+			subrip_sub_rew_sub: SUBRIP_SUBTITLE_TIME
+			time_milliseconds: INTEGER
+			item:SUBRIP_SUBTITLE_ITEM
 
+		do
+			create subrip_sub_rew_sub.make_from_string (rew_sub)
+			create subrip_sub_start_time.make_from_string (start_time)
+			create subrip_sub_stop_time.make_from_string (stop_time)
+			time_milliseconds:= subrip_sub_rew_sub.time_milliseconds
+			subrip_sub_start_time.rewind (time_milliseconds)
+			subrip_sub_stop_time.rewind(time_milliseconds)
+			create item.make(subrip_sub_start_time,subrip_sub_stop_time)
+			if attached {SUBRIP_SUBTITLE} target  as subrip then
+				subrip.add_subtitle_item (subrip_sub_start_time, subrip_sub_stop_time, text)
+			end
 		end
 
 	source: detachable SUBTITLE
