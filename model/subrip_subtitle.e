@@ -33,6 +33,7 @@ feature -- Initialisation
 			file: PLAIN_TEXT_FILE
 			time_line: STRING
 			text_line: STRING
+			prev: STRING
 			item: SUBRIP_SUBTITLE_ITEM
 			read_mode: INTEGER
 		do
@@ -61,9 +62,12 @@ feature -- Initialisation
 						text_line.wipe_out	-- remove all characters from subtitle_text
 						read_mode := 0		-- next line is a number
 					end
+					if not prev.is_equal (time_line) then
+						text_line.append (" ")
+					end
 					text_line.append (file.last_string)
 				end
-
+				create prev.make_from_string (file.last_string)
 			end
 		end
 
