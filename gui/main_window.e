@@ -457,12 +457,11 @@ feature {NONE} -- Implementation, Close event
 			--rewind_subtitle:= text_field_number.selected_text
 			enclosing_box.set_item_x_position(text_field_rw,160)
 			enclosing_box.set_item_y_position(text_field_rw,539)
-=======
+
 				-- TEXTFIELD
 			create text_field_number
 			text_field_number.set_capacity (12)
 			enclosing_box.extend (text_field_number)
-			--rewind_subtitle:= text_field_number.selected_text
 			enclosing_box.set_item_x_position(text_field_number,160)
 			enclosing_box.set_item_y_position(text_field_number,539)
 
@@ -487,16 +486,13 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.extend (text_field_fw)
 			enclosing_box.set_item_x_position(text_field_fw,525)
 			enclosing_box.set_item_y_position(text_field_fw,539)
-=======
+
 			create text_field_number
-			--forward_subtitle:= text_field_number.selected_text
 			text_field_number.set_capacity (12)
-			text_field_number.set_minimum_width_in_characters (12)
+			--text_field_number.set_minimum_width_in_characters (12)
 			enclosing_box.extend (text_field_number)
 			enclosing_box.set_item_x_position(text_field_number,525)
 			enclosing_box.set_item_y_position(text_field_number,539)
->>>>>>> ebc25b9214212037eff018b505add4e4927bb843
-
 		ensure
 			main_enclosing_created: enclosing_box /= Void
 		end
@@ -633,11 +629,8 @@ feature {NONE} -- Implementation / Constants
 	path: STRING
 
 	controller: CONTROLLER
-<<<<<<< HEAD
 
 	file_name: STRING
-=======
->>>>>>> ebc25b9214212037eff018b505add4e4927bb843
 
 	file_name: STRING
 
