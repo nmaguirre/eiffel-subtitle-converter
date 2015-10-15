@@ -71,16 +71,20 @@ feature --Conversion
 		require
 			milliseconds > 0
 		do
-			system_logic.forward (milliseconds)
-			system_logic.update
+			if attached {SUBRIP_SUBTITLE} system_logic.source as subrip_sub then
+				system_logic.forward (milliseconds)
+				system_logic.update
+			end
 		end
 
 	rewind (milliseconds: INTEGER)
 		require
 			milliseconds > 0
 		do
-			system_logic.rewind (milliseconds)
-			system_logic.update
+			if attached {SUBRIP_SUBTITLE} system_logic.source as subrip_sub then
+				system_logic.rewind (milliseconds)
+				system_logic.update
+			end
 		end
 
 feature

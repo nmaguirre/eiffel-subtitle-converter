@@ -169,7 +169,7 @@ feature -- Status setting
 			from
 				items.start
 			until
-				items.off
+				items.off or milliseconds > items.item.start_time.time_milliseconds
 			loop
 				items.item.start_time.rewind (milliseconds)
 				items.item.stop_time.rewind (milliseconds)
