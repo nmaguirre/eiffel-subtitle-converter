@@ -305,14 +305,10 @@ feature -- Implementation agent open and new
 			create file_name.make_from_string (file.file_title)
 
 			if(file.full_file_path.out.substring (file.full_file_path.out.count-3, file.full_file_path.out.count).is_equal (".srt"))then
-					--file_name:=file.file_title
-					--file_path:= file.full_file_path.out
 					read_file (file.full_file_path, "srt")
 					subrip_text.disable_edit
 			else
 				if(file.full_file_path.out.substring (file.full_file_path.out.count-3, file.full_file_path.out.count).is_equal (".sub"))then
-					--file_name:= file.file_title
-					--file_path:= file.full_file_path.out
 					read_file (file.full_file_path, "sub")
 					microdvd_text.disable_edit
 				else
