@@ -43,7 +43,22 @@ feature
 			gui.on_update
 
 		end
-	
+
+	flush_items
+		do
+			system_logic.flush_target_source
+		end
+
+	forward_subtitle_controller (fs:STRING)
+		do
+			system_logic.forward_subtitle_conver_logic(fs)
+		end
+
+	rewind_subtitle_controller(rs:STRING)
+		do
+			system_logic.rewind_subtitle_conver_logic(rs)
+		end
+
 feature
 
 	system_logic: CONVERTER_LOGIC
