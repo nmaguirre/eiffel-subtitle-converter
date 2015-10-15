@@ -426,6 +426,8 @@ feature --Implementation, Converter_sub
 			if (open_dialog.file_name.count>0) then
 				create file_name.make_from_string (open_dialog.file_name)
 				create file_extension.make_from_string (file_name.substring (file_name.count-3, file_name.count))
+				create file_title.make_from_string (open_dialog.file_title)
+				file_title.remove_tail (4)
 				if (file_extension.is_equal (".srt"))
 				then
 					controller.load_subrip_subtitle (file_name)
@@ -453,7 +455,7 @@ feature --Implementation, Converter_sub
 		local
 			save_dialog: EV_FILE_SAVE_DIALOG
 			msj_error: EV_INFORMATION_DIALOG
-			ext: STRING
+			ext, format: STRING
 		do
 			if not(system_logic.has_converted_subtitle) then
 				create msj_error.make_with_text ("No subtile has been converted")
@@ -461,15 +463,18 @@ feature --Implementation, Converter_sub
 				msj_error.set_pixmap (default_pixmaps.error_pixmap)
 				msj_error.show_modal_to_window (Current)
 			else
-				create save_dialog.make_with_title ("Save File")
+				if system_logic.has_converted_microdvd then
+						ext:=".sub"
+						format:= "MICRODVD"
+					else
+						ext:=".srt"
+						format:= "SUBRIP"
+					end
+				create save_dialog.make_with_title ("Save "+format+" Subtitle File")
+				save_dialog.set_file_name (file_title)
 				save_dialog.show_modal_to_window (Current)
 				if save_dialog.file_name.count>0 then
 					controller.save(save_dialog.file_name)
-					if system_logic.has_converted_microdvd then
-						ext:=".sub"
-					else
-						ext:=".srt"
-					end
 					standard_status_label.set_text ("File has been saved on "+save_dialog.file_name+ext)
 				end
 			end
@@ -606,6 +611,8 @@ Window_height: INTEGER = 600
 	controller: CONTROLLER
 
 	file_name : STRING
+
+	file_title: STRING
 
 	icon: EV_PIXMAP
 
