@@ -70,6 +70,8 @@ feature -- Initialisation
 			stop_frame := stop_frame_string.to_integer
 			line.remove_head(i)
 			text := line
+		ensure
+			start_frame >= 0 and  start_frame <  stop_frame and  text /= void
 		end
 
 
