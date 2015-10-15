@@ -441,11 +441,8 @@ feature {NONE} -- Implementation, Close event
 			pixmap.set_with_named_file ("./gui/rewind.png")
 			create button_rewind.default_create
 			button_rewind.set_pixmap (pixmap)
-
-			button_rewind.select_actions.extend (agent rewind_subtitle_main_window(text_field_rw))
-
-			button_rewind.select_actions.extend (agent rewind_subtitle_main_window)
-			enclosing_box.extend (button_rewind)
+	        button_rewind.select_actions.extend (agent rewind_subtitle_main_window(text_field_rw))
+        	enclosing_box.extend (button_rewind)
 			enclosing_box.set_item_x_position(button_rewind,115)
 			enclosing_box.set_item_y_position(button_rewind,520)
 
@@ -458,41 +455,25 @@ feature {NONE} -- Implementation, Close event
 			enclosing_box.set_item_x_position(text_field_rw,160)
 			enclosing_box.set_item_y_position(text_field_rw,539)
 
-				-- TEXTFIELD
-			create text_field_number
-			text_field_number.set_capacity (12)
-			enclosing_box.extend (text_field_number)
-			enclosing_box.set_item_x_position(text_field_number,160)
-			enclosing_box.set_item_y_position(text_field_number,539)
-
 
 				--BUTTON FOWARD
 			pixmap.set_with_named_file ("./gui/forward.png")
 			create button_forward.default_create
 			button_forward.set_pixmap (pixmap)
-
-			button_forward.select_actions.extend (agent forward_subtitle_main_window(text_field_fw))
-			button_forward.select_actions.extend (agent forward_subtitle_main_window)
+        	button_forward.select_actions.extend (agent forward_subtitle_main_window(text_field_fw))
 			enclosing_box.extend (button_forward)
 			enclosing_box.set_item_x_position(button_forward,480)
 			enclosing_box.set_item_y_position(button_forward,520)
 
-				--NUMBER TEXT FIELD
-
+				-- TEXTFIELD FORWARD
 			create text_field_fw
-			--forward_subtitle:= text_field_number.selected_text
 			text_field_fw.set_capacity (12)
 			--text_field_number.set_minimum_width_in_characters (12)
 			enclosing_box.extend (text_field_fw)
 			enclosing_box.set_item_x_position(text_field_fw,525)
 			enclosing_box.set_item_y_position(text_field_fw,539)
 
-			create text_field_number
-			text_field_number.set_capacity (12)
-			--text_field_number.set_minimum_width_in_characters (12)
-			enclosing_box.extend (text_field_number)
-			enclosing_box.set_item_x_position(text_field_number,525)
-			enclosing_box.set_item_y_position(text_field_number,539)
+
 		ensure
 			main_enclosing_created: enclosing_box /= Void
 		end
