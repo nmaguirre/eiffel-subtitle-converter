@@ -381,7 +381,7 @@ feature -- Implementation rewind, forward and clear
 			subtitle:STRING
 		do
 			str_subrip := subrip_text.text
-			subtitle:= str_subrip.substring (str_subrip.count - 3, str_subrip.count)
+			subtitle:= str_subrip.substring (str_subrip.count - 5, str_subrip.count)
 			start_time := str_subrip.substring (str_subrip.count - 35, str_subrip.count - 24)
 			stop_time:= str_subrip.substring (str_subrip.count - 18, str_subrip.count - 7)
 			controller.forward_subtitle_controller (text_field_fw.text,start_time,stop_time,subtitle)
@@ -395,7 +395,7 @@ feature -- Implementation rewind, forward and clear
 			subtitle:STRING
 		do
 			str_subrip := subrip_text.text
-			subtitle:= str_subrip.substring (str_subrip.count - 3, str_subrip.count)
+			subtitle:= str_subrip.substring (str_subrip.count - 5, str_subrip.count)
 			start_time := str_subrip.substring (str_subrip.count - 35, str_subrip.count - 24)
 			stop_time:= str_subrip.substring (str_subrip.count - 18, str_subrip.count - 7)
 			controller.rewind_subtitle_controller (text_field_rw.text,start_time,stop_time,subtitle)
@@ -589,12 +589,15 @@ feature -- Observer features
 			end
 		end
 
-	update_subrip
+	update_subrip (controller_actual:CONTROLLER)
+		local
+			str:STRING
 		do
-			set_logic(controller.system_logic)
+			set_logic(controller_actual.system_logic)
 			if attached {SUBRIP_SUBTITLE} system_logic.target as subrip_sub then
 					subrip_text.remove_text
 					subrip_text.append_text (subrip_sub.out)
+					str:= subrip_sub.out
 			end
 		end
 

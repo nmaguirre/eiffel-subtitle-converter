@@ -52,13 +52,13 @@ feature
 	forward_subtitle_controller (fs:STRING;start_time,stop_time,text:STRING)
 		do
 			system_logic.forward_subtitle_conver_logic(fs,start_time,stop_time,text)
-			gui.update_subrip
+			gui.update_subrip(current)
 		end
 
 	rewind_subtitle_controller(rs:STRING;start_time,stop_time,text:STRING)
 		do
 			system_logic.rewind_subtitle_conver_logic(rs,start_time,stop_time,text)
-			gui.update_subrip
+			gui.update_subrip(current)
 		end
 
 feature
