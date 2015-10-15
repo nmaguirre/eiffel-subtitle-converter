@@ -249,7 +249,8 @@ feature {CONVERTER_LOGIC,CONVERT_SAVE_SUBRIP_TO_MICRODVD_FEATURE,SUBRIP_SUBTITLE
 			loop
 				start_frame := change_format_to_microdvd(items.item.start_time, microdvd_sub.frames_per_second)
 				stop_frame := change_format_to_microdvd(items.item.stop_time,microdvd_sub.frames_per_second)
-				microdvd_sub.add_subtitle_item (start_frame, stop_frame, items.item.text)
+				microdvd_sub.add_constructed_subtitle_item (create {MICRODVD_SUBTITLE_ITEM}.make_with_text (start_frame, stop_frame, items.item.text))
+				--microdvd_sub.add_subtitle_item (start_frame, stop_frame, items.item.text)
 				items.forth
 			end
 			Result := microdvd_sub
