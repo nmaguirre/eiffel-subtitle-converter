@@ -539,6 +539,8 @@ feature --Implementation, Converter_sub
 feature -- Observer features
 
 	on_update
+		local
+			text: STRING
 		do
 			if system_logic.has_loaded_microdvd_subtitle then
 				microdvd_text.remove_text
@@ -550,10 +552,14 @@ feature -- Observer features
 				end
 			end
 			if system_logic.has_loaded_subrip_subtitle then
-				subrip_text.set_text (system_logic.source_as_subrip.out)
+				create text.make_from_string (system_logic.source_as_subrip.out)
+				text.replace_substring_all ("%R", "%N")
+				subrip_text.set_text (text)
 				microdvd_text.remove_text
 				if attached {MICRODVD_SUBTITLE} system_logic.target as microdvd_sub then
-					microdvd_text.set_text (microdvd_sub.out)
+					create text.make_from_string (microdvd_sub.out)
+					text.replace_substring_all ("%R", "%N")
+					microdvd_text.set_text (text)
 				end
 			end
 		end
