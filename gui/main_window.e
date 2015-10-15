@@ -431,7 +431,7 @@ feature --Implementation, ready
 		local
 			msj_error: EV_INFORMATION_DIALOG
 		do
-			create msj_error.make_with_text ("I successfully converted subtitle")
+			create msj_error.make_with_text ("Successful conversion!")
 			notebook.select_item (text_2)
 			msj_error.set_title ("Correct")
 			msj_error.set_pixmap (default_pixmaps.information_pixel_buffer)
