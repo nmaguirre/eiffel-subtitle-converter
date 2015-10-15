@@ -289,7 +289,7 @@ feature {NONE} -- Implementation, Close event
 			end
 		end
 
-features -- Implementation agent open and new
+feature -- Implementation agent open and new
 
 	request_about_open: EV_FILE_OPEN_DIALOG
 		do
@@ -352,6 +352,28 @@ features -- Implementation agent open and new
                 end
             end
         end
+
+     feature --Implementation new file
+
+	request_new_file
+	  local
+	  	dialog: EV_NEW_MESSAGE
+
+	  do
+	  	create dialog.make_with_text (Label_confirm_new_file)
+	  	dialog.show_modal_to_window (Current)
+
+	   if dialog.selected_button.is_equal ("MICRODVD") then
+			microdvd_text.enable_edit
+			new_load := true
+		else
+			if dialog.selected_button.is_equal ("SUBRIP") then
+				microdvd_text.disable_edit
+				subrip_text.enable_edit
+				new_load := false
+			end
+	  	end
+	  end
 
 feature -- Implementation rewind, forward and clear
 
