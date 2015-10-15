@@ -463,7 +463,6 @@ feature --Implementation, ready
 				create msj_error.make_with_text ("System is not ready to convert")
 				enable_disable_button ()
 			end
-
 		end
 
 feature -- Observer features
