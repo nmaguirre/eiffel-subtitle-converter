@@ -364,7 +364,7 @@ feature {NONE} -- Implementation
 				-- NUMBER TEXT FIELD FOR CHANGE FPS
 			create text_field_fps
 			text_field_fps.set_minimum_width (50)
-			text_field_fps.set_text ({MICRODVD_SUBTITLE}.min_valid_fps.out)
+			--text_field_fps.set_text ({MICRODVD_SUBTITLE}.min_valid_fps.out)
 			text_field_fps.align_text_right
 			fixed_box.extend (text_field_fps)
 			fixed_box.set_item_height (text_field_fps, 10)
@@ -375,10 +375,10 @@ feature {NONE} -- Implementation
 			create button_fps.make_with_text(Button_change_fps_item)
 			button_fps.set_foreground_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
 			button_fps.set_minimum_width (100)
+			button_fps.select_actions.extend (agent on_changeFPS (text_field_fps))
 			fixed_box.extend (button_fps)
 			fixed_box.set_item_x_position(button_fps,435)
 			fixed_box.set_item_y_position(button_fps,7)
-			button_fps.select_actions.extend (agent on_changeFPS)
 
 
 				-- BUTTON CONVERT
@@ -516,23 +516,26 @@ feature --Implementation, Converter_sub
 			end
 		end
 
-	on_changeFPS
+	on_changeFPS(text_field: EV_TEXT_FIELD)
 		local
 			msj_error: EV_INFORMATION_DIALOG
-
+			fps : INTEGER
 		do
-			if microdvd_text.text_length = 0 and subrip_text.text_length = 0 then
-				create msj_error.make_with_text ("There is no subtitle to change FPS ")
+			if not text_field.text.is_integer_32 or text_field.text.to_integer < 12 then
+				create msj_error.make_with_text ("The input value must be a integer >= 12")
 				msj_error.set_title ("Error")
 				msj_error.set_pixmap (default_pixmaps.error_pixmap)
 				msj_error.show_modal_to_window (Current)
 			else
-				if microdvd_text.text_length /= 0 then
-					system_logic.source_as_microdvd.change_fps (25)
-					system_logic.convert_subtitle
-					on_update
+				if microdvd_text.text_length = 0 and subrip_text.text_length = 0 then
+					create msj_error.make_with_text ("There is no subtitle to change FPS ")
+					msj_error.set_title ("Error")
+					msj_error.set_pixmap (default_pixmaps.error_pixmap)
+					msj_error.show_modal_to_window (Current)
+				else
+					fps := text_field.text.to_integer
+					controller.change_fps(fps)
 				end
-
 			end
 		end
 

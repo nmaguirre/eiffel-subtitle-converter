@@ -88,6 +88,23 @@ feature --Conversion
 			end
 		end
 
+	change_fps(fps :INTEGER)
+		do
+			if attached {MICRODVD_SUBTITLE} system_logic.source as microdvd_sub then
+				system_logic.source_as_microdvd.change_fps (fps)
+				system_logic.update
+			else
+				if attached {SUBRIP_SUBTITLE} system_logic.source as subrip_sub	then
+					system_logic.convert_subtitle
+					system_logic.set_source (system_logic.target)
+					system_logic.source_as_microdvd.change_fps (fps)
+					system_logic.update
+				end
+
+			end
+
+		end
+
 feature
 
 	system_logic: CONVERTER_LOGIC
