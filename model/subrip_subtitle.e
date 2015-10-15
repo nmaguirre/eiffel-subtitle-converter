@@ -61,9 +61,10 @@ feature -- Initialisation
 						time_line.wipe_out	-- remove all characters from time_line
 						text_line.wipe_out	-- remove all characters from subtitle_text
 						read_mode := 0		-- next line is a number
-					end
-					if not prev.is_equal (time_line) then
-						text_line.append (" ")
+					else
+						if not prev.is_equal (time_line) then
+							text_line.append (" ")
+						end
 					end
 					text_line.append (file.last_string)
 				end
