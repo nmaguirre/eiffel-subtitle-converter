@@ -65,6 +65,7 @@ feature --Conversion
 		do
 			system_logic.convert_subtitle
 			system_logic.update
+			system_logic.set_source (system_logic.target)
 		end
 
 	forward (milliseconds: INTEGER)
