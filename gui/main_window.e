@@ -429,12 +429,22 @@ feature --Implementation, Converter_sub
 				if (file_extension.is_equal (".srt"))
 				then
 					controller.load_subrip_subtitle (file_name)
-					standard_status_label.set_text ("SubRip Subtitle Loaded")
+					if system_logic.last_load_succeeded
+					then
+						standard_status_label.set_text ("SubRip Subtitle Loaded :)")
+					else
+						standard_status_label.set_text ("Couldn't load Subtitle :(")
+					end
 				end
 				if (file_extension.is_equal (".sub"))
 				then
 					controller.load_microdvd_subtile (file_name)
-					standard_status_label.set_text ("MicroDVD Subtitle Loaded")
+					if system_logic.last_load_succeeded
+					then
+						standard_status_label.set_text ("MicroDVD Subtitle Loaded :)")
+					else
+						standard_status_label.set_text ("Couldn't load Subtitle :(")
+					end
 				end
 			end
 		end
