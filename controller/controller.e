@@ -74,6 +74,14 @@ feature --Conversion
 		do
 			if attached {SUBRIP_SUBTITLE} system_logic.source as subrip_sub then
 				system_logic.forward (milliseconds)
+				system_logic.convert_subtitle -- convert to microdvd
+				system_logic.update
+			end
+			if attached {MICRODVD_SUBTITLE} system_logic.source as microdvd_sub then
+				system_logic.convert_subtitle -- convert to srt
+				system_logic.set_source (system_logic.target)
+				system_logic.source_as_subrip.forward (milliseconds)
+				system_logic.convert_subtitle -- convert to microdvd
 				system_logic.update
 			end
 		end
@@ -84,6 +92,14 @@ feature --Conversion
 		do
 			if attached {SUBRIP_SUBTITLE} system_logic.source as subrip_sub then
 				system_logic.rewind (milliseconds)
+				system_logic.convert_subtitle -- convert to microdvd
+				system_logic.update
+			end
+			if attached {MICRODVD_SUBTITLE} system_logic.source as microdvd_sub then
+				system_logic.convert_subtitle -- convert to srt
+				system_logic.set_source (system_logic.target)
+				system_logic.source_as_subrip.rewind (milliseconds)
+				system_logic.convert_subtitle -- convert to microdvd
 				system_logic.update
 			end
 		end
