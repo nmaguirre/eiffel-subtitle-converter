@@ -530,16 +530,6 @@ feature {NONE} -- Implementation, Close event
 
 		end
 
-	clear
-		local
-			do
-				if (subrip_text.text_length /= 0 and microdvd_text.text_length /= 0) then
-					microdvd_text.remove_text
-					subrip_text.remove_text
-					controller.flush_items
-				end
-
-			end
 
 	forward_subtitle_main_window (text_field_fw: EV_TEXT_FIELD)
 			do
@@ -551,9 +541,6 @@ feature {NONE} -- Implementation, Close event
 				controller.rewind_subtitle_controller (text_field_rw.text)
 			end
 
-
-		end
-
 	clear
 		local
 			do
@@ -564,23 +551,6 @@ feature {NONE} -- Implementation, Close event
 				end
 
 			end
-
-	forward_subtitle_main_window
-
-			do
-
-				-- text_field_number.is_sensitive
-			--	controller.forward_subtitle_controller (current.selected_text)
-			end
-
-	rewind_subtitle_main_window
-		local
-		--	i:INTEGER
-		do
-
-			controller.rewind_subtitle_controller (text_field_number.selected_text)
-		end
-
 
 
 feature -- Observer features
@@ -629,8 +599,6 @@ feature {NONE} -- Implementation / Constants
 	path: STRING
 
 	controller: CONTROLLER
-
-	file_name: STRING
 
 	file_name: STRING
 
