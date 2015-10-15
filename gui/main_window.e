@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 			create standard_toolbar
 				-- Create a status bar and a status label.
 			create standard_status_bar
-			create standard_status_label.make_with_text ("Add your status text here...")
+			create standard_status_label.make_with_text ("Application iniciated")
 
 
 		end
@@ -441,19 +441,19 @@ feature --Implementation, Converter_sub
 			open_dialog.filters.extend (["*.srt;*.sub","Subtitle Files (.sub,.srt)"])
 			open_dialog.show_modal_to_window (Current)
 
-			if not(open_dialog.file_name.is_empty) then
+			if (open_dialog.file_name.count>0) then
 				create file_name.make_from_string (open_dialog.file_name)
 				create file_extension.make_from_string (file_name.substring (file_name.count-3, file_name.count))
 				if (file_extension.is_equal (".srt"))
 				then
 					controller.load_subrip_subtitle (file_name)
-					on_update
+					standard_status_label.set_text ("SubRip Subtitle Loaded")
 				end
 				if (file_extension.is_equal (".sub"))
 				then
 					controller.load_microdvd_subtile (file_name)
+					standard_status_label.set_text ("MicroDVD Subtitle Loaded")
 				end
-
 			end
 		end
 
@@ -461,6 +461,7 @@ feature --Implementation, Converter_sub
 		local
 			save_dialog: EV_FILE_SAVE_DIALOG
 			msj_error: EV_INFORMATION_DIALOG
+			ext: STRING
 		do
 			if not(system_logic.has_converted_subtitle) then
 				create msj_error.make_with_text ("No subtile has been converted")
@@ -469,10 +470,15 @@ feature --Implementation, Converter_sub
 				msj_error.show_modal_to_window (Current)
 			else
 				create save_dialog.make_with_title ("Save File")
---				save_dialog.save_actions.extend (agent controller.save(save_dialog.file_name))
 				save_dialog.show_modal_to_window (Current)
 				if save_dialog.file_name.count>0 then
 					controller.save(save_dialog.file_name)
+					if system_logic.has_converted_microdvd then
+						ext:=".sub"
+					else
+						ext:=".srt"
+					end
+					standard_status_label.set_text ("File has been saved on "+save_dialog.file_name+ext)
 				end
 			end
 		end
@@ -488,6 +494,11 @@ feature --Implementation, Converter_sub
 				msj_error.show_modal_to_window (Current)
 			else
 				controller.convert_subtitle
+				if system_logic.has_converted_microdvd then
+					standard_status_label.set_text ("Successfully conversion from SUBRIP to MICRODVD")
+				else
+					standard_status_label.set_text ("Successfully conversion from MICRODVD to SUBRIP")
+				end
 			end
 		end
 
