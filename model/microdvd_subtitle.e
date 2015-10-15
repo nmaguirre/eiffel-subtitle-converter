@@ -308,7 +308,7 @@ feature -- Status checking
 			until
 				items.off or not res
 			loop
-				if  items.item /= Void and prev_stop_frame < items.item.start_frame then
+				if  items.item /= Void and prev_stop_frame <= items.item.start_frame then
 					prev_stop_frame := items.item.stop_frame
 					items.forth
 				else
@@ -355,7 +355,7 @@ feature {CONVERTER_LOGIC,MICRODVD_SUBTITLE_TEST} -- Auxiliary functions
 			minutes := (frame_microdvd.truncated_to_integer \\ 3600) // 60
 			seconds := frame_microdvd.truncated_to_integer \\ 60
 			miliseconds := (frame_microdvd - frame_microdvd.truncated_to_integer )*1000
-			miliseconds_rounded := miliseconds.rounded
+			miliseconds_rounded := miliseconds.truncated_to_integer --.rounded
 			create subrip_time.make_with_values (hours, minutes, seconds, miliseconds_rounded)
 			Result := subrip_time
 
