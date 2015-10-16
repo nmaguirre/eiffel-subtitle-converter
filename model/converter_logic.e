@@ -192,7 +192,6 @@ feature
 			subrip_sub_stop_time: SUBRIP_SUBTITLE_TIME
 			subrip_sub_for_sub: SUBRIP_SUBTITLE_TIME
 			time_milliseconds: INTEGER
-			item: SUBRIP_SUBTITLE_ITEM
 		do
 			create subrip_sub_for_sub.make_from_string (for_sub)
 			create subrip_sub_start_time.make_from_string (start_time)
@@ -200,9 +199,11 @@ feature
 			time_milliseconds:= subrip_sub_for_sub.time_milliseconds
 			subrip_sub_start_time.move_forward (time_milliseconds)
 			subrip_sub_stop_time.move_forward(time_milliseconds)
-			create item.make(subrip_sub_start_time,subrip_sub_stop_time)
 			if attached {SUBRIP_SUBTITLE} target  as subrip then
-				subrip.add_subtitle_item (subrip_sub_start_time, subrip_sub_stop_time, text)
+				subrip.items.start
+				subrip.items.item.adjust_start_time (subrip_sub_start_time)
+				subrip.items.item.adjust_stop_time (subrip_sub_stop_time)
+				subrip.items.item.set_text (text)
 			end
 		end
 
@@ -212,7 +213,6 @@ feature
 			subrip_sub_stop_time: SUBRIP_SUBTITLE_TIME
 			subrip_sub_rew_sub: SUBRIP_SUBTITLE_TIME
 			time_milliseconds: INTEGER
-			i,j:STRING
 		do
 			create subrip_sub_rew_sub.make_from_string (rew_sub)
 			create subrip_sub_start_time.make_from_string (start_time)
@@ -221,13 +221,10 @@ feature
 			subrip_sub_start_time.rewind (time_milliseconds)
 			subrip_sub_stop_time.rewind(time_milliseconds)
 			if attached {SUBRIP_SUBTITLE} target  as subrip then
-				i:= subrip_sub_start_time.out
-				j:= subrip_sub_stop_time.out
 				subrip.items.start
 				subrip.items.item.adjust_start_time (subrip_sub_start_time)
 				subrip.items.item.adjust_stop_time (subrip_sub_stop_time)
 				subrip.items.item.set_text (text)
-				--subrip.add_subtitle_item (subrip_sub_start_time, subrip_sub_stop_time, text)
 			end
 		end
 

@@ -381,7 +381,7 @@ feature -- Implementation rewind, forward and clear
 			subtitle:STRING
 		do
 			str_subrip := subrip_text.text
-			subtitle:= str_subrip.substring (str_subrip.count - 5, str_subrip.count)
+			subtitle:= str_subrip.substring (str_subrip.count - 5, str_subrip.count-2)
 			start_time := str_subrip.substring (str_subrip.count - 35, str_subrip.count - 24)
 			stop_time:= str_subrip.substring (str_subrip.count - 18, str_subrip.count - 7)
 			controller.forward_subtitle_controller (text_field_fw.text,start_time,stop_time,subtitle)
@@ -395,7 +395,7 @@ feature -- Implementation rewind, forward and clear
 			subtitle:STRING
 		do
 			str_subrip := subrip_text.text
-			subtitle:= str_subrip.substring (str_subrip.count - 5, str_subrip.count)
+			subtitle:= str_subrip.substring (str_subrip.count - 5, str_subrip.count - 2)
 			start_time := str_subrip.substring (str_subrip.count - 35, str_subrip.count - 24)
 			stop_time:= str_subrip.substring (str_subrip.count - 18, str_subrip.count - 7)
 			controller.rewind_subtitle_controller (text_field_rw.text,start_time,stop_time,subtitle)
