@@ -200,10 +200,18 @@ feature
 			subrip_sub_start_time.move_forward (time_milliseconds)
 			subrip_sub_stop_time.move_forward(time_milliseconds)
 			if attached {SUBRIP_SUBTITLE} target  as subrip then
-				subrip.items.start
-				subrip.items.item.adjust_start_time (subrip_sub_start_time)
-				subrip.items.item.adjust_stop_time (subrip_sub_stop_time)
-				subrip.items.item.set_text (text)
+
+				from
+					subrip.items.start
+				until
+					--subrip.items.start
+					subrip.items.off
+				loop
+					subrip.items.item.adjust_start_time (subrip_sub_start_time)
+					subrip.items.item.adjust_stop_time (subrip_sub_stop_time)
+					subrip.items.item.set_text (text)
+					subrip.items.forth
+				end
 			end
 		end
 

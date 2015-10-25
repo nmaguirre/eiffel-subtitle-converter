@@ -401,6 +401,7 @@ feature -- Implementation rewind, forward and clear
 			controller.rewind_subtitle_controller (text_field_rw.text,start_time,stop_time,subtitle)
 		end
 
+	
 	clear
 		do
 			if (subrip_text.text_length /= 0 and microdvd_text.text_length /= 0) then

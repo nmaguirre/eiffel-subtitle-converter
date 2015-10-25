@@ -235,7 +235,7 @@ feature {CONVERTER_LOGIC} -- Auxiliary functions
 		end
 
 
-feature {SUBRIP_SUBTITLE_TESTS,CONVERTER_LOGIC} -- Implementation
+feature {SUBRIP_SUBTITLE_TESTS,CONVERTER_LOGIC,MAIN_WINDOW} -- Implementation
 
 	items: LINKED_LIST[SUBRIP_SUBTITLE_ITEM]
 			-- items that conform the subtitle, in order.
